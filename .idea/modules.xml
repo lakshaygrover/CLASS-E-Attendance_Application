@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ClassroomManager.iml" filepath="$PROJECT_DIR$/ClassroomManager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Attendance-Taker.iml" filepath="$PROJECT_DIR$/Attendance-Taker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
-
