@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.ferid.app.classroom"
+        minSdkVersion 16
+        targetSdkVersion 22
+        versionCode 4
+        versionName "1.1.2"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.1.1'
+
+    //excel
+    compile 'org.apache.poi:poi:3.9'
+
+    //graph
+    compile 'com.jjoe64:graphview:4.0.0'
+}

@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Attendance Taker</string>
+
+    <!-- shared preferences -->
+    <string name="sharedPreferences">AT_PREFS</string>
+    <string name="pref_beforeRatingViewingNumber">BEFORE_VIEWING_RATING_NUMBER</string>
+
+    <!-- font families -->
+    <string name="fontFamilyRegular">sans-serif</string>
+    <string name="fontFamilyLight">sans-serif-light</string>
+    <string name="fontFamilyThin">sans-serif-thin</string>
+    <string name="fontFamilyCondensed">sans-serif-condensed</string>
+
+    <string name="statistics">STATISTICS</string>
+    <string name="pastAttendances">PAST ATTENDANCES</string>
+    <string name="takeAttendance">TAKE ATTENDANCE</string>
+    <string name="editClassrooms">EDIT CLASSROOMS</string>
+
+    <string name="classroomName">Classroom Name</string>
+
+    <string name="attendance">Attendance</string>
+    <string name="taker">Taker</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+
+    <string name="add">Add</string>
+    <string name="deleteAll">Delete All</string>
+    <string name="sureToDelete">&#160;will be deleted</string>
+    <string name="save">Save</string>
+    <string name="saved">Saved</string>
+    <string name="publishAttendance">Convert into Excel and Send Mail</string>
+    <string name="allToDelete">All attendances of this class will be deleted! Are you sure?</string>
+    <string name="changeDateTime">Change Date and Time</string>
+
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+
+    <string name="studentName">Student Name</string>
+
+    <string name="emptyMessage">Add classrooms and students, then pull to refresh&#8230;</string>
+
+    <string name="couldNotInsertAttendance">Already exists! Please check PAST ATTENDANCES.</string>
+
+    <string name="plus">+</string>
+
+    <string name="rateApp">Would you rate the application with 5 stars?</string>
+</resources>

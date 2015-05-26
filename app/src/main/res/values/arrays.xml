@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="main_page">
+        <item>@string/editClassrooms</item>
+        <item>@string/takeAttendance</item>
+        <item>@string/pastAttendances</item>
+        <item>@string/statistics</item>
+    </string-array>
+</resources>

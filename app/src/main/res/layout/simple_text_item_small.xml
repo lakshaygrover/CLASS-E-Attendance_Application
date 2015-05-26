@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/listview_item_small"
+    android:paddingLeft="@dimen/left_padding">
+
+    <TextView
+        android:id="@+id/counter"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:background="@drawable/square"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_medium"
+        android:fontFamily="@string/fontFamilyCondensed"/>
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/counter"
+        style="@style/TextView"/>
+
+</RelativeLayout>
