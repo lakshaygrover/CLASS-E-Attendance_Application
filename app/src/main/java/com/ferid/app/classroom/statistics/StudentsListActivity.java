@@ -66,6 +66,8 @@ public class StudentsListActivity extends AppCompatActivity {
                     Intent intent = new Intent(context, GraphActivity.class);
                     intent.putExtra("attendance", attendance);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.move_in_from_bottom,
+                            R.anim.stand_still);
                 }
             }
         });

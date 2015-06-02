@@ -13,4 +13,5 @@
     <dimen name="listview_divider_height">1dp</dimen>
     <dimen name="listview_item_small">72dp</dimen>
     <dimen name="listview_item_big">96dp</dimen>
+
 </resources>
