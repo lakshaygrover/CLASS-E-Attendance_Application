@@ -1,16 +1,21 @@
 package com.ferid.app.classroom.attendance;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.AttendanceAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
@@ -21,6 +26,8 @@ import com.ferid.app.classroom.date_time_pickers.TimePickerFragment;
 import com.ferid.app.classroom.interfaces.BackNavigationListener;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.model.Student;
+import com.ferid.app.classroom.past_attendances.PastAttendancesListActivity;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,6 +53,9 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
     private CustomDatePickerDialog datePickerDialog;
     private CustomTimePickerDialog timePickerDialog;
     private Date changedDate;
+
+    private FloatingActionButton floatingActionButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +89,31 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
         adapter = new AttendanceAdapter(context, R.layout.checkable_text_item, arrayList);
         list.setAdapter(adapter);
 
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        startButtonAnimation();
+
         new SelectStudents().execute();
+    }
+
+    /**
+     * Set floating action button with its animation
+     */
+    private void startButtonAnimation() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                YoYo.with(Techniques.SlideInUp).playOn(floatingActionButton);
+                floatingActionButton.setIcon(R.drawable.ic_action_save);
+                floatingActionButton.setVisibility(View.VISIBLE);
+            }
+        }, 400);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertNewAttendance();
+            }
+        });
     }
 
     /**
@@ -132,6 +166,16 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
         changedDate.setMinutes(minute);
 
         changeDateTime();
+    }
+
+    /**
+     * Go to past attendaces of the given classroom
+     */
+    private void goToPastAttendances() {
+        Intent intent = new Intent(context, PastAttendancesListActivity.class);
+        intent.putExtra("classroom", classroom);
+        startActivity(intent);
+        overridePendingTransition(R.anim.move_in_from_bottom, R.anim.stand_still);
     }
 
     /**
@@ -231,7 +275,7 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save, menu);
+        getMenuInflater().inflate(R.menu.menu_attendance, menu);
         return true;
     }
 
@@ -242,12 +286,12 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
             case android.R.id.home:
                 closeWindow();
                 return true;
-            case R.id.save:
-                insertNewAttendance();
-                return true;
             case R.id.changeDateTime:
                 changedDate = new Date();
                 changeDate();
+                return true;
+            case R.id.pastAttendances:
+                goToPastAttendances();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

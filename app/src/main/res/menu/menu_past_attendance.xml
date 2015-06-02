@@ -9,11 +9,4 @@
         android:orderInCategory="1"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/save"
-        android:title="@string/save"
-        android:icon="@drawable/ic_action_save"
-        android:orderInCategory="1"
-        app:showAsAction="always"/>
-
 </menu>

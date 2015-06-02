@@ -10,14 +10,16 @@ import android.support.v7.widget.Toolbar;
 
 import com.ferid.app.classroom.attendance.TakeAttendanceFragment;
 import com.ferid.app.classroom.edit.EditClassroomFragment;
-import com.ferid.app.classroom.past_attendances.PastAttendancesFragment;
 import com.ferid.app.classroom.statistics.StatisticsFragment;
+import com.ferid.app.classroom.tabs.SlidingTabLayout;
 import com.ferid.app.classroom.utility.ApplicationRating;
 
 
 public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
+
+    private SlidingTabLayout mSlidingTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.pager);
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
+
+        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setViewPager(viewPager);
+        mSlidingTabLayout.setDividerColors(getResources().getColor(R.color.transparent));
+        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.white));
 
         //if there are already entered classrooms, just show take attendance page,
         //otherwise show edit classrooms page to add a new one.
@@ -62,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     return TakeAttendanceFragment.newInstance();
                 case 2:
-                    return PastAttendancesFragment.newInstance();
-                case 3:
                     return StatisticsFragment.newInstance();
                 default:
                     return TakeAttendanceFragment.newInstance();
@@ -73,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // get item count - equal to number of tabs
-            return 4;
+            return 3;
         }
 
         @Override

@@ -1,4 +1,4 @@
-package com.ferid.app.classroom;
+package com.ferid.app.classroom.splash;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.ferid.app.classroom.MainActivity;
+import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.database.DatabaseManager;
 
 /**

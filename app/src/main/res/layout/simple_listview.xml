@@ -6,7 +6,8 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true">
 
         <ListView
             android:id="@+id/list"
@@ -38,5 +39,12 @@
             android:textAllCaps="true"/>
 
     </RelativeLayout>
+
+    <View
+        android:id="@+id/shadow"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/drop_shadow" />
 
 </RelativeLayout>

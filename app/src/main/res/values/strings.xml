@@ -11,10 +11,11 @@
     <string name="fontFamilyThin">sans-serif-thin</string>
     <string name="fontFamilyCondensed">sans-serif-condensed</string>
 
+
+    <string name="editClassrooms">EDITING</string>
+    <string name="takeAttendance">ATTENDANCE</string>
     <string name="statistics">STATISTICS</string>
-    <string name="pastAttendances">PAST ATTENDANCES</string>
-    <string name="takeAttendance">TAKE ATTENDANCE</string>
-    <string name="editClassrooms">EDIT CLASSROOMS</string>
+    <string name="pastAttendances">Past Attendances</string>
 
     <string name="classroomName">Classroom Name</string>
 

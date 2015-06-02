@@ -3,15 +3,17 @@ package com.ferid.app.classroom.edit;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.StudentAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
@@ -21,6 +23,7 @@ import com.ferid.app.classroom.material_dialog.MaterialDialog;
 import com.ferid.app.classroom.material_dialog.PromptDialog;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.model.Student;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -35,6 +38,9 @@ public class EditStudentActivity extends AppCompatActivity {
     private StudentAdapter adapter;
 
     private Classroom classroom;
+
+    private FloatingActionButton floatingActionButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +98,31 @@ public class EditStudentActivity extends AppCompatActivity {
             }
         });
 
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        startButtonAnimation();
+
         new SelectStudents().execute();
+    }
+
+    /**
+     * Set floating action button with its animation
+     */
+    private void startButtonAnimation() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                YoYo.with(Techniques.SlideInUp).playOn(floatingActionButton);
+                floatingActionButton.setIcon(R.drawable.ic_action_add);
+                floatingActionButton.setVisibility(View.VISIBLE);
+            }
+        }, 400);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNewItem();
+            }
+        });
     }
 
     /**
@@ -210,20 +240,11 @@ public class EditStudentActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar actions click
         switch (item.getItemId()) {
             case android.R.id.home:
                 closeWindow();
-                return true;
-            case R.id.add:
-                addNewItem();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

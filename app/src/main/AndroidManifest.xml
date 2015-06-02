@@ -11,7 +11,7 @@
         android:theme="@style/Theme.Attendance">
 
         <activity
-            android:name="com.ferid.app.classroom.SplashActivity">
+            android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
