@@ -3,12 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/default_margin"
     android:background="@drawable/dialog_shape">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/default_margin"
+        android:paddingLeft="@dimen/default_margin"
+        android:paddingRight="@dimen/default_margin">
 
         <TextView
             android:id="@+id/title"
@@ -24,7 +26,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:paddingLeft="@dimen/default_margin"
+        android:paddingRight="@dimen/default_margin">
 
         <EditText
             android:id="@+id/content"
@@ -36,22 +40,21 @@
             android:inputType="textCapWords"
             android:imeOptions="actionDone"
             android:singleLine="true"
-            android:maxLength="20"/>
+            android:maxLength="24"/>
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="24dp">
 
         <Button
             android:id="@+id/positiveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:minWidth="0dp"
+            android:layout_width="64dp"
+            android:layout_height="48dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
+            android:padding="8dp"
             android:textSize="@dimen/text_size_small"
             android:background="@color/transparent"
             android:textColor="@color/colourAccentDark"/>
