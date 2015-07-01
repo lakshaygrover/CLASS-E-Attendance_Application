@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -262,8 +262,8 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
         @Override
         protected void onPostExecute(Boolean isExist) {
             if (isExist) {
-                Toast.makeText(context, getString(R.string.couldNotInsertAttendance),
-                        Toast.LENGTH_LONG).show();
+                Snackbar.make(list, getString(R.string.couldNotInsertAttendance),
+                        Snackbar.LENGTH_LONG).show();
             } else {
                 new InsertAttendance().execute();
             }
@@ -290,9 +290,10 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
         @Override
         protected void onPostExecute(Boolean isSuccessful) {
             if (isSuccessful) {
-                Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show();
-                closeWindow();
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
             }
+            closeWindow();
         }
     }
 

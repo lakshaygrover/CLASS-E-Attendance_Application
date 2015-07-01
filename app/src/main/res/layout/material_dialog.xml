@@ -29,8 +29,8 @@
 
         <Button
             android:id="@+id/positiveButton"
-            android:layout_width="64dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/dialog_positive_button_width"
+            android:layout_height="@dimen/dialog_button_height"
             android:layout_alignParentRight="true"
             android:padding="8dp"
             android:textSize="@dimen/text_size_small"
@@ -40,8 +40,8 @@
 
         <Button
             android:id="@+id/negativeButton"
-            android:layout_width="80dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/dialog_negative_button_width"
+            android:layout_height="@dimen/dialog_button_height"
             android:layout_toLeftOf="@+id/positiveButton"
             android:layout_marginRight="8dp"
             android:padding="8dp"

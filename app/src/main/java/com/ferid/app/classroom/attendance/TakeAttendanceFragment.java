@@ -1,10 +1,12 @@
 package com.ferid.app.classroom.attendance;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -93,7 +95,7 @@ public class TakeAttendanceFragment extends Fragment {
                 if (arrayList != null && arrayList.size() > position) {
                     Intent intent = new Intent(context, AttendanceActivity.class);
                     intent.putExtra("classroom", arrayList.get(position));
-                    startActivity(intent);
+                    startActivityForResult(intent, 0);
                     getActivity().overridePendingTransition(R.anim.move_in_from_bottom,
                             R.anim.stand_still);
                 }
@@ -129,6 +131,15 @@ public class TakeAttendanceFragment extends Fragment {
                 arrayList.addAll(tmpList);
                 adapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            Snackbar.make(list, getString(R.string.saved), Snackbar.LENGTH_LONG).show();
         }
     }
 }

@@ -1,9 +1,11 @@
 package com.ferid.app.classroom.past_attendances;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -197,8 +199,8 @@ public class PastAttendancesListActivity extends AppCompatActivity {
     private void deleteAllAttendances() {
         final MaterialDialog materialDialog = new MaterialDialog(context);
         materialDialog.setContent(getString(R.string.allToDelete));
-        materialDialog.setPositiveButton(getString(R.string.yes));
-        materialDialog.setNegativeButton(getString(R.string.no));
+        materialDialog.setPositiveButton(getString(R.string.ok));
+        materialDialog.setNegativeButton(getString(R.string.cancel));
         materialDialog.setOnClickListener(new OnClick() {
             @Override
             public void OnPositive() {
@@ -219,7 +221,11 @@ public class PastAttendancesListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        new SelectAttendances().execute();
+        if (resultCode == Activity.RESULT_OK) {
+            Snackbar.make(list, getString(R.string.saved), Snackbar.LENGTH_LONG).show();
+
+            new SelectAttendances().execute();
+        }
     }
 
     private void closeWindow() {

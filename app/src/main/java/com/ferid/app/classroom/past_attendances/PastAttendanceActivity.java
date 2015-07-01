@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -239,16 +238,15 @@ public class PastAttendanceActivity extends AppCompatActivity implements BackNav
         @Override
         protected void onPostExecute(Integer rowsAffected) {
             if (rowsAffected > 0) {
-                Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show();
-                closeWindow();
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent);
             }
+
+            closeWindow();
         }
     }
 
     private void closeWindow() {
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
-
         finish();
         overridePendingTransition(R.anim.stand_still, R.anim.move_out_to_bottom);
     }

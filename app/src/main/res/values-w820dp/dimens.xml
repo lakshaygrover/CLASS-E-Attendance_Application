@@ -14,4 +14,8 @@
     <dimen name="listview_item_small">72dp</dimen>
     <dimen name="listview_item_big">96dp</dimen>
 
+    <dimen name="dialog_button_height">64dp</dimen>
+    <dimen name="dialog_positive_button_width">80dp</dimen>
+    <dimen name="dialog_negative_button_width">100dp</dimen>
+
 </resources>
