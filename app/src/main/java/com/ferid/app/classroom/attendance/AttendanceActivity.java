@@ -11,7 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -70,6 +72,30 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
         context = this;
 
         //toolbar
+        setToolbar();
+
+        list = (ListView) findViewById(R.id.list);
+        arrayList = new ArrayList<Student>();
+        adapter = new AttendanceAdapter(context, R.layout.checkable_text_item, arrayList);
+        list.setAdapter(adapter);
+
+        //empty list view text
+        TextView emptyText = (TextView) findViewById(R.id.emptyText);
+        emptyText.setText(getString(R.string.emptyMessageSave));
+        list.setEmptyView(emptyText);
+
+        setListItemClickListener();
+
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        startButtonAnimation();
+
+        new SelectStudents().execute();
+    }
+
+    /**
+     * Create toolbar and set its attributes
+     */
+    private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -82,17 +108,6 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
 
         setTitle(classroom.getName());
         toolbar.setSubtitle(classDate);
-        //---
-
-        list = (ListView) findViewById(R.id.list);
-        arrayList = new ArrayList<Student>();
-        adapter = new AttendanceAdapter(context, R.layout.checkable_text_item, arrayList);
-        list.setAdapter(adapter);
-
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
-        startButtonAnimation();
-
-        new SelectStudents().execute();
     }
 
     /**
@@ -112,6 +127,24 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
             @Override
             public void onClick(View v) {
                 insertNewAttendance();
+            }
+        });
+    }
+
+    /**
+     * setOnItemClickListener
+     */
+    private void setListItemClickListener() {
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (arrayList.size() > position) {
+                    Student student = arrayList.get(position);
+                    boolean isPresent = !student.isPresent();
+                    arrayList.get(position).setPresent(isPresent);
+
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
     }

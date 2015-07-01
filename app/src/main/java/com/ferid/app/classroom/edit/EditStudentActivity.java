@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -55,6 +56,30 @@ public class EditStudentActivity extends AppCompatActivity {
         context = this;
 
         //toolbar
+        setToolbar();
+
+        list = (ListView) findViewById(R.id.list);
+        arrayList = new ArrayList<Student>();
+        adapter = new StudentAdapter(context, R.layout.simple_text_item_small, arrayList);
+        list.setAdapter(adapter);
+
+        //empty list view text
+        TextView emptyText = (TextView) findViewById(R.id.emptyText);
+        emptyText.setText(getString(R.string.emptyMessageStudent));
+        list.setEmptyView(emptyText);
+
+        setListItemClickListener();
+
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        startButtonAnimation();
+
+        new SelectStudents().execute();
+    }
+
+    /**
+     * Create toolbar and set its attributes
+     */
+    private void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -62,13 +87,12 @@ public class EditStudentActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         setTitle(classroom.getName());
-        //---
+    }
 
-        list = (ListView) findViewById(R.id.list);
-        arrayList = new ArrayList<Student>();
-        adapter = new StudentAdapter(context, R.layout.simple_text_item_small, arrayList);
-        list.setAdapter(adapter);
-
+    /**
+     * setOnItemClickListener
+     */
+    private void setListItemClickListener() {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -97,11 +121,6 @@ public class EditStudentActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
-        startButtonAnimation();
-
-        new SelectStudents().execute();
     }
 
     /**

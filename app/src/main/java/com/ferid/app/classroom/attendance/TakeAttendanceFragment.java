@@ -1,6 +1,5 @@
 package com.ferid.app.classroom.attendance;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.ClassroomAdapter;
@@ -33,7 +32,6 @@ public class TakeAttendanceFragment extends Fragment {
     private ArrayList<Classroom> arrayList;
     private ClassroomAdapter adapter;
 
-    private RelativeLayout emptyLayout;
 
     public TakeAttendanceFragment() {}
 
@@ -57,12 +55,14 @@ public class TakeAttendanceFragment extends Fragment {
 
         context = rootView.getContext();
 
-        emptyLayout = (RelativeLayout) rootView.findViewById(R.id.emptyLayout);
-
         list = (ListView) rootView.findViewById(R.id.list);
         arrayList = new ArrayList<Classroom>();
         adapter = new ClassroomAdapter(context, R.layout.simple_text_item_big, arrayList);
         list.setAdapter(adapter);
+
+        //empty list view text
+        TextView emptyText = (TextView) rootView.findViewById(R.id.emptyText);
+        list.setEmptyView(emptyText);
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -76,6 +76,17 @@ public class TakeAttendanceFragment extends Fragment {
             }
         });
 
+        setListItemClickListener();
+
+        new SelectClassrooms().execute();
+
+        return rootView;
+    }
+
+    /**
+     * setOnItemClickListener
+     */
+    private void setListItemClickListener() {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -88,10 +99,6 @@ public class TakeAttendanceFragment extends Fragment {
                 }
             }
         });
-
-        new SelectClassrooms().execute();
-
-        return rootView;
     }
 
     /**
@@ -121,13 +128,6 @@ public class TakeAttendanceFragment extends Fragment {
             if (tmpList != null) {
                 arrayList.addAll(tmpList);
                 adapter.notifyDataSetChanged();
-            }
-
-            //if empty, show message
-            if (arrayList.size() == 0) {
-                emptyLayout.setVisibility(View.VISIBLE);
-            } else {
-                emptyLayout.setVisibility(View.GONE);
             }
         }
     }

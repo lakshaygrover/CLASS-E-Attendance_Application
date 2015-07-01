@@ -14,7 +14,9 @@ import com.ferid.app.classroom.statistics.StatisticsFragment;
 import com.ferid.app.classroom.tabs.SlidingTabLayout;
 import com.ferid.app.classroom.utility.ApplicationRating;
 
-
+/**
+ * Created by ferid.cafer on 4/15/2015.
+ */
 public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;

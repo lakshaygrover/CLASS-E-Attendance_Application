@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/listview_item_small">
+    android:layout_height="@dimen/listview_item_small"
+    android:background="@drawable/list_item_selector">
 
     <TextView
         android:id="@+id/text"
@@ -9,7 +10,7 @@
         android:layout_height="wrap_content"
         style="@style/TextView"/>
 
-    <CheckBox
+    <ImageView
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

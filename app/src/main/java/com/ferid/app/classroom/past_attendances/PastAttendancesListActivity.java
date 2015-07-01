@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.PastAttendancesListAdapter;
@@ -47,20 +48,27 @@ public class PastAttendancesListActivity extends AppCompatActivity {
         context = this;
 
         //toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        setTitle(classroom.getName());
-        //---
+        setToolbar();
 
         list = (ListView) findViewById(R.id.list);
         arrayList = new ArrayList<Attendance>();
         adapter = new PastAttendancesListAdapter(context, R.layout.simple_text_item_small, arrayList);
         list.setAdapter(adapter);
 
+        //empty list view text
+        TextView emptyText = (TextView) findViewById(R.id.emptyText);
+        emptyText.setText(getString(R.string.emptyMessageDelete));
+        list.setEmptyView(emptyText);
+
+        setListItemClickListener();
+
+        new SelectAttendances().execute();
+    }
+
+    /**
+     * setOnItemClickListener & setOnItemLongClickListener
+     */
+    private void setListItemClickListener() {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -103,8 +111,19 @@ public class PastAttendancesListActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
 
-        new SelectAttendances().execute();
+    /**
+     * Create toolbar and set its attributes
+     */
+    private void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        setTitle(classroom.getName());
     }
 
     /**

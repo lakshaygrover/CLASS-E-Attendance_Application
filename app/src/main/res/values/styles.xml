@@ -12,11 +12,6 @@
         <item name="android:spinnerStyle">@style/Base.Widget.AppCompat.Spinner</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light</item>
         <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
-
-        <!-- check box and radio box passive colour -->
-        <item name="colorControlNormal">@color/smoothGray</item>
-        <!-- switch compat passive colour -->
-        <item name="android:colorForeground">@color/smoothGray</item>
     </style>
 
     <style name="TextView" parent="TextView">

@@ -14,10 +14,9 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="0.5"
-            android:background="@color/lightGreen" />
+            android:background="@color/statisticsItemColour"/>
 
     </LinearLayout>
-
 
     <TextView
         android:id="@+id/key"

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/add"
-        android:title="@string/add"
+        android:title="@string/addClassroom"
         android:icon="@drawable/ic_action_add"
         android:orderInCategory="1"
         app:showAsAction="always"/>

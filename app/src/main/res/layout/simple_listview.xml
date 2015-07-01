@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/page_background">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -19,32 +20,26 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <RelativeLayout
-        android:id="@+id/emptyLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/default_margin"
-            android:textColor="@color/secondary_text"
-            android:textSize="@dimen/text_size_large"
-            android:text="@string/emptyMessage"
-            android:fontFamily="@string/fontFamilyLight"
-            android:gravity="center"
-            android:textAllCaps="true"/>
-
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/emptyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/default_margin"
+        android:textColor="@color/secondary_text"
+        android:textSize="@dimen/text_size_large"
+        android:text="@string/emptyMessageClassroom"
+        android:fontFamily="@string/fontFamilyLight"
+        android:gravity="center"
+        android:textAllCaps="true"/>
 
     <View
         android:id="@+id/shadow"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@drawable/drop_shadow" />
+        android:layout_height="8dp"
+        android:background="@drawable/drop_shadow"
+        android:alpha="0.5"/>
 
 </RelativeLayout>

@@ -39,9 +39,6 @@
         <activity android:name="com.ferid.app.classroom.statistics.StudentsListActivity"
             android:configChanges="orientation|screenSize"/>
 
-        <activity android:name="com.ferid.app.classroom.statistics.GraphActivity"
-            android:configChanges="orientation|screenSize"/>
-
     </application>
 
 </manifest>

@@ -8,14 +8,18 @@ android {
         applicationId "com.ferid.app.classroom"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 6
-        versionName "2.0.0"
+        versionCode 7
+        versionName "2.1.0"
     }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        encoding "UTF-8"
     }
 }
 
@@ -24,10 +28,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
 
     //excel
-    compile 'org.apache.poi:poi:3.9'
+    compile 'org.apache.poi:poi:3.12'
 
     //graph
-    compile 'com.jjoe64:graphview:4.0.0'
+    compile 'com.jjoe64:graphview:4.0.1'
 
     //floating action button
     compile 'com.getbase:floatingactionbutton:1.9.0'

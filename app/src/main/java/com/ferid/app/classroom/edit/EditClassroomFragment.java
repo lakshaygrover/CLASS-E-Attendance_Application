@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.ClassroomAdapter;
@@ -40,7 +40,6 @@ public class EditClassroomFragment extends Fragment {
     private ArrayList<Classroom> arrayList;
     private ClassroomAdapter adapter;
 
-    private RelativeLayout emptyLayout;
 
     public EditClassroomFragment() {}
 
@@ -64,12 +63,14 @@ public class EditClassroomFragment extends Fragment {
 
         context = rootView.getContext();
 
-        emptyLayout = (RelativeLayout) rootView.findViewById(R.id.emptyLayout);
-
         list = (ListView) rootView.findViewById(R.id.list);
         arrayList = new ArrayList<Classroom>();
         adapter = new ClassroomAdapter(context, R.layout.simple_text_item_big, arrayList);
         list.setAdapter(adapter);
+
+        //empty list view text
+        TextView emptyText = (TextView) rootView.findViewById(R.id.emptyText);
+        list.setEmptyView(emptyText);
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -80,6 +81,33 @@ public class EditClassroomFragment extends Fragment {
             @Override
             public void onRefresh() {
                 new SelectClassrooms().execute();
+            }
+        });
+
+        setListItemClickListener();
+
+        new SelectClassrooms().execute();
+
+
+        setHasOptionsMenu(true);
+
+        return rootView;
+    }
+
+    /**
+     * setOnItemClickListener & setOnItemLongClickListener
+     */
+    private void setListItemClickListener() {
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (arrayList != null && arrayList.size() > position) {
+                    Intent intent = new Intent(context, EditStudentActivity.class);
+                    intent.putExtra("classroom", arrayList.get(position));
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.move_in_from_bottom,
+                            R.anim.stand_still);
+                }
             }
         });
 
@@ -111,26 +139,6 @@ public class EditClassroomFragment extends Fragment {
                 return true;
             }
         });
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (arrayList != null && arrayList.size() > position) {
-                    Intent intent = new Intent(context, EditStudentActivity.class);
-                    intent.putExtra("classroom", arrayList.get(position));
-                    startActivity(intent);
-                    getActivity().overridePendingTransition(R.anim.move_in_from_bottom,
-                            R.anim.stand_still);
-                }
-            }
-        });
-
-        new SelectClassrooms().execute();
-
-
-        setHasOptionsMenu(true);
-
-        return rootView;
     }
 
     /**
@@ -182,13 +190,6 @@ public class EditClassroomFragment extends Fragment {
             if (tmpList != null) {
                 arrayList.addAll(tmpList);
                 adapter.notifyDataSetChanged();
-            }
-
-            //if empty, show message
-            if (arrayList.size() == 0) {
-                emptyLayout.setVisibility(View.VISIBLE);
-            } else {
-                emptyLayout.setVisibility(View.GONE);
             }
         }
     }

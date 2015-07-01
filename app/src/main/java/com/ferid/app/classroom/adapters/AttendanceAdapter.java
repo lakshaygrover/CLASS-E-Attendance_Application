@@ -6,8 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
@@ -41,7 +40,7 @@ public class AttendanceAdapter extends ArrayAdapter<Student> {
             viewHolder = new ViewHolder();
 
             viewHolder.text = (TextView) convertView.findViewById(R.id.text);
-            viewHolder.checkBox = (CheckBox) convertView.findViewById(R.id.checkBox);
+            viewHolder.checkBox = (ImageView) convertView.findViewById(R.id.checkBox);
 
             convertView.setTag(viewHolder);
         } else {
@@ -51,19 +50,19 @@ public class AttendanceAdapter extends ArrayAdapter<Student> {
         final Student item = items.get(position);
 
         viewHolder.text.setText(item.getName());
-        viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                items.get(position).setPresent(isChecked);
-            }
-        });
-        viewHolder.checkBox.setChecked(item.isPresent());
+        if (item.isPresent()) {
+            viewHolder.checkBox.setImageResource(R.drawable.abc_btn_check_to_on_mtrl_015);
+            viewHolder.checkBox.setColorFilter(context.getResources().getColor(R.color.colourAccent));
+        } else {
+            viewHolder.checkBox.setImageResource(R.drawable.abc_btn_check_to_on_mtrl_000);
+            viewHolder.checkBox.setColorFilter(context.getResources().getColor(R.color.gray));
+        }
 
         return convertView;
     }
 
     public class ViewHolder {
         TextView text;
-        CheckBox checkBox;
+        ImageView checkBox;
     }
 }

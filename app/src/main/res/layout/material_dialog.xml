@@ -16,7 +16,7 @@
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/lightBlack"
+            android:textColor="@color/secondary_text"
             android:textSize="@dimen/text_size_medium"
             android:fontFamily="@string/fontFamilyRegular"/>
 
