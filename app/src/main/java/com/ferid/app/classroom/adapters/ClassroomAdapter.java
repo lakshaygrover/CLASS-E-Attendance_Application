@@ -68,7 +68,7 @@ public class ClassroomAdapter extends ArrayAdapter<Classroom> {
         if (item.getStudentNumber() > 0) {
             viewHolder.counter.setText(String.valueOf(item.getStudentNumber()));
         } else {
-            viewHolder.counter.setText(context.getString(R.string.plus));
+            viewHolder.counter.setText("+");
         }
 
         return convertView;

@@ -1,17 +1,6 @@
 <resources>
     <string name="app_name">Attendance Taker</string>
 
-    <!-- shared preferences -->
-    <string name="sharedPreferences">AT_PREFS</string>
-    <string name="pref_beforeRatingViewingNumber">BEFORE_VIEWING_RATING_NUMBER</string>
-
-    <!-- font families -->
-    <string name="fontFamilyRegular">sans-serif</string>
-    <string name="fontFamilyLight">sans-serif-light</string>
-    <string name="fontFamilyThin">sans-serif-thin</string>
-    <string name="fontFamilyCondensed">sans-serif-condensed</string>
-
-
     <string name="editClassrooms">EDITING</string>
     <string name="takeAttendance">ATTENDANCE</string>
     <string name="statistics">STATISTICS</string>
@@ -41,13 +30,11 @@
 
     <string name="emptyMessageClassroom">Add classrooms and students, then pull to refresh&#8230;</string>
     <string name="emptyMessageStudent">Add with plus icon; press long on item to delete&#8230;</string>
-    <string name="emptyMessageDelete">Press long on item to delete item; Press bin to delete all&#8230;</string>
-    <string name="emptyMessageSave">You may change date if needed&#8230;</string>
+    <string name="emptyMessageDelete">Press long on item to delete item; press bin to delete all&#8230;</string>
+    <string name="emptyMessageSave">You may change date and time if needed&#8230;</string>
     <string name="emptyMessageStatistics">Take attendance, then press on item here to see graph&#8230;</string>
 
-    <string name="couldNotInsertAttendance">Already exists! Please check Past Attendances.</string>
-
-    <string name="plus">+</string>
+    <string name="couldNotInsertAttendance">Already exists! Check Past Attendances.</string>
 
     <string name="rateApp">Would you support the application with 5 stars?</string>
 </resources>

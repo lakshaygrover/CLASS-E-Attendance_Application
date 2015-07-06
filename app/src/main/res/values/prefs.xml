@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- shared preferences -->
+    <string name="sharedPreferences">AT_PREFS</string>
+    <string name="pref_beforeRatingViewingNumber">BEFORE_VIEWING_RATING_NUMBER</string>
+</resources>
