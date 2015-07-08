@@ -31,7 +31,7 @@ import com.ferid.app.classroom.interfaces.BackNavigationListener;
 public class CustomTimePickerDialog extends Dialog {
     private Context context;
     private TimePicker timePicker;
-    private Button buttonTamam;
+    private Button buttonOk;
 
     private BackNavigationListener backNavigationListener;
 
@@ -45,8 +45,8 @@ public class CustomTimePickerDialog extends Dialog {
 
         timePicker = (TimePicker) findViewById(R.id.timePicker);
 
-        buttonTamam = (Button) findViewById(R.id.buttonTamam);
-        buttonTamam.setOnClickListener(new View.OnClickListener() {
+        buttonOk = (Button) findViewById(R.id.buttonOk);
+        buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int minute = timePicker.getCurrentMinute();

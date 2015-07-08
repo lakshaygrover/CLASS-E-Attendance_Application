@@ -12,6 +12,7 @@
     <string name="taker">Taker</string>
 
     <string name="ok">OK</string>
+    <string name="delete">DELETE</string>
     <string name="cancel">CANCEL</string>
 
     <string name="addClassroom">Add Classroom</string>

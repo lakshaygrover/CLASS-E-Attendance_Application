@@ -23,7 +23,7 @@ import android.net.Uri;
 
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.interfaces.OnClick;
-import com.ferid.app.classroom.material_dialog.MaterialDialog;
+import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 
 /**
  * Created by ferid.cafer on 5/14/2015.<br />
@@ -33,7 +33,7 @@ public class ApplicationRating {
     private static SharedPreferences prefs;
 
     private static int beforeRatingViewingNumber = 0; //0 beginning, -1 never show
-    private static final int frequency = 20; //usage frequency
+    private static final int frequency = 40; //usage frequency
     //after ... many times of usage the use will be prompted to rate the application
 
     /**
@@ -83,19 +83,18 @@ public class ApplicationRating {
     }
 
     /**
-     * Shows a prompt as a pop up
+     * Shows a dialog as a pop up
      * @param context
      */
     private static void showPopup(final Context context) {
-        final MaterialDialog materialDialog = new MaterialDialog(context);
-        materialDialog.setContent(context.getString(R.string.rateApp));
-        materialDialog.setPositiveButton(context.getString(R.string.yes));
-        materialDialog.setNegativeButton(context.getString(R.string.no));
-        materialDialog.setOnClickListener(new OnClick() {
+        //alert
+        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
+        customAlertDialog.setMessage(context.getString(R.string.rateApp));
+        customAlertDialog.setPositiveButtonText(context.getString(R.string.yes));
+        customAlertDialog.setNegativeButtonText(context.getString(R.string.no));
+        customAlertDialog.setOnClickListener(new OnClick() {
             @Override
             public void OnPositive() {
-                materialDialog.dismiss();
-
                 //if user decides to rate it
                 rateApplication(context);
                 //never prompt again
@@ -106,13 +105,11 @@ public class ApplicationRating {
 
             @Override
             public void OnNegative() {
-                materialDialog.dismiss();
-
                 //if user does not want to rate yet
                 saveOnDisk(context);
             }
         });
-        materialDialog.show();
+        customAlertDialog.showDialog();
     }
 
     /**

@@ -32,7 +32,7 @@ import com.ferid.app.classroom.interfaces.BackNavigationListener;
 public class CustomDatePickerDialog extends Dialog {
     private Context context;
     private DatePicker datePicker;
-    private Button buttonTamam;
+    private Button buttonOk;
 
     private BackNavigationListener backNavigationListener;
 
@@ -47,8 +47,8 @@ public class CustomDatePickerDialog extends Dialog {
         datePicker = (DatePicker) findViewById(R.id.datePicker);
         datePicker.setCalendarViewShown(false);
 
-        buttonTamam = (Button) findViewById(R.id.buttonTamam);
-        buttonTamam.setOnClickListener(new View.OnClickListener() {
+        buttonOk = (Button) findViewById(R.id.buttonOk);
+        buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int dayOfMonth = datePicker.getDayOfMonth();

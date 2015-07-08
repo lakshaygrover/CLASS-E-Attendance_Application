@@ -35,7 +35,9 @@
             android:padding="8dp"
             android:textSize="@dimen/text_size_small"
             android:background="@color/transparent"
-            android:textColor="@color/colourAccentDark"
+            android:textColor="@color/darkGreen"
+            android:textStyle="bold"
+            android:fontFamily="@string/fontFamilyRegular"
             android:textAllCaps="true"/>
 
         <Button
@@ -47,7 +49,9 @@
             android:padding="8dp"
             android:textSize="@dimen/text_size_small"
             android:background="@color/transparent"
-            android:textColor="@color/primary_text"
+            android:textColor="@color/darkGreen"
+            android:textStyle="bold"
+            android:fontFamily="@string/fontFamilyRegular"
             android:textAllCaps="true"
             android:visibility="gone"/>
 

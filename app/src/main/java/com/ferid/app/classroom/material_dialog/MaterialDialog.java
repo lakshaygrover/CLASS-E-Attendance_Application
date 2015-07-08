@@ -57,8 +57,9 @@ public class MaterialDialog extends Dialog {
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onClick != null)
-                    onClick.OnPositive();
+                dismiss();
+
+                if (onClick != null) onClick.OnPositive();
             }
         });
     }
@@ -69,8 +70,9 @@ public class MaterialDialog extends Dialog {
         negativeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onClick != null)
-                    onClick.OnNegative();
+                dismiss();
+
+                if (onClick != null) onClick.OnNegative();
             }
         });
     }

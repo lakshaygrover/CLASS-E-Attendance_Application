@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -45,7 +46,6 @@ import com.ferid.app.classroom.interfaces.BackNavigationListener;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.model.Student;
 import com.ferid.app.classroom.past_attendances.PastAttendancesListActivity;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -134,7 +134,7 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
             @Override
             public void run() {
                 YoYo.with(Techniques.SlideInUp).playOn(floatingActionButton);
-                floatingActionButton.setIcon(R.drawable.ic_action_save);
+                floatingActionButton.setImageResource(R.drawable.ic_action_save);
                 floatingActionButton.setVisibility(View.VISIBLE);
             }
         }, 400);

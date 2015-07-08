@@ -10,6 +10,7 @@
     <color name="gray">#b6b6b6</color>
     <color name="transparent">#00000000</color>
     <color name="statisticsItemColour">#EDE7F6</color>
+    <color name="darkGreen">#689F38</color>
 
     <!-- material colours -->
     <color name="materialDeepPurple">#673AB7</color>
@@ -17,7 +18,6 @@
 
     <!-- theme -->
     <color name="colourAccent">@color/materialLightGreen</color>
-    <color name="colourAccentDark">#689F38</color>
     <color name="colourPrimaryLight">#D1C4E9</color>
     <color name="colourPrimary">@color/materialDeepPurple</color>
     <color name="colourPrimaryDark">#512DA8</color>

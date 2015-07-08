@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/page_background">
@@ -30,15 +29,7 @@
         android:gravity="center"
         android:textAllCaps="true"/>
 
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        fab:fab_colorNormal="@color/colourAccent"
-        fab:fab_colorPressed="@color/colourAccentDark"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
-        android:visibility="gone"/>
+    <include
+        layout="@layout/floating_action_button"/>
 
 </RelativeLayout>

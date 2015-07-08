@@ -39,7 +39,7 @@ import com.ferid.app.classroom.adapters.ClassroomAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
 import com.ferid.app.classroom.interfaces.OnClick;
 import com.ferid.app.classroom.interfaces.OnPrompt;
-import com.ferid.app.classroom.material_dialog.MaterialDialog;
+import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 import com.ferid.app.classroom.material_dialog.PromptDialog;
 import com.ferid.app.classroom.model.Classroom;
 
@@ -133,24 +133,24 @@ public class EditClassroomFragment extends Fragment {
                 if (arrayList != null && arrayList.size() > position) {
                     final Classroom classroom = arrayList.get(position);
 
-                    final MaterialDialog materialDialog = new MaterialDialog(context);
-                    materialDialog.setContent(classroom.getName() + getString(R.string.sureToDelete));
-                    materialDialog.setPositiveButton(getString(R.string.ok));
-                    materialDialog.setNegativeButton(getString(R.string.cancel));
-                    materialDialog.setOnClickListener(new OnClick() {
+                    //alert
+                    CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
+                    customAlertDialog.setMessage(classroom.getName()
+                            + getString(R.string.sureToDelete));
+                    customAlertDialog.setPositiveButtonText(getString(R.string.delete));
+                    customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
+                    customAlertDialog.setOnClickListener(new OnClick() {
                         @Override
                         public void OnPositive() {
-                            materialDialog.dismiss();
-
                             new DeleteClassroom().execute(classroom.getId());
                         }
 
                         @Override
                         public void OnNegative() {
-                            materialDialog.dismiss();
+                            //do nothing
                         }
                     });
-                    materialDialog.show();
+                    customAlertDialog.showDialog();
                 }
                 return true;
             }

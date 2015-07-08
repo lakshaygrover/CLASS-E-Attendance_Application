@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -43,7 +44,6 @@ import com.ferid.app.classroom.date_time_pickers.TimePickerFragment;
 import com.ferid.app.classroom.interfaces.BackNavigationListener;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.model.Student;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -128,7 +128,7 @@ public class PastAttendanceActivity extends AppCompatActivity implements BackNav
             @Override
             public void run() {
                 YoYo.with(Techniques.SlideInUp).playOn(floatingActionButton);
-                floatingActionButton.setIcon(R.drawable.ic_action_save);
+                floatingActionButton.setImageResource(R.drawable.ic_action_save);
                 floatingActionButton.setVisibility(View.VISIBLE);
             }
         }, 400);

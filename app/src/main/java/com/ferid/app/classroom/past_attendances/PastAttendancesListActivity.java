@@ -35,7 +35,7 @@ import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.PastAttendancesListAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
 import com.ferid.app.classroom.interfaces.OnClick;
-import com.ferid.app.classroom.material_dialog.MaterialDialog;
+import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 import com.ferid.app.classroom.model.Attendance;
 import com.ferid.app.classroom.model.Classroom;
 
@@ -106,25 +106,24 @@ public class PastAttendancesListActivity extends AppCompatActivity {
                 if (arrayList != null && arrayList.size() > position) {
                     final Attendance attendance = arrayList.get(position);
 
-                    final MaterialDialog materialDialog = new MaterialDialog(context);
-                    materialDialog.setContent(attendance.getDateTime()
+                    //alert
+                    CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
+                    customAlertDialog.setMessage(attendance.getDateTime()
                             + getString(R.string.sureToDelete));
-                    materialDialog.setPositiveButton(getString(R.string.ok));
-                    materialDialog.setNegativeButton(getString(R.string.cancel));
-                    materialDialog.setOnClickListener(new OnClick() {
+                    customAlertDialog.setPositiveButtonText(getString(R.string.delete));
+                    customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
+                    customAlertDialog.setOnClickListener(new OnClick() {
                         @Override
                         public void OnPositive() {
-                            materialDialog.dismiss();
-
                             new DeleteAttendance().execute(attendance.getDateTime());
                         }
 
                         @Override
                         public void OnNegative() {
-                            materialDialog.dismiss();
+                            //do nothing
                         }
                     });
-                    materialDialog.show();
+                    customAlertDialog.showDialog();
                 }
                 return true;
             }
@@ -214,24 +213,23 @@ public class PastAttendancesListActivity extends AppCompatActivity {
      * Ask to delete all
      */
     private void deleteAllAttendances() {
-        final MaterialDialog materialDialog = new MaterialDialog(context);
-        materialDialog.setContent(getString(R.string.allToDelete));
-        materialDialog.setPositiveButton(getString(R.string.ok));
-        materialDialog.setNegativeButton(getString(R.string.cancel));
-        materialDialog.setOnClickListener(new OnClick() {
+        //alert
+        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
+        customAlertDialog.setMessage(getString(R.string.allToDelete));
+        customAlertDialog.setPositiveButtonText(getString(R.string.delete));
+        customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
+        customAlertDialog.setOnClickListener(new OnClick() {
             @Override
             public void OnPositive() {
-                materialDialog.dismiss();
-
                 new DeleteAllAttendances().execute();
             }
 
             @Override
             public void OnNegative() {
-                materialDialog.dismiss();
+                //do nothing
             }
         });
-        materialDialog.show();
+        customAlertDialog.showDialog();
     }
 
     @Override

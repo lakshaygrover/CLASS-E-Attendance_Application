@@ -20,6 +20,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -36,11 +37,10 @@ import com.ferid.app.classroom.adapters.StudentAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
 import com.ferid.app.classroom.interfaces.OnClick;
 import com.ferid.app.classroom.interfaces.OnPrompt;
-import com.ferid.app.classroom.material_dialog.MaterialDialog;
+import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 import com.ferid.app.classroom.material_dialog.PromptDialog;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.model.Student;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -115,24 +115,24 @@ public class EditStudentActivity extends AppCompatActivity {
                 if (arrayList != null && arrayList.size() > position) {
                     final Student student = arrayList.get(position);
 
-                    final MaterialDialog materialDialog = new MaterialDialog(context);
-                    materialDialog.setContent(student.getName() + getString(R.string.sureToDelete));
-                    materialDialog.setPositiveButton(getString(R.string.ok));
-                    materialDialog.setNegativeButton(getString(R.string.cancel));
-                    materialDialog.setOnClickListener(new OnClick() {
+                    //alert
+                    CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
+                    customAlertDialog.setMessage(student.getName()
+                            + getString(R.string.sureToDelete));
+                    customAlertDialog.setPositiveButtonText(getString(R.string.delete));
+                    customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
+                    customAlertDialog.setOnClickListener(new OnClick() {
                         @Override
                         public void OnPositive() {
-                            materialDialog.dismiss();
-
                             new DeleteStudent().execute(student.getId());
                         }
 
                         @Override
                         public void OnNegative() {
-                            materialDialog.dismiss();
+                            //do nothing
                         }
                     });
-                    materialDialog.show();
+                    customAlertDialog.showDialog();
                 }
                 return true;
             }
@@ -147,7 +147,7 @@ public class EditStudentActivity extends AppCompatActivity {
             @Override
             public void run() {
                 YoYo.with(Techniques.SlideInUp).playOn(floatingActionButton);
-                floatingActionButton.setIcon(R.drawable.ic_action_add);
+                floatingActionButton.setImageResource(R.drawable.ic_action_add);
                 floatingActionButton.setVisibility(View.VISIBLE);
             }
         }, 400);
