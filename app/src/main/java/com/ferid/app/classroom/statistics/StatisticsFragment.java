@@ -40,15 +40,12 @@ import com.ferid.app.classroom.adapters.ClassroomAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
 import com.ferid.app.classroom.model.Attendance;
 import com.ferid.app.classroom.model.Classroom;
+import com.ferid.app.classroom.utility.ExcelStyleManager;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,8 +61,8 @@ public class StatisticsFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView list;
-    private ArrayList<Classroom> arrayList;
-    private ClassroomAdapter adapter;
+    private ArrayList<Classroom> classroomArrayList;
+    private ClassroomAdapter classroomAdapter;
 
     //excel
     private String folder = Environment.getExternalStorageDirectory() + "/attendance_taker/";
@@ -96,9 +93,9 @@ public class StatisticsFragment extends Fragment {
         context = rootView.getContext();
 
         list = (ListView) rootView.findViewById(R.id.list);
-        arrayList = new ArrayList<Classroom>();
-        adapter = new ClassroomAdapter(context, R.layout.simple_text_item_big, arrayList);
-        list.setAdapter(adapter);
+        classroomArrayList = new ArrayList<Classroom>();
+        classroomAdapter = new ClassroomAdapter(context, R.layout.simple_text_item_big, classroomArrayList);
+        list.setAdapter(classroomAdapter);
 
         //empty list view text
         TextView emptyText = (TextView) rootView.findViewById(R.id.emptyText);
@@ -132,9 +129,9 @@ public class StatisticsFragment extends Fragment {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (arrayList != null && arrayList.size() > position) {
+                if (classroomArrayList != null && classroomArrayList.size() > position) {
                     Intent intent = new Intent(context, StudentsListActivity.class);
-                    intent.putExtra("classroom", arrayList.get(position));
+                    intent.putExtra("classroom", classroomArrayList.get(position));
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.move_in_from_bottom,
                             R.anim.stand_still);
@@ -165,11 +162,11 @@ public class StatisticsFragment extends Fragment {
         protected void onPostExecute(ArrayList<Classroom> tmpList) {
             swipeRefreshLayout.setRefreshing(false);
 
-            arrayList.clear();
+            classroomArrayList.clear();
 
             if (tmpList != null) {
-                arrayList.addAll(tmpList);
-                adapter.notifyDataSetChanged();
+                classroomArrayList.addAll(tmpList);
+                classroomAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -209,106 +206,14 @@ public class StatisticsFragment extends Fragment {
     }
 
     /**
-     * Header cell style
-     * @return
-     */
-    private HSSFCellStyle getHeaderCellStyle(HSSFWorkbook wb) {
-        HSSFCellStyle cellStyle = wb.createCellStyle();
-
-        cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-
-        Font font = wb.createFont();
-        font.setFontHeightInPoints((short) 8);
-        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
-        cellStyle.setFont(font);
-
-        cellStyle.setWrapText(true);
-
-        cellStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
-        cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-
-        cellStyle.setBorderRight(CellStyle.BORDER_THIN);
-        cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
-        cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
-        cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-        cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
-        cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-        cellStyle.setBorderTop(CellStyle.BORDER_THIN);
-        cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
-
-        return cellStyle;
-    }
-
-    /**
-     * Left column cell style
-     * @return
-     */
-    private HSSFCellStyle getLeftColumnCellStyle(HSSFWorkbook wb) {
-        HSSFCellStyle cellStyle = wb.createCellStyle();
-
-        cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-
-        Font font = wb.createFont();
-        font.setFontHeightInPoints((short) 8);
-        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
-        cellStyle.setFont(font);
-
-        cellStyle.setWrapText(true);
-
-        cellStyle.setFillForegroundColor(IndexedColors.LIGHT_TURQUOISE.getIndex());
-        cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-
-        cellStyle.setBorderRight(CellStyle.BORDER_THIN);
-        cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
-        cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
-        cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-        cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
-        cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-        cellStyle.setBorderTop(CellStyle.BORDER_THIN);
-        cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
-
-        return cellStyle;
-    }
-
-    /**
-     * Content cell style
-     * @return
-     */
-    private HSSFCellStyle getContentCellStyle(HSSFWorkbook wb) {
-        HSSFCellStyle cellStyle = wb.createCellStyle();
-
-        cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-
-        Font font = wb.createFont();
-        font.setFontHeightInPoints((short) 8);
-        cellStyle.setFont(font);
-
-        cellStyle.setWrapText(true);
-
-        cellStyle.setFillForegroundColor(IndexedColors.LEMON_CHIFFON.getIndex());
-        cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-
-        cellStyle.setBorderRight(CellStyle.BORDER_THIN);
-        cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
-        cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
-        cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-        cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
-        cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-        cellStyle.setBorderTop(CellStyle.BORDER_THIN);
-        cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
-
-        return cellStyle;
-    }
-
-    /**
      * Converts all attendances into excel format
      */
     private void convertToExcel() {
-        int length = arrayList.size();
+        int length = classroomArrayList.size();
 
         HSSFWorkbook wb = new HSSFWorkbook();
         for (int i = 0; i < length; i++) {
-            Classroom classroom = arrayList.get(i);
+            Classroom classroom = classroomArrayList.get(i);
 
             HSSFSheet sheet = wb.createSheet(classroom.getName());
 
@@ -326,7 +231,7 @@ public class StatisticsFragment extends Fragment {
                         && !dates.contains(attendance.getDateTime())) {
 
                     HSSFCell cellDate = row.createCell(colNumber);
-                    cellDate.setCellStyle(getHeaderCellStyle(wb));
+                    cellDate.setCellStyle(ExcelStyleManager.getHeaderCellStyle(wb));
 
                     cellDate.setCellValue(attendance.getDateTime());
 
@@ -337,7 +242,7 @@ public class StatisticsFragment extends Fragment {
                 }
             }
 
-            //content
+            //students list at the left column
             HashMap<Integer, Integer> student_row_map = new HashMap<Integer, Integer>();
             ArrayList<Integer> studentIds = new ArrayList<Integer>();
             rowNumber = 1;
@@ -349,7 +254,7 @@ public class StatisticsFragment extends Fragment {
                         row = sheet.createRow(rowNumber);
 
                         HSSFCell cellStudent = row.createCell(0);
-                        cellStudent.setCellStyle(getLeftColumnCellStyle(wb));
+                        cellStudent.setCellStyle(ExcelStyleManager.getLeftColumnCellStyle(wb));
 
                         cellStudent.setCellValue(attendance.getStudentName());
 
@@ -374,15 +279,14 @@ public class StatisticsFragment extends Fragment {
                     row = sheet.getRow(rowNumber);
 
                     HSSFCell cellPresence = row.createCell(colNumber);
-                    cellPresence.setCellStyle(getContentCellStyle(wb));
+                    cellPresence.setCellStyle(ExcelStyleManager.getContentCellStyle(wb));
 
                     cellPresence.setCellValue(attendance.getPresent());
                 }
             }
         }
 
-        if (length > 0)
-            writeIntoFile(wb);
+        if (length > 0) writeIntoFile(wb);
 
         swipeRefreshLayout.setRefreshing(false);
     }
