@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 public class ExcelStyleManager {
 
     /**
-     * Header cell style
+     * Header cell style (dates)
      * @return HSSFCellStyle
      */
     public static HSSFCellStyle getHeaderCellStyle(HSSFWorkbook wb) {
@@ -43,7 +43,7 @@ public class ExcelStyleManager {
     }
 
     /**
-     * Left column cell style
+     * Left column cell style (students)
      * @return HSSFCellStyle
      */
     public static HSSFCellStyle getLeftColumnCellStyle(HSSFWorkbook wb) {
@@ -74,7 +74,7 @@ public class ExcelStyleManager {
     }
 
     /**
-     * Content cell style
+     * Content cell style (presence)
      * @return HSSFCellStyle
      */
     public static HSSFCellStyle getContentCellStyle(HSSFWorkbook wb) {
