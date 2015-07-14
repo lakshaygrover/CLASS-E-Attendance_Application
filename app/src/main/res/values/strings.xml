@@ -38,4 +38,6 @@
     <string name="couldNotInsertAttendance">Already exists! Check Past Attendances.</string>
 
     <string name="rateApp">Would you support the application with 5 stars?</string>
+
+    <string name="shareText">Share with</string>
 </resources>

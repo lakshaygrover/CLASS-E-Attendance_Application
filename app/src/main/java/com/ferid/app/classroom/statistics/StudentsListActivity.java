@@ -17,8 +17,12 @@
 package com.ferid.app.classroom.statistics;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -36,10 +40,15 @@ import com.ferid.app.classroom.adapters.StatisticsAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
 import com.ferid.app.classroom.model.Attendance;
 import com.ferid.app.classroom.model.Classroom;
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -59,7 +68,12 @@ public class StudentsListActivity extends AppCompatActivity {
     private LinearLayout graphLayout;
     private Attendance attendance;
     private ArrayList<Attendance> graphList;
+    //close graph icon
     private ImageView closeGraphIcon;
+    //share graph icon
+    private ImageView shareGraphIcon;
+    //graph file name (out of screen shot)
+    private final String PATH_GRAPH = Environment.getExternalStorageDirectory() + "/graph.png";
 
 
     @Override
@@ -81,6 +95,7 @@ public class StudentsListActivity extends AppCompatActivity {
         graphLayout = (LinearLayout) findViewById(R.id.graphLayout);
         graph = (GraphView) findViewById(R.id.graph);
         closeGraphIcon = (ImageView) findViewById(R.id.closeGraphIcon);
+        shareGraphIcon = (ImageView) findViewById(R.id.shareGraphIcon);
         graphList = new ArrayList<Attendance>();
 
         //list
@@ -94,6 +109,7 @@ public class StudentsListActivity extends AppCompatActivity {
         list.setEmptyView(emptyText);
 
         setCloseGraphIconListener();
+        setShareGraphIconListener();
         setListItemClickListener();
 
         new SelectAllAttendancesOfClass().execute();
@@ -139,6 +155,64 @@ public class StudentsListActivity extends AppCompatActivity {
                 hideGraph();
             }
         });
+    }
+
+    private void setShareGraphIconListener() {
+        shareGraphIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap bitmap = takeScreenShot();
+                saveBitmap(bitmap);
+                shareInMedia();
+            }
+        });
+    }
+
+    /**
+     * Take screen shot of the graph
+     * @return
+     */
+    private Bitmap takeScreenShot() {
+        View rootView = graph;
+        rootView.setDrawingCacheEnabled(true);
+        return rootView.getDrawingCache();
+    }
+
+    /**
+     * Save bitmap image into disc
+     * @param bitmap Bitmap
+     */
+    public void saveBitmap(Bitmap bitmap) {
+        File imagePath = new File(PATH_GRAPH);
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(imagePath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.flush();
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * Share screenshot of the graph through social media
+     */
+    private void shareInMedia() {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/png");
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///"
+                + PATH_GRAPH));
+        startActivity(Intent.createChooser(share, getString(R.string.shareText)));
     }
 
     /**
@@ -242,6 +316,20 @@ public class StudentsListActivity extends AppCompatActivity {
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMaxX(presenceList.size());
         graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setScalable(true);
+
+        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                int valueInt = ((int) value);
+
+                if (isValueX && valueInt == 0) {
+                    return "";
+                } else {
+                    return "" + valueInt;
+                }
+            }
+        });
 
         showGraph();
     }

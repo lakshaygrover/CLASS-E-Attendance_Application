@@ -65,8 +65,9 @@ public class StatisticsFragment extends Fragment {
     private ClassroomAdapter classroomAdapter;
 
     //excel
-    private String folder = Environment.getExternalStorageDirectory() + "/attendance_taker/";
-    private String file = "attendances.xls";
+    private final String PATH_FOLDER = Environment.getExternalStorageDirectory()
+            + "/attendance_taker/";
+    private final String FILE_NAME = "/attendances.xls";
     private ArrayList<Attendance> attendanceArrayList = new ArrayList<Attendance>();
 
 
@@ -300,11 +301,11 @@ public class StatisticsFragment extends Fragment {
         try {
             // Output stream
             // create a File object for the parent directory
-            File directory = new File(folder);
+            File directory = new File(PATH_FOLDER);
             // have the object build the directory structure, if needed.
             directory.mkdirs();
 
-            fileOut = new FileOutputStream(folder + file);
+            fileOut = new FileOutputStream(PATH_FOLDER + FILE_NAME);
             wb.write(fileOut);
         } catch (IOException e) {
             e.printStackTrace();
@@ -328,7 +329,7 @@ public class StatisticsFragment extends Fragment {
     private void sendMail() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("plain/text");
-        Uri attachment = Uri.parse("file:///" + folder + file);
+        Uri attachment = Uri.parse("file:///" + PATH_FOLDER + FILE_NAME);
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
         intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.takeAttendance));
         intent.putExtra(Intent.EXTRA_STREAM, attachment);

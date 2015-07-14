@@ -54,6 +54,15 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/abc_ic_clear_mtrl_alpha"/>
 
+            <ImageView
+                android:id="@+id/shareGraphIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_centerVertical="true"
+                android:src="@drawable/abc_ic_menu_share_mtrl_alpha"/>
+
         </RelativeLayout>
 
         <com.jjoe64.graphview.GraphView
