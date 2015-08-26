@@ -33,8 +33,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.AttendanceAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
@@ -130,14 +128,13 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
      * Set floating action button with its animation
      */
     private void startButtonAnimation() {
-        new Handler().postDelayed(new Runnable() {
+        new Handler().post(new Runnable() {
             @Override
             public void run() {
-                YoYo.with(Techniques.SlideInUp).playOn(floatingActionButton);
                 floatingActionButton.setImageResource(R.drawable.ic_action_save);
-                floatingActionButton.setVisibility(View.VISIBLE);
+                floatingActionButton.show();
             }
-        }, 400);
+        });
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

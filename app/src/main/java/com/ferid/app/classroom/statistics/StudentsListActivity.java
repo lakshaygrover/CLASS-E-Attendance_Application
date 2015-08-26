@@ -42,6 +42,7 @@ import com.ferid.app.classroom.model.Attendance;
 import com.ferid.app.classroom.model.Classroom;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -55,6 +56,7 @@ import java.util.ArrayList;
  * Created by ferid.cafer on 4/20/2015.
  */
 public class StudentsListActivity extends AppCompatActivity {
+
     private Context context;
 
     private ListView list;
@@ -173,7 +175,7 @@ public class StudentsListActivity extends AppCompatActivity {
      * @return
      */
     private Bitmap takeScreenShot() {
-        View rootView = graph;
+        View rootView = graphLayout;
         rootView.setDrawingCacheEnabled(true);
         return rootView.getDrawingCache();
     }
@@ -294,29 +296,56 @@ public class StudentsListActivity extends AppCompatActivity {
     }
 
     /**
+     * Set graph style attributes
+     * @param maxX
+     */
+    private void setGraphAttributes(int maxX) {
+        graph.setTitle(attendance.getStudentName());
+        graph.setTitleColor(getResources().getColor(R.color.primary_text));
+
+        graph.getViewport().setMaxY(100);
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMaxX(maxX);
+        graph.getViewport().setXAxisBoundsManual(true);
+
+        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.BOTH);
+        graph.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.gray));
+        graph.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(R.color.blackish));
+        graph.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.blackish));
+
+        //number of x-axis label items
+        int numHorizontalLabels;
+        if (maxX <= 8) {
+            numHorizontalLabels = maxX + 1;
+        } else if (maxX <= 16) {
+            numHorizontalLabels = maxX / 2 + 1;
+        } else {
+            numHorizontalLabels = maxX / 4 + 1;
+        }
+        graph.getGridLabelRenderer().setNumHorizontalLabels(numHorizontalLabels);
+
+        graph.getGridLabelRenderer().reloadStyles();
+    }
+
+    /**
      * Draw graph of weekly attendance
      * @param presenceList
      */
     private void prepareGraphics(ArrayList<Integer> presenceList) {
-        DataPoint[] dataPoints = new DataPoint[presenceList.size()+1];
+        DataPoint[] dataPoints = new DataPoint[presenceList.size() + 1];
         dataPoints[0] = new DataPoint(0, 0);
         for (int i = 0; i < presenceList.size(); i++) {
-            dataPoints[i+1] = new DataPoint((i+1), presenceList.get(i));
+            dataPoints[i + 1] = new DataPoint((i+1), presenceList.get(i));
         }
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
         series.setColor(getResources().getColor(R.color.colourAccent));
-        series.setThickness(5);
+        series.setThickness(getResources().getInteger(R.integer.statistics_series_thickness));
 
         graph.removeAllSeries();
         graph.addSeries(series);
 
-        graph.setTitle(attendance.getStudentName());
-        graph.getViewport().setMaxY(100);
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMaxX(presenceList.size());
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setScalable(true);
+        setGraphAttributes(presenceList.size());
 
         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
@@ -326,7 +355,7 @@ public class StudentsListActivity extends AppCompatActivity {
                 if (isValueX && valueInt == 0) {
                     return "";
                 } else {
-                    return "" + valueInt;
+                    return super.formatLabel(valueInt, isValueX);
                 }
             }
         });
@@ -354,6 +383,35 @@ public class StudentsListActivity extends AppCompatActivity {
                     R.anim.push_to_bottom);
             graphLayout.setAnimation(animHide);
             graphLayout.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        boolean isGraphVisible;
+        if (graphLayout.getVisibility() == View.VISIBLE) {
+            isGraphVisible = true;
+        } else {
+            isGraphVisible = false;
+        }
+
+        outState.putBoolean("isGraphVisible", isGraphVisible);
+        outState.putSerializable("attendance", attendance);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        boolean isGraphVisible = savedInstanceState.getBoolean("isGraphVisible");
+        attendance = (Attendance) savedInstanceState.getSerializable("attendance");
+
+        if (isGraphVisible) {
+            graphList.clear();
+
+            new SelectAllAttendancesOfStudent().execute();
         }
     }
 

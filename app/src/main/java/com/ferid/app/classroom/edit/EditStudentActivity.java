@@ -30,8 +30,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.StudentAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
@@ -87,7 +85,7 @@ public class EditStudentActivity extends AppCompatActivity {
         setListItemClickListener();
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
-        startButtonAnimation();
+        setFloatingButton();
 
         new SelectStudents().execute();
     }
@@ -142,15 +140,14 @@ public class EditStudentActivity extends AppCompatActivity {
     /**
      * Set floating action button with its animation
      */
-    private void startButtonAnimation() {
-        new Handler().postDelayed(new Runnable() {
+    private void setFloatingButton() {
+        new Handler().post(new Runnable() {
             @Override
             public void run() {
-                YoYo.with(Techniques.SlideInUp).playOn(floatingActionButton);
                 floatingActionButton.setImageResource(R.drawable.ic_action_add);
-                floatingActionButton.setVisibility(View.VISIBLE);
+                floatingActionButton.show();
             }
-        }, 400);
+        });
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

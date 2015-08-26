@@ -1,35 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/page_background">
+    android:layout_height="match_parent">
 
-    <include
-        layout="@layout/toolbar"/>
-
-    <ListView
-        android:id="@+id/list"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:background="@color/page_background"
-        android:divider="@color/divider_colour"
-        android:dividerHeight="@dimen/listview_divider_height"/>
+        android:background="@color/page_background">
 
-    <TextView
-        android:id="@+id/emptyText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/default_margin"
-        android:textSize="@dimen/text_size_large"
-        android:textColor="@color/secondary_text"
-        android:fontFamily="@string/fontFamilyLight"
-        android:gravity="center"
-        android:textAllCaps="true"/>
+        <include
+            layout="@layout/toolbar"/>
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:background="@color/page_background"
+            android:divider="@color/divider_colour"
+            android:dividerHeight="@dimen/listview_divider_height"/>
+
+        <TextView
+            android:id="@+id/emptyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/default_margin"
+            android:textSize="@dimen/text_size_large"
+            android:textColor="@color/secondary_text"
+            android:fontFamily="@string/fontFamilyLight"
+            android:gravity="center"
+            android:textAllCaps="true"/>
+
+    </RelativeLayout>
 
     <include
         layout="@layout/floating_action_button"/>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
