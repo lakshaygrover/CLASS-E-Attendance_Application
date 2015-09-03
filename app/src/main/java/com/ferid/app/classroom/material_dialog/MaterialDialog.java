@@ -37,6 +37,10 @@ public class MaterialDialog extends Dialog {
 
     private OnClick onClick;
 
+    /**
+     *
+     * @param context Context
+     */
     public MaterialDialog(Context context) {
         super(context);
         setContentView(R.layout.material_dialog);
@@ -48,10 +52,18 @@ public class MaterialDialog extends Dialog {
         negativeButton = (Button) findViewById(R.id.negativeButton);
     }
 
+    /**
+     * String set content/message
+     * @param value String
+     */
     public void setContent(String value) {
         content.setText(value);
     }
 
+    /**
+     * Set positive button title and event
+     * @param value String
+     */
     public void setPositiveButton(String value) {
         positiveButton.setText(value);
         positiveButton.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +76,10 @@ public class MaterialDialog extends Dialog {
         });
     }
 
+    /**
+     * Activate negative button, set title and event
+     * @param value
+     */
     public void setNegativeButton(String value) {
         negativeButton.setVisibility(View.VISIBLE);
         negativeButton.setText(value);
@@ -77,6 +93,10 @@ public class MaterialDialog extends Dialog {
         });
     }
 
+    /**
+     * On positive or negative button click listener
+     * @param onClick
+     */
     public void setOnClickListener(OnClick onClick) {
         this.onClick = onClick;
     }

@@ -15,12 +15,10 @@
     <string name="delete">DELETE</string>
     <string name="cancel">CANCEL</string>
 
-    <string name="addClassroom">Add Classroom</string>
     <string name="deleteAll">Delete All</string>
     <string name="sureToDelete">&#160;will be deleted</string>
     <string name="save">Save</string>
     <string name="saved">Saved</string>
-    <string name="publishAttendance">Convert into Excel and Send Mail</string>
     <string name="allToDelete">All attendances of this class will be deleted</string>
     <string name="changeDateTime">Change Date and Time</string>
 
@@ -37,7 +35,7 @@
 
     <string name="couldNotInsertAttendance">Already exists! Check Past Attendances.</string>
 
-    <string name="rateApp">Would you support the application with 5 stars?</string>
+    <string name="rateApp">Would you support the application with 5 stars, please?</string>
 
     <string name="shareText">Share with</string>
 </resources>

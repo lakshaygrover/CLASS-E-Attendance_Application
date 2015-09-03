@@ -24,9 +24,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -105,8 +102,6 @@ public class EditClassroomFragment extends Fragment {
         new SelectClassrooms().execute();
 
 
-        setHasOptionsMenu(true);
-
         return rootView;
     }
 
@@ -160,7 +155,7 @@ public class EditClassroomFragment extends Fragment {
     /**
      * Add new class item
      */
-    private void addNewItem() {
+    public void addNewItem() {
         final PromptDialog promptDialog = new PromptDialog(context);
         promptDialog.setTitle(getString(R.string.classroomName));
         promptDialog.setPositiveButton(getString(R.string.ok));
@@ -226,8 +221,9 @@ public class EditClassroomFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean isSuccessful) {
-            if (isSuccessful)
+            if (isSuccessful) {
                 new SelectClassrooms().execute();
+            }
         }
     }
 
@@ -247,8 +243,9 @@ public class EditClassroomFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean isSuccessful) {
-            if (isSuccessful)
+            if (isSuccessful) {
                 new SelectClassrooms().execute();
+            }
         }
     }
 
@@ -260,24 +257,5 @@ public class EditClassroomFragment extends Fragment {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         } catch (Exception e) {}
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_add, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.add:
-                addNewItem();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

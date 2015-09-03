@@ -17,12 +17,15 @@
 package com.ferid.app.classroom;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.ferid.app.classroom.attendance.TakeAttendanceFragment;
 import com.ferid.app.classroom.edit.EditClassroomFragment;
@@ -38,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private TabsPagerAdapter mAdapter;
 
     private SlidingTabLayout mSlidingTabLayout;
+
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,19 +63,120 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(mAdapter);
 
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setViewPager(viewPager);
         mSlidingTabLayout.setDividerColors(getResources().getColor(R.color.transparent));
         mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.white));
+        mSlidingTabLayout.setCustomTabView(R.layout.tab_view, R.id.tabText);
+        mSlidingTabLayout.setViewPager(viewPager);
 
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+
+        addOnPageChangeListener();
         //if there are already entered classrooms, just show take attendance page,
         //otherwise show edit classrooms page to add a new one.
-        if (numberOfClassrooms > 0)
+        if (numberOfClassrooms > 0) {
             viewPager.setCurrentItem(1);
-        else
+        } else {
             viewPager.setCurrentItem(0);
+            //make floating button available to add classrooms
+            setButtonAdd();
+        }
+
 
         //rate the app
         ApplicationRating.ratingPopupManager(this);
+    }
+
+    /**
+     * View Pager, page change listener.
+     */
+    private void addOnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0: //editing
+                        setButtonAdd();
+                        break;
+                    case 1: //attendance
+                        setButtonHidden();
+                        break;
+                    case 2: //statistics
+                        setButtonPublish();
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    /**
+     * EditClassroom.<br />
+     * Add a new classroom.
+     */
+    private void setButtonAdd() {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                floatingActionButton.setImageResource(R.drawable.ic_action_add);
+                floatingActionButton.show();
+            }
+        });
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditClassroomFragment fragment = (EditClassroomFragment) getSupportFragmentManager()
+                        .findFragmentByTag("android:switcher:" + viewPager.getId() + ":"
+                                + mAdapter.getItemId(0));
+                fragment.addNewItem();
+            }
+        });
+    }
+
+    /**
+     * Attendance.<br />
+     * Just hide the button.
+     */
+    private void setButtonHidden() {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                floatingActionButton.hide();
+            }
+        });
+    }
+
+    /**
+     * Statistics.<br />
+     * Convert attendances into an excel file and share it.
+     */
+    private void setButtonPublish() {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                floatingActionButton.setImageResource(R.drawable.ic_action_publish);
+                floatingActionButton.show();
+            }
+        });
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StatisticsFragment fragment = (StatisticsFragment) getSupportFragmentManager()
+                        .findFragmentByTag("android:switcher:" + viewPager.getId() + ":"
+                                + mAdapter.getItemId(2));
+                fragment.getDataForExcel();
+            }
+        });
     }
 
     public class TabsPagerAdapter extends FragmentPagerAdapter {

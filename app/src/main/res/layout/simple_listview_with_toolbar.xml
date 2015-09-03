@@ -19,7 +19,8 @@
             android:layout_below="@+id/toolbar"
             android:background="@color/page_background"
             android:divider="@color/divider_colour"
-            android:dividerHeight="@dimen/listview_divider_height"/>
+            android:dividerHeight="@dimen/listview_divider_height"
+            android:drawSelectorOnTop="true"/>
 
         <TextView
             android:id="@+id/emptyText"

@@ -171,8 +171,9 @@ public class EditStudentActivity extends AppCompatActivity {
 
                 closeKeyboard();
 
-                if (!promptText.toString().equals(""))
+                if (!promptText.toString().equals("")) {
                     new InsertStudent().execute(promptText);
+                }
             }
         });
         promptDialog.show();
@@ -225,8 +226,9 @@ public class EditStudentActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean isSuccessful) {
-            if (isSuccessful)
+            if (isSuccessful) {
                 new SelectStudents().execute();
+            }
         }
     }
 
@@ -246,8 +248,9 @@ public class EditStudentActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean isSuccessful) {
-            if (isSuccessful)
+            if (isSuccessful) {
                 new SelectStudents().execute();
+            }
         }
     }
 

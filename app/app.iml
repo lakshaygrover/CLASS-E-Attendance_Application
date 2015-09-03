@@ -95,8 +95,8 @@
     <orderEntry type="library" exported="" name="design-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="graphview-4.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.2.1" level="project" />
-    <orderEntry type="library" exported="" name="poi-3.12" level="project" />
     <orderEntry type="library" exported="" name="commons-codec-1.9" level="project" />
+    <orderEntry type="library" exported="" name="poi-3.12" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.1" level="project" />
   </component>

@@ -2,6 +2,6 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/colourPrimaryLight">
     <item android:id="@+id/mask">
-        <color android:color="@color/page_background" />
+        <color android:color="@color/colourPrimary" />
     </item>
 </ripple>

@@ -98,6 +98,7 @@ public class CustomAlertDialog {
                 }
             });
             materialDialog.show();
+
         } else {
             final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
             alertDialog.setMessage(message);
@@ -115,8 +116,8 @@ public class CustomAlertDialog {
                     }
                 });
             }
-            AlertDialog dialog = alertDialog.create();
-            dialog.show();
+            alertDialog.create();
+            alertDialog.show();
         }
     }
 }

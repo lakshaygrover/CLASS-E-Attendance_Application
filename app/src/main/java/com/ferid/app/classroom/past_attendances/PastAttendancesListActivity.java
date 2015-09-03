@@ -184,8 +184,9 @@ public class PastAttendancesListActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean isSuccessful) {
-            if (isSuccessful)
+            if (isSuccessful) {
                 new SelectAttendances().execute();
+            }
         }
     }
 
@@ -204,8 +205,9 @@ public class PastAttendancesListActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean isSuccessful) {
-            if (isSuccessful)
+            if (isSuccessful) {
                 new SelectAttendances().execute();
+            }
         }
     }
 

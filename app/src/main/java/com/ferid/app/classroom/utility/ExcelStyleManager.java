@@ -27,43 +27,54 @@ import org.apache.poi.ss.usermodel.IndexedColors;
  */
 public class ExcelStyleManager {
 
+    private static volatile HSSFCellStyle cellStyleHeader;
+    private static volatile HSSFCellStyle cellStyleContent;
+
+    public ExcelStyleManager() {
+        cellStyleHeader = null;
+        cellStyleContent = null;
+    }
+
+    /**
+     * Get header cell style
+     * @param wb
+     * @return
+     */
+    private static HSSFCellStyle getHeaderCellStyleInstance(HSSFWorkbook wb) {
+        if (cellStyleHeader == null) {
+            synchronized (ExcelStyleManager.class) {
+                if (cellStyleHeader == null) {
+                    cellStyleHeader = wb.createCellStyle();
+                }
+            }
+        }
+
+        return cellStyleHeader;
+    }
+
+    /**
+     * Get content cell style
+     * @param wb
+     * @return
+     */
+    private static HSSFCellStyle getContentCellStyleInstance(HSSFWorkbook wb) {
+        if (cellStyleContent == null) {
+            synchronized (ExcelStyleManager.class) {
+                if (cellStyleContent == null) {
+                    cellStyleContent = wb.createCellStyle();
+                }
+            }
+        }
+
+        return cellStyleContent;
+    }
+
     /**
      * Header cell style (dates)
      * @return HSSFCellStyle
      */
     public static HSSFCellStyle getHeaderCellStyle(HSSFWorkbook wb) {
-        HSSFCellStyle cellStyle = wb.createCellStyle();
-
-        cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-
-        Font font = wb.createFont();
-        font.setFontHeightInPoints((short) 8);
-        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
-        cellStyle.setFont(font);
-
-        cellStyle.setWrapText(true);
-
-        cellStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
-        cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-
-        cellStyle.setBorderRight(CellStyle.BORDER_THIN);
-        cellStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());
-        cellStyle.setBorderBottom(CellStyle.BORDER_THIN);
-        cellStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());
-        cellStyle.setBorderLeft(CellStyle.BORDER_THIN);
-        cellStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());
-        cellStyle.setBorderTop(CellStyle.BORDER_THIN);
-        cellStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());
-
-        return cellStyle;
-    }
-
-    /**
-     * Left column cell style (students)
-     * @return HSSFCellStyle
-     */
-    public static HSSFCellStyle getLeftColumnCellStyle(HSSFWorkbook wb) {
-        HSSFCellStyle cellStyle = wb.createCellStyle();
+        HSSFCellStyle cellStyle = getHeaderCellStyleInstance(wb);
 
         cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
@@ -94,7 +105,7 @@ public class ExcelStyleManager {
      * @return HSSFCellStyle
      */
     public static HSSFCellStyle getContentCellStyle(HSSFWorkbook wb) {
-        HSSFCellStyle cellStyle = wb.createCellStyle();
+        HSSFCellStyle cellStyle = getContentCellStyleInstance(wb);
 
         cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 

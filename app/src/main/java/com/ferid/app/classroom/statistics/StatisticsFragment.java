@@ -26,9 +26,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -118,7 +115,6 @@ public class StatisticsFragment extends Fragment {
 
         new SelectClassrooms().execute();
 
-        setHasOptionsMenu(true);
 
         return rootView;
     }
@@ -202,7 +198,7 @@ public class StatisticsFragment extends Fragment {
         }
     }
 
-    private void getDataForExcel() {
+    public void getDataForExcel() {
         new SelectForExcel().execute();
     }
 
@@ -213,6 +209,8 @@ public class StatisticsFragment extends Fragment {
         int length = classroomArrayList.size();
 
         HSSFWorkbook wb = new HSSFWorkbook();
+        ExcelStyleManager excelStyleManager = new ExcelStyleManager();
+
         for (int i = 0; i < length; i++) {
             Classroom classroom = classroomArrayList.get(i);
 
@@ -232,7 +230,7 @@ public class StatisticsFragment extends Fragment {
                         && !dates.contains(attendance.getDateTime())) {
 
                     HSSFCell cellDate = row.createCell(colNumber);
-                    cellDate.setCellStyle(ExcelStyleManager.getHeaderCellStyle(wb));
+                    cellDate.setCellStyle(excelStyleManager.getHeaderCellStyle(wb));
 
                     cellDate.setCellValue(attendance.getDateTime());
 
@@ -255,7 +253,7 @@ public class StatisticsFragment extends Fragment {
                         row = sheet.createRow(rowNumber);
 
                         HSSFCell cellStudent = row.createCell(0);
-                        cellStudent.setCellStyle(ExcelStyleManager.getLeftColumnCellStyle(wb));
+                        cellStudent.setCellStyle(excelStyleManager.getHeaderCellStyle(wb));
 
                         cellStudent.setCellValue(attendance.getStudentName());
 
@@ -280,7 +278,7 @@ public class StatisticsFragment extends Fragment {
                     row = sheet.getRow(rowNumber);
 
                     HSSFCell cellPresence = row.createCell(colNumber);
-                    cellPresence.setCellStyle(ExcelStyleManager.getContentCellStyle(wb));
+                    cellPresence.setCellStyle(excelStyleManager.getContentCellStyle(wb));
 
                     cellPresence.setCellValue(attendance.getPresent());
                 }
@@ -334,24 +332,5 @@ public class StatisticsFragment extends Fragment {
         intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.takeAttendance));
         intent.putExtra(Intent.EXTRA_STREAM, attachment);
         startActivity(intent);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_publish, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.publish:
-                getDataForExcel();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }
