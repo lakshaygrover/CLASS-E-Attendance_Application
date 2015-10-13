@@ -9,4 +9,5 @@
     android:layout_marginBottom="@dimen/floating_action_button_margin"
     app:elevation="@dimen/elevation"
     app:borderWidth="0dp"
+    app:fabSize="normal"
     android:visibility="gone"/>

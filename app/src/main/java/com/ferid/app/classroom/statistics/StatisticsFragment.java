@@ -67,7 +67,7 @@ public class StatisticsFragment extends Fragment {
     private ClassroomAdapter classroomAdapter;
 
     //excel
-    private final String FILE_NAME = "/attendances.xls";
+    private final String FILE_NAME = "attendances.xls";
     private ArrayList<Attendance> attendanceArrayList = new ArrayList<Attendance>();
 
 
