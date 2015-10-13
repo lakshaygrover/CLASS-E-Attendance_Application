@@ -42,7 +42,8 @@ import com.ferid.app.classroom.model.Classroom;
 import java.util.ArrayList;
 
 /**
- * Created by ferid.cafer on 4/16/2015.
+ * Created by ferid.cafer on 4/16/2015.<br />
+ * Shows the list of past attendances.
  */
 public class PastAttendancesListActivity extends AppCompatActivity {
     private Context context;

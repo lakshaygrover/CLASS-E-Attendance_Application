@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                floatingActionButton.setImageResource(R.drawable.ic_action_publish);
+                floatingActionButton.setImageResource(R.drawable.ic_action_document);
                 floatingActionButton.show();
             }
         });

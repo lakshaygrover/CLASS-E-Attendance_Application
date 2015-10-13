@@ -43,7 +43,8 @@ import com.ferid.app.classroom.model.Classroom;
 import java.util.ArrayList;
 
 /**
- * Created by ferid.cafer on 4/15/2015.
+ * Created by ferid.cafer on 4/15/2015.<br />
+ * Adds and remove classes.
  */
 public class EditClassroomFragment extends Fragment {
     private Context context;

@@ -5,4 +5,9 @@
         <item>@string/takeAttendance</item>
         <item>@string/statistics</item>
     </string-array>
+
+    <string-array name="excel">
+        <item>@string/openFile</item>
+        <item>@string/sendMail</item>
+    </string-array>
 </resources>

@@ -16,10 +16,10 @@
 
 package com.ferid.app.classroom.material_dialog;
 
-import android.app.AlertDialog;
+
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Build;
+import android.support.v7.app.AlertDialog;
 
 import com.ferid.app.classroom.interfaces.OnClick;
 
@@ -79,45 +79,27 @@ public class CustomAlertDialog {
      * Show relevant dialog
      */
     public void showDialog() {
-        if (Build.VERSION.SDK_INT < 21) {
-            final MaterialDialog materialDialog = new MaterialDialog(context);
-            materialDialog.setContent(message);
-            materialDialog.setPositiveButton(positiveButtonText);
-            if (negativeButtonText != null && !negativeButtonText.equals("")) {
-                materialDialog.setNegativeButton(negativeButtonText);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        //message
+        builder.setMessage(message);
+        //positive button
+        builder.setPositiveButton(positiveButtonText, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (onClick != null) onClick.OnPositive();
             }
-            materialDialog.setOnClickListener(new OnClick() {
+        });
+        //negative button
+        if (negativeButtonText != null && !negativeButtonText.equals("")) {
+            builder.setNegativeButton(negativeButtonText, new DialogInterface.OnClickListener() {
                 @Override
-                public void OnPositive() {
-                    if (onClick != null) onClick.OnPositive();
-                }
-
-                @Override
-                public void OnNegative() {
+                public void onClick(DialogInterface dialog, int which) {
                     if (onClick != null) onClick.OnNegative();
                 }
             });
-            materialDialog.show();
-
-        } else {
-            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-            alertDialog.setMessage(message);
-            alertDialog.setPositiveButton(positiveButtonText, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (onClick != null) onClick.OnPositive();
-                }
-            });
-            if (negativeButtonText != null && !negativeButtonText.equals("")) {
-                alertDialog.setNegativeButton(negativeButtonText, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (onClick != null) onClick.OnNegative();
-                    }
-                });
-            }
-            alertDialog.create();
-            alertDialog.show();
         }
+        //create and show
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

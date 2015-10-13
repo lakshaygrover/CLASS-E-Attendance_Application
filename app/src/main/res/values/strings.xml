@@ -38,4 +38,10 @@
     <string name="rateApp">Would you support the application with 5 stars, please?</string>
 
     <string name="shareText">Share with</string>
+
+    <string name="whatToDoWithExcel">Excel File</string>
+    <string name="openFile">Open File</string>
+    <string name="sendMail">Send Mail</string>
+    <string name="excelError">Excel file related error</string>
+    <string name="takeAttendanceBeforeExcel">Take attendance before Excel</string>
 </resources>

@@ -48,7 +48,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by ferid.cafer on 4/16/2015.
+ * Created by ferid.cafer on 4/16/2015.<br />
+ * Alters a past attendance.
  */
 public class PastAttendanceActivity extends AppCompatActivity implements BackNavigationListener {
     private Context context;

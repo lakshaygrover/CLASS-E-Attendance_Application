@@ -30,6 +30,13 @@
         android:textAllCaps="true"
         android:text="@string/emptyMessageStatistics"/>
 
+    <View
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drop_shadow_height"
+        android:background="@drawable/drop_shadow"
+        android:alpha="0.5" />
+
     <LinearLayout
         android:id="@+id/graphLayout"
         android:orientation="vertical"
@@ -41,6 +48,7 @@
         android:visibility="gone">
 
         <RelativeLayout
+            android:id="@+id/customToolbar"
             android:layout_height="48dp"
             android:layout_width="match_parent"
             android:background="@color/colourAccent">

@@ -36,11 +36,10 @@
         android:textAllCaps="true"/>
 
     <View
-        android:id="@+id/shadow"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="@dimen/drop_shadow_height"
         android:background="@drawable/drop_shadow"
-        android:alpha="0.5"/>
+        android:alpha="0.5" />
 
 </RelativeLayout>

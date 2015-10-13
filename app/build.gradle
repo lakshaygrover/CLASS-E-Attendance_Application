@@ -8,8 +8,8 @@ android {
         applicationId "com.ferid.app.classroom"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 13
-        versionName "2.4.0"
+        versionCode 14
+        versionName "2.5.0"
     }
     buildTypes {
         release {
@@ -25,6 +25,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
     //support lib
     compile 'com.android.support:appcompat-v7:22.2.1'
 
@@ -32,7 +33,7 @@ dependencies {
     compile 'com.android.support:design:22.2.1'
 
     //excel
-    compile 'org.apache.poi:poi:3.12'
+    compile 'org.apache.poi:poi:3.13'
 
     //graph
     compile 'com.jjoe64:graphview:4.0.1'

@@ -22,7 +22,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -40,6 +39,7 @@ import com.ferid.app.classroom.adapters.StatisticsAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
 import com.ferid.app.classroom.model.Attendance;
 import com.ferid.app.classroom.model.Classroom;
+import com.ferid.app.classroom.utility.DirectoryUtility;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -47,13 +47,13 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by ferid.cafer on 4/20/2015.
+ * Created by ferid.cafer on 4/20/2015.<br />
+ * Shows the student attendance rate and graph.
  */
 public class StudentsListActivity extends AppCompatActivity {
 
@@ -75,7 +75,8 @@ public class StudentsListActivity extends AppCompatActivity {
     //share graph icon
     private ImageView shareGraphIcon;
     //graph file name (out of screen shot)
-    private final String PATH_GRAPH = Environment.getExternalStorageDirectory() + "/graph.png";
+    private final String FILE_NAME = "graph.png";
+
 
 
     @Override
@@ -175,6 +176,10 @@ public class StudentsListActivity extends AppCompatActivity {
      * @return
      */
     private Bitmap takeScreenShot() {
+        //invalidate the layout, otherwise it will give the older screenshot
+        //if taken more than once
+        graphLayout.invalidate();
+
         View rootView = graphLayout;
         rootView.setDrawingCacheEnabled(true);
         return rootView.getDrawingCache();
@@ -185,13 +190,14 @@ public class StudentsListActivity extends AppCompatActivity {
      * @param bitmap Bitmap
      */
     public void saveBitmap(Bitmap bitmap) {
-        File imagePath = new File(PATH_GRAPH);
+        DirectoryUtility.createDirectory();
+
+        File imagePath = new File(DirectoryUtility.getPathFolder() + FILE_NAME);
         FileOutputStream fos = null;
+
         try {
             fos = new FileOutputStream(imagePath);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -211,9 +217,12 @@ public class StudentsListActivity extends AppCompatActivity {
      */
     private void shareInMedia() {
         Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("plain/text");
+        share.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+        share.putExtra(Intent.EXTRA_TEXT, getString(R.string.takeAttendance));
         share.setType("image/png");
         share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///"
-                + PATH_GRAPH));
+                + DirectoryUtility.getPathFolder() + FILE_NAME));
         startActivity(Intent.createChooser(share, getString(R.string.shareText)));
     }
 

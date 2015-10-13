@@ -40,7 +40,8 @@ import com.ferid.app.classroom.model.Classroom;
 import java.util.ArrayList;
 
 /**
- * Created by ferid.cafer on 4/15/2015.
+ * Created by ferid.cafer on 4/15/2015.<br />
+ * Shows classes to choose to take an attendance.
  */
 public class TakeAttendanceFragment extends Fragment {
     private Context context;

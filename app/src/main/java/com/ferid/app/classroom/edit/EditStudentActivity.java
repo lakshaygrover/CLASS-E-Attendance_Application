@@ -43,7 +43,8 @@ import com.ferid.app.classroom.model.Student;
 import java.util.ArrayList;
 
 /**
- * Created by ferid.cafer on 4/15/2015.
+ * Created by ferid.cafer on 4/15/2015.<br />
+ * Adds and removes students.
  */
 public class EditStudentActivity extends AppCompatActivity {
     private Context context;

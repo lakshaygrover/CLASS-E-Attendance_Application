@@ -16,15 +16,18 @@
 
 package com.ferid.app.classroom.statistics;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +40,7 @@ import com.ferid.app.classroom.adapters.ClassroomAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
 import com.ferid.app.classroom.model.Attendance;
 import com.ferid.app.classroom.model.Classroom;
+import com.ferid.app.classroom.utility.DirectoryUtility;
 import com.ferid.app.classroom.utility.ExcelStyleManager;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -51,7 +55,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by ferid.cafer on 4/20/2015.
+ * Created by ferid.cafer on 4/20/2015.<br />
+ * Prepares statistical data and excel file.
  */
 public class StatisticsFragment extends Fragment {
     private Context context;
@@ -62,8 +67,6 @@ public class StatisticsFragment extends Fragment {
     private ClassroomAdapter classroomAdapter;
 
     //excel
-    private final String PATH_FOLDER = Environment.getExternalStorageDirectory()
-            + "/attendance_taker/";
     private final String FILE_NAME = "/attendances.xls";
     private ArrayList<Attendance> attendanceArrayList = new ArrayList<Attendance>();
 
@@ -190,10 +193,14 @@ public class StatisticsFragment extends Fragment {
         protected void onPostExecute(ArrayList<Attendance> tmpList) {
             attendanceArrayList.clear();
 
-            if (tmpList != null) {
+            if (tmpList != null && !tmpList.isEmpty()) {
                 attendanceArrayList.addAll(tmpList);
 
                 convertToExcel();
+            } else {
+                swipeRefreshLayout.setRefreshing(false);
+
+                excelFileError(getString(R.string.takeAttendanceBeforeExcel));
             }
         }
     }
@@ -295,42 +302,108 @@ public class StatisticsFragment extends Fragment {
      * @param wb
      */
     private void writeIntoFile(HSSFWorkbook wb) {
-        FileOutputStream fileOut = null;
-        try {
-            // Output stream
-            // create a File object for the parent directory
-            File directory = new File(PATH_FOLDER);
-            // have the object build the directory structure, if needed.
-            directory.mkdirs();
+        boolean isFileOperationSuccessful = true;
 
-            fileOut = new FileOutputStream(PATH_FOLDER + FILE_NAME);
+        FileOutputStream fileOut = null;
+
+        DirectoryUtility.createDirectory();
+
+        try {
+            fileOut = new FileOutputStream(DirectoryUtility.getPathFolder() + FILE_NAME);
             wb.write(fileOut);
         } catch (IOException e) {
-            e.printStackTrace();
+            isFileOperationSuccessful = false;
         } finally {
             if (fileOut != null) {
                 try {
                     fileOut.flush();
                     fileOut.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    isFileOperationSuccessful = false;
                 }
             }
         }
 
-        sendMail();
+        //if file is successfully created and closed
+        //show list dialog, otherwise display error
+        if (isFileOperationSuccessful) {
+            showDialogForAction();
+        } else {
+            excelFileError(getString(R.string.excelError));
+        }
     }
 
     /**
-     * Share info through social media
+     * What to do, open file or send mail
      */
-    private void sendMail() {
+    private void showDialogForAction() {
+        //list dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.whatToDoWithExcel)
+                .setItems(R.array.excel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                openExcelFile();
+                                break;
+                            case 1:
+                                sendExcelByMail();
+                                break;
+                        }
+                    }
+                });
+        //create and show
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    /**
+     * Send excel file by mail
+     */
+    private void sendExcelByMail() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("plain/text");
-        Uri attachment = Uri.parse("file:///" + PATH_FOLDER + FILE_NAME);
+        Uri attachment = Uri.parse("file:///" + DirectoryUtility.getPathFolder() + FILE_NAME);
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
         intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.takeAttendance));
         intent.putExtra(Intent.EXTRA_STREAM, attachment);
-        startActivity(intent);
+        startActivityForExcel(intent);
+    }
+
+    /**
+     * Open and show the created excel file
+     */
+    private void openExcelFile() {
+        File file = new File(DirectoryUtility.getPathFolder() + FILE_NAME);
+
+        if (file.exists()) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.fromFile(file), "application/vnd.ms-excel");
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivityForExcel(intent);
+        } else {
+            excelFileError(getString(R.string.excelError));
+        }
+    }
+
+    /**
+     * Start activity either to open or to send mail the excel file
+     * @param intent Intent
+     */
+    private void startActivityForExcel(Intent intent) {
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            excelFileError(getString(R.string.excelError));
+        }
+    }
+
+    /**
+     * Excel related error
+     * @param errorMessage String
+     */
+    private void excelFileError(String errorMessage) {
+        Snackbar.make(list, errorMessage,
+                Snackbar.LENGTH_LONG).show();
     }
 }
