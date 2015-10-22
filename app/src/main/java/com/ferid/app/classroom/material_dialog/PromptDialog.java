@@ -118,8 +118,8 @@ public class PromptDialog extends Dialog {
      * @return Boolean
      */
     private boolean isAlphanumeric(String s){
-        String pattern= "^[a-zA-Z0-9\\s]*$";
-        if(s.matches(pattern)){
+        String pattern = "^[a-zA-Z0-9\\s]*$";
+        if (s.matches(pattern)) {
             return true;
         }
         return false;

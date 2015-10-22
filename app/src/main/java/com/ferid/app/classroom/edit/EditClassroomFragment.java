@@ -44,7 +44,7 @@ import java.util.ArrayList;
 
 /**
  * Created by ferid.cafer on 4/15/2015.<br />
- * Adds and remove classes.
+ * Adds and removes classes.
  */
 public class EditClassroomFragment extends Fragment {
     private Context context;
