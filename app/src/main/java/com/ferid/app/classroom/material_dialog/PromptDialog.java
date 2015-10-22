@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
+import com.ferid.app.classroom.interfaces.OnClick;
 import com.ferid.app.classroom.interfaces.OnPrompt;
 
 /**
@@ -86,8 +87,15 @@ public class PromptDialog extends Dialog {
     }
 
     private void promptPositive() {
-        if (onPrompt != null)
-            onPrompt.OnPrompt(content.getText().toString());
+        String input = content.getText().toString();
+
+        if (isAlphanumeric(input)) {
+            if (onPrompt != null) {
+                onPrompt.OnPrompt(input);
+            }
+        } else {
+            showInvalidInputAlert();
+        }
     }
 
     /**
@@ -99,8 +107,47 @@ public class PromptDialog extends Dialog {
 
     @Override
     public void show() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
         super.show();
+    }
+
+    /**
+     * Validate if the input is alphanumeric
+     * @param s String
+     * @return Boolean
+     */
+    private boolean isAlphanumeric(String s){
+        String pattern= "^[a-zA-Z0-9\\s]*$";
+        if(s.matches(pattern)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Show alert to warn to enter only alphanumeric characters
+     */
+    private void showInvalidInputAlert() {
+        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
+        customAlertDialog.setMessage(context.getString(R.string.enterAlphanumeric));
+        customAlertDialog.setPositiveButtonText(context.getString(R.string.ok));
+        customAlertDialog.setOnClickListener(new OnClick() {
+            @Override
+            public void OnPositive() {
+                //show input dialog
+                show();
+            }
+
+            @Override
+            public void OnNegative() {
+                //do nothing
+            }
+        });
+
+        //hide input dialog
+        hide();
+        //show alert dialog
+        customAlertDialog.showDialog();
     }
 }

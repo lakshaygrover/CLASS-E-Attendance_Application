@@ -21,7 +21,7 @@ import android.os.Environment;
 import java.io.File;
 
 /**
- * Created by vito on 10/12/2015.
+ * Created by ferid.cafer on 10/12/2015.
  */
 public class DirectoryUtility {
     //application's folder path

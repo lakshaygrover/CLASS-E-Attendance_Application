@@ -7,6 +7,7 @@
     <string name="pastAttendances">Past Attendances</string>
 
     <string name="classroomName">Classroom Name</string>
+    <string name="studentName">Student Name</string>
 
     <string name="attendance">Attendance</string>
     <string name="taker">Taker</string>
@@ -14,6 +15,8 @@
     <string name="ok">OK</string>
     <string name="delete">DELETE</string>
     <string name="cancel">CANCEL</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
 
     <string name="deleteAll">Delete All</string>
     <string name="sureToDelete">&#160;will be deleted</string>
@@ -21,11 +24,7 @@
     <string name="saved">Saved</string>
     <string name="allToDelete">All attendances of this class will be deleted</string>
     <string name="changeDateTime">Change Date and Time</string>
-
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
-
-    <string name="studentName">Student Name</string>
+    <string name="enterAlphanumeric">Enter only alphanumeric characters</string>
 
     <string name="emptyMessageClassroom">Add classrooms and students, then pull to refresh&#8230;</string>
     <string name="emptyMessageStudent">Add with plus icon; press long on item to delete&#8230;</string>
