@@ -29,7 +29,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -71,12 +71,11 @@ public class StudentsListActivity extends AppCompatActivity {
     private Attendance attendance;
     private ArrayList<Attendance> graphList;
     //close graph icon
-    private ImageView closeGraphIcon;
+    private ImageButton closeGraphIcon;
     //share graph icon
-    private ImageView shareGraphIcon;
+    private ImageButton shareGraphIcon;
     //graph file name (out of screen shot)
     private final String FILE_NAME = "graph.png";
-
 
 
     @Override
@@ -95,11 +94,13 @@ public class StudentsListActivity extends AppCompatActivity {
         setToolbar();
 
         //graph
+        graphList = new ArrayList<Attendance>();
         graphLayout = (LinearLayout) findViewById(R.id.graphLayout);
         graph = (GraphView) findViewById(R.id.graph);
-        closeGraphIcon = (ImageView) findViewById(R.id.closeGraphIcon);
-        shareGraphIcon = (ImageView) findViewById(R.id.shareGraphIcon);
-        graphList = new ArrayList<Attendance>();
+        closeGraphIcon = (ImageButton) findViewById(R.id.closeGraphIcon);
+        shareGraphIcon = (ImageButton) findViewById(R.id.shareGraphIcon);
+        TextView className = (TextView) findViewById(R.id.className);
+        className.setText(classroom.getName());
 
         //list
         list = (ListView) findViewById(R.id.list);

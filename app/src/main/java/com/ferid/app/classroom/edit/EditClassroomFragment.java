@@ -161,6 +161,7 @@ public class EditClassroomFragment extends Fragment {
         promptDialog.setTitle(getString(R.string.classroomName));
         promptDialog.setPositiveButton(getString(R.string.ok));
         promptDialog.setAllCaps();
+        promptDialog.setValidateAlphanumeric();
         promptDialog.setOnPositiveClickListener(new OnPrompt() {
             @Override
             public void OnPrompt(String promptText) {

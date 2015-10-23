@@ -44,6 +44,8 @@ public class PromptDialog extends Dialog {
 
     private OnPrompt onPrompt;
 
+    private boolean validateAlphanumeric;
+
     public PromptDialog(Context context__) {
         super(context__);
         setContentView(R.layout.prompt_dialog);
@@ -51,6 +53,8 @@ public class PromptDialog extends Dialog {
         context = context__;
 
         getWindow().setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.transparent)));
+
+        validateAlphanumeric = false;
 
         title = (TextView) findViewById(R.id.title);
         content = (EditText) findViewById(R.id.content);
@@ -68,10 +72,18 @@ public class PromptDialog extends Dialog {
         });
     }
 
+    /**
+     * Set title
+     * @param value String
+     */
     public void setTitle(String value) {
         title.setText(value);
     }
 
+    /**
+     * Set positive button
+     * @param value String
+     */
     public void setPositiveButton(String value) {
         positiveButton.setText(value);
         positiveButton.setOnClickListener(new View.OnClickListener() {
@@ -82,19 +94,38 @@ public class PromptDialog extends Dialog {
         });
     }
 
+    /**
+     * Positive button click listener
+     * @param onPrompt OnPrompt
+     */
     public void setOnPositiveClickListener(OnPrompt onPrompt) {
         this.onPrompt = onPrompt;
     }
 
+    /**
+     * Check validation, then prompt as positive
+     */
     private void promptPositive() {
         String input = content.getText().toString();
 
-        if (isAlphanumeric(input)) {
-            if (onPrompt != null) {
-                onPrompt.OnPrompt(input);
+        if (isValidateAlphanumeric()) {
+            if (isAlphanumeric(input)) {
+                promptPositive(input);
+            } else {
+                showInvalidInputAlert();
             }
         } else {
-            showInvalidInputAlert();
+            promptPositive(input);
+        }
+    }
+
+    /**
+     * Directly prompt as positive
+     * @param input String
+     */
+    private void promptPositive(String input) {
+        if (onPrompt != null) {
+            onPrompt.OnPrompt(input);
         }
     }
 
@@ -149,5 +180,20 @@ public class PromptDialog extends Dialog {
         hide();
         //show alert dialog
         customAlertDialog.showDialog();
+    }
+
+    /**
+     * Is alphanumeric validation needed
+     * @return Boolean
+     */
+    public boolean isValidateAlphanumeric() {
+        return validateAlphanumeric;
+    }
+
+    /**
+     * Make alphanumeric validation
+     */
+    public void setValidateAlphanumeric() {
+        this.validateAlphanumeric = true;
     }
 }

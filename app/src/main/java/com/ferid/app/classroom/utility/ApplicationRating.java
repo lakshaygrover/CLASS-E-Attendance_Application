@@ -33,8 +33,8 @@ public class ApplicationRating {
     private static SharedPreferences prefs;
 
     private static int beforeRatingViewingNumber = 0; //0 beginning, -1 never show
-    private static final int frequency = 40; //usage frequency
-    //after ... many times of usage the use will be prompted to rate the application
+    private static final int frequency = 30; //usage frequency
+    //after ... many times of usage the user will be prompted to rate the application
 
     /**
      * Manages when to prompt user
