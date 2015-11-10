@@ -29,6 +29,18 @@ public class DirectoryUtility {
             + "/attendance_taker/";
 
     /**
+     * Checks if external storage is available for read and write
+     * @return
+     */
+    public static boolean isExternalStorageMounted() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Create directory for the application's use
      */
     public static void createDirectory() {

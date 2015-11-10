@@ -33,6 +33,7 @@
     <string name="emptyMessageStatistics">Take attendance, then press on item here to see graph&#8230;</string>
 
     <string name="couldNotInsertAttendance">Already exists! Check Past Attendances.</string>
+    <string name="couldNotInsertClassroom">This class already exists!</string>
 
     <string name="rateApp">Would you support the application with 5 stars, please?</string>
 

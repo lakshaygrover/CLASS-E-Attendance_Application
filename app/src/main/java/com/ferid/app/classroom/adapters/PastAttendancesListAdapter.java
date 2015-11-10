@@ -70,7 +70,7 @@ public class PastAttendancesListAdapter extends ArrayAdapter<Attendance> {
         return convertView;
     }
 
-    public class ViewHolder {
+    private static class ViewHolder {
         TextView counter;
         TextView text;
     }

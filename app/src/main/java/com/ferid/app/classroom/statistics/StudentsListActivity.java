@@ -191,23 +191,26 @@ public class StudentsListActivity extends AppCompatActivity {
      * @param bitmap Bitmap
      */
     public void saveBitmap(Bitmap bitmap) {
-        DirectoryUtility.createDirectory();
+        if (DirectoryUtility.isExternalStorageMounted()) {
 
-        File imagePath = new File(DirectoryUtility.getPathFolder() + FILE_NAME);
-        FileOutputStream fos = null;
+            DirectoryUtility.createDirectory();
 
-        try {
-            fos = new FileOutputStream(imagePath);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.flush();
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            File imagePath = new File(DirectoryUtility.getPathFolder() + FILE_NAME);
+            FileOutputStream fos = null;
+
+            try {
+                fos = new FileOutputStream(imagePath);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (fos != null) {
+                    try {
+                        fos.flush();
+                        fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -217,14 +220,17 @@ public class StudentsListActivity extends AppCompatActivity {
      * Share screenshot of the graph through social media
      */
     private void shareInMedia() {
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("plain/text");
-        share.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
-        share.putExtra(Intent.EXTRA_TEXT, getString(R.string.takeAttendance));
-        share.setType("image/png");
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///"
-                + DirectoryUtility.getPathFolder() + FILE_NAME));
-        startActivity(Intent.createChooser(share, getString(R.string.shareText)));
+        if (DirectoryUtility.isExternalStorageMounted()) {
+
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("plain/text");
+            share.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+            share.putExtra(Intent.EXTRA_TEXT, getString(R.string.takeAttendance));
+            share.setType("image/png");
+            share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///"
+                    + DirectoryUtility.getPathFolder() + FILE_NAME));
+            startActivity(Intent.createChooser(share, getString(R.string.shareText)));
+        }
     }
 
     /**

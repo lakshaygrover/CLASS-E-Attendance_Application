@@ -74,7 +74,7 @@ public class ClassroomAdapter extends ArrayAdapter<Classroom> {
         return convertView;
     }
 
-    public class ViewHolder {
+    private static class ViewHolder {
         TextView text;
         TextView counter;
     }

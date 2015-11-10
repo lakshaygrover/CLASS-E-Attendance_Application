@@ -69,14 +69,15 @@ public class StatisticsAdapter extends ArrayAdapter<Attendance> {
         viewHolder.key.setText(item.getStudentName());
         viewHolder.value.setText(String.valueOf(item.getPresencePercentage()) + "%");
 
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)viewHolder.valueView.getLayoutParams();
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
+                viewHolder.valueView.getLayoutParams();
         layoutParams.weight = item.getPresencePercentage() / 100f;
         viewHolder.valueView.setLayoutParams(layoutParams);
 
         return convertView;
     }
 
-    public class ViewHolder {
+    private static class ViewHolder {
         TextView key;
         TextView value;
         View valueView;

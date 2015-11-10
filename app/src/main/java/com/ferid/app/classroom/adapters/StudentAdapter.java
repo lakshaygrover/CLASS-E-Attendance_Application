@@ -70,7 +70,7 @@ public class StudentAdapter extends ArrayAdapter<Student> {
         return convertView;
     }
 
-    public class ViewHolder {
+    private static class ViewHolder {
         TextView counter;
         TextView text;
     }

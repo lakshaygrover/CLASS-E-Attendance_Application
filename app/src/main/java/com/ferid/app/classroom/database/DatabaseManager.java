@@ -192,7 +192,11 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public boolean deleteClassroom(int classroomId) {
         String classroom_id = String.valueOf(classroomId);
 
+        //delete attendances of the classroom
         deleteAttendanceRowsForClassroom(classroom_id);
+        //delete students of the classroom
+        deleteStudentsOfClassroom(classroom_id);
+        //delete related classroom-student rows
         deleteClassroomStudentRowsForClassroom(classroom_id);
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -229,6 +233,21 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete("classroomStudent", "classroom_id = ?",
+                new String[]{classroom_id});
+
+        db.close();
+    }
+
+    /**
+     * Delete students assigned to the given classroom
+     * @param classroom_id
+     */
+    private void deleteStudentsOfClassroom(String classroom_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete("student", "id = " +
+                        "(SELECT student_id FROM classroomStudent " +
+                        "WHERE classroom_id = ?)",
                 new String[]{classroom_id});
 
         db.close();
@@ -338,7 +357,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         String student_id = String.valueOf(studentId);
         String classroom_id = String.valueOf(classroomId);
 
+        //delete attendances of the student
         deleteAttendanceRowsForStudent(student_id, classroom_id);
+        //delete related classroom-student rows
         deleteClassroomStudentRowsForStudent(student_id, classroom_id);
 
         SQLiteDatabase db = this.getWritableDatabase();

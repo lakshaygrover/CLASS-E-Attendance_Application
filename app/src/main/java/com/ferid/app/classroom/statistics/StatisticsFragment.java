@@ -306,22 +306,27 @@ public class StatisticsFragment extends Fragment {
 
         FileOutputStream fileOut = null;
 
-        DirectoryUtility.createDirectory();
+        if (DirectoryUtility.isExternalStorageMounted()) {
 
-        try {
-            fileOut = new FileOutputStream(DirectoryUtility.getPathFolder() + FILE_NAME);
-            wb.write(fileOut);
-        } catch (IOException e) {
-            isFileOperationSuccessful = false;
-        } finally {
-            if (fileOut != null) {
-                try {
-                    fileOut.flush();
-                    fileOut.close();
-                } catch (IOException e) {
-                    isFileOperationSuccessful = false;
+            DirectoryUtility.createDirectory();
+
+            try {
+                fileOut = new FileOutputStream(DirectoryUtility.getPathFolder() + FILE_NAME);
+                wb.write(fileOut);
+            } catch (IOException e) {
+                isFileOperationSuccessful = false;
+            } finally {
+                if (fileOut != null) {
+                    try {
+                        fileOut.flush();
+                        fileOut.close();
+                    } catch (IOException e) {
+                        isFileOperationSuccessful = false;
+                    }
                 }
             }
+        } else { //external storage is not available
+            isFileOperationSuccessful = false;
         }
 
         //if file is successfully created and closed
@@ -361,26 +366,40 @@ public class StatisticsFragment extends Fragment {
      * Send excel file by mail
      */
     private void sendExcelByMail() {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("plain/text");
-        Uri attachment = Uri.parse("file:///" + DirectoryUtility.getPathFolder() + FILE_NAME);
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
-        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.takeAttendance));
-        intent.putExtra(Intent.EXTRA_STREAM, attachment);
-        startActivityForExcel(intent);
+        if (DirectoryUtility.isExternalStorageMounted()) {
+
+            File file = new File(DirectoryUtility.getPathFolder() + FILE_NAME);
+
+            if (file.exists()) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("plain/text");
+                Uri attachment = Uri.fromFile(file);
+                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+                intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.takeAttendance));
+                intent.putExtra(Intent.EXTRA_STREAM, attachment);
+                startActivityForExcel(intent);
+            }
+        } else {
+            excelFileError(getString(R.string.excelError));
+        }
     }
 
     /**
      * Open and show the created excel file
      */
     private void openExcelFile() {
-        File file = new File(DirectoryUtility.getPathFolder() + FILE_NAME);
+        if (DirectoryUtility.isExternalStorageMounted()) {
 
-        if (file.exists()) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.fromFile(file), "application/vnd.ms-excel");
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivityForExcel(intent);
+            File file = new File(DirectoryUtility.getPathFolder() + FILE_NAME);
+
+            if (file.exists()) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.fromFile(file), "application/vnd.ms-excel");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivityForExcel(intent);
+            } else {
+                excelFileError(getString(R.string.excelError));
+            }
         } else {
             excelFileError(getString(R.string.excelError));
         }

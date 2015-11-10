@@ -77,7 +77,7 @@ public class AttendanceAdapter extends ArrayAdapter<Student> {
         return convertView;
     }
 
-    public class ViewHolder {
+    private static class ViewHolder {
         TextView text;
         ImageView checkBox;
     }

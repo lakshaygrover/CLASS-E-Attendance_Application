@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -165,15 +166,42 @@ public class EditClassroomFragment extends Fragment {
         promptDialog.setOnPositiveClickListener(new OnPrompt() {
             @Override
             public void OnPrompt(String promptText) {
-                promptDialog.dismiss();
-
                 closeKeyboard();
 
-                if (!promptText.toString().equals(""))
-                    new InsertClassroom().execute(promptText);
+                promptDialog.dismiss();
+
+                if (!TextUtils.isEmpty(promptText)) {
+                    if (!isAlreadyExist(promptText)) {
+                        new InsertClassroom().execute(promptText);
+                    } else {
+                        //alert
+                        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
+                        customAlertDialog.setMessage(getString(R.string.couldNotInsertClassroom));
+                        customAlertDialog.setPositiveButtonText(getString(R.string.ok));
+                        customAlertDialog.showDialog();
+                    }
+                }
             }
         });
         promptDialog.show();
+    }
+
+    /**
+     * Check if the given classroom name already exists
+     * @param classroomName
+     * @return
+     */
+    private boolean isAlreadyExist(String classroomName) {
+        boolean isAlreadyExist = false;
+
+        for (Classroom classroom : arrayList) {
+            if (classroom.getName().equals(classroomName)) {
+                isAlreadyExist = true;
+                break;
+            }
+        }
+
+        return isAlreadyExist;
     }
 
     /**

@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -168,11 +169,11 @@ public class EditStudentActivity extends AppCompatActivity {
         promptDialog.setOnPositiveClickListener(new OnPrompt() {
             @Override
             public void OnPrompt(String promptText) {
-                promptDialog.dismiss();
-
                 closeKeyboard();
 
-                if (!promptText.toString().equals("")) {
+                promptDialog.dismiss();
+
+                if (!TextUtils.isEmpty(promptText)) {
                     new InsertStudent().execute(promptText);
                 }
             }
