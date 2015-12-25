@@ -17,7 +17,6 @@
 package com.ferid.app.classroom.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Created by ferid.cafer on 4/3/2015.

@@ -263,7 +263,7 @@ public class EditStudentActivity extends AppCompatActivity {
         try {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
     }
 
     private void closeWindow() {
