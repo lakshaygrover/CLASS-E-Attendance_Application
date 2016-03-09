@@ -425,4 +425,5 @@ public class StatisticsFragment extends Fragment {
         Snackbar.make(list, errorMessage,
                 Snackbar.LENGTH_LONG).show();
     }
+
 }

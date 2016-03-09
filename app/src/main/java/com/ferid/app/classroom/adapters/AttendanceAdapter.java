@@ -67,10 +67,10 @@ public class AttendanceAdapter extends ArrayAdapter<Student> {
 
         viewHolder.text.setText(item.getName());
         if (item.isPresent()) {
-            viewHolder.checkBox.setImageResource(R.drawable.abc_btn_check_to_on_mtrl_015);
+            viewHolder.checkBox.setImageResource(R.drawable.ic_checkbox_full);
             viewHolder.checkBox.setColorFilter(context.getResources().getColor(R.color.colourAccent));
         } else {
-            viewHolder.checkBox.setImageResource(R.drawable.abc_btn_check_to_on_mtrl_000);
+            viewHolder.checkBox.setImageResource(R.drawable.ic_checkbox_empty);
             viewHolder.checkBox.setColorFilter(context.getResources().getColor(R.color.gray));
         }
 

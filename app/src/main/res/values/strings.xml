@@ -44,4 +44,6 @@
     <string name="sendMail">Send Mail</string>
     <string name="excelError">Excel file related error</string>
     <string name="takeAttendanceBeforeExcel">Take attendance before Excel</string>
+
+    <string name="grantPermission">Grant permission to create Excel</string>
 </resources>

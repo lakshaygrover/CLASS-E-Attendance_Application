@@ -35,7 +35,7 @@ import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.StudentAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
 import com.ferid.app.classroom.interfaces.OnClick;
-import com.ferid.app.classroom.interfaces.OnPrompt;
+import com.ferid.app.classroom.interfaces.PromptListener;
 import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 import com.ferid.app.classroom.material_dialog.PromptDialog;
 import com.ferid.app.classroom.model.Classroom;
@@ -166,7 +166,7 @@ public class EditStudentActivity extends AppCompatActivity {
         final PromptDialog promptDialog = new PromptDialog(context);
         promptDialog.setTitle(getString(R.string.studentName));
         promptDialog.setPositiveButton(getString(R.string.ok));
-        promptDialog.setOnPositiveClickListener(new OnPrompt() {
+        promptDialog.setOnPositiveClickListener(new PromptListener() {
             @Override
             public void OnPrompt(String promptText) {
                 closeKeyboard();

@@ -8,39 +8,28 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/default_margin"
-        android:paddingLeft="@dimen/default_margin"
-        android:paddingRight="@dimen/default_margin">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/text_size_medium"
-            android:fontFamily="@string/fontFamilyRegular"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:paddingLeft="@dimen/default_margin"
         android:paddingRight="@dimen/default_margin">
 
-        <EditText
-            android:id="@+id/content"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/inputLayoutContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/secondary_text"
-            android:textSize="@dimen/text_size_medium"
-            android:fontFamily="@string/fontFamilyRegular"
-            android:inputType="textCapWords"
-            android:imeOptions="actionDone"
-            android:singleLine="true"
-            android:maxLength="24"/>
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/text_size_medium"
+                android:fontFamily="@string/fontFamilyRegular"
+                android:inputType="textCapWords"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                android:maxLength="24"/>
+
+        </android.support.design.widget.TextInputLayout>
 
     </RelativeLayout>
 
@@ -55,9 +44,9 @@
             android:layout_height="48dp"
             android:layout_alignParentRight="true"
             android:padding="8dp"
+            style="?android:attr/borderlessButtonStyle"
             android:textSize="@dimen/text_size_small"
-            android:background="@color/transparent"
-            android:textColor="@color/darkGreen"
+            android:textColor="@color/dialogColour"
             android:textStyle="bold"
             android:fontFamily="@string/fontFamilyRegular"/>
 

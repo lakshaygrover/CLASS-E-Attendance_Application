@@ -422,7 +422,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         for (Student student : students) {
             ContentValues values = new ContentValues();
             values.put("date_time", date_time);
-            int present = student.isPresent() == true ? 1 : 0;
+            int present = student.isPresent() ? 1 : 0;
             values.put("present", present);
             values.put("classroomstudent_id", student.getClassroomStudentId());
             boolean isSuccessful = db.insert("attendance", null, values) > 0;
@@ -578,7 +578,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         for (Student student : students) {
             String attendance_id = String.valueOf(student.getAttendanceId());
-            int present = student.isPresent() == true ? 1 : 0;
+            int present = student.isPresent() ? 1 : 0;
 
             ContentValues values = new ContentValues();
             values.put("present", present);

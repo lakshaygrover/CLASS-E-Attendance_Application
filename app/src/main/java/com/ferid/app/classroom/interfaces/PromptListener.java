@@ -19,7 +19,7 @@ package com.ferid.app.classroom.interfaces;
 /**
  * Created by ferid.cafer on 4/3/2015.
  */
-public interface OnPrompt {
+public interface PromptListener {
     /**
      * On Prompt
      * @param promptText String

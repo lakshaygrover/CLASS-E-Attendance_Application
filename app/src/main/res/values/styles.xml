@@ -1,6 +1,10 @@
 <resources>
 
-    <style name="Theme.Attendance" parent="Theme.AppCompat.Light">
+    <style name="Theme.Attendance" parent="Theme.Attendance.Base">
+
+    </style>
+
+    <style name="Theme.Attendance.Base" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colourPrimary</item>
         <item name="colorPrimaryDark">@color/colourPrimaryDark</item>
         <item name="colorAccent">@color/colourAccent</item>
@@ -10,7 +14,16 @@
         <!-- components -->
         <item name="android:editTextStyle">@style/Base.Widget.AppCompat.EditText</item>
         <item name="android:spinnerStyle">@style/Base.Widget.AppCompat.Spinner</item>
-        <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+        <item name="android:dialogTheme">@style/DialogTheme</item>
+        <item name="android:alertDialogTheme">@style/AlertDialogTheme</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/dialogColour</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Base.Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/dialogColour</item>
     </style>
 
     <style name="TextView" parent="TextView">

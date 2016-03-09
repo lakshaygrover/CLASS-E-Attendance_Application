@@ -19,6 +19,7 @@ package com.ferid.app.classroom.material_dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.TextInputLayout;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
@@ -29,8 +30,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.interfaces.OnClick;
-import com.ferid.app.classroom.interfaces.OnPrompt;
+import com.ferid.app.classroom.interfaces.PromptListener;
 
 /**
  * Created by ferid.cafer on 4/3/2015.
@@ -38,13 +38,14 @@ import com.ferid.app.classroom.interfaces.OnPrompt;
 public class PromptDialog extends Dialog {
     private Context context;
 
-    private TextView title;
+    private TextInputLayout inputLayoutContent;
     private EditText content;
     private Button positiveButton;
 
-    private OnPrompt onPrompt;
+    private PromptListener promptListener;
 
-    private boolean validateAlphanumeric;
+    private boolean isAlphanumeric = false;
+    private boolean isAllCaps = false;
 
     public PromptDialog(Context context__) {
         super(context__);
@@ -54,9 +55,7 @@ public class PromptDialog extends Dialog {
 
         getWindow().setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.transparent)));
 
-        validateAlphanumeric = false;
-
-        title = (TextView) findViewById(R.id.title);
+        inputLayoutContent = (TextInputLayout) findViewById(R.id.inputLayoutContent);
         content = (EditText) findViewById(R.id.content);
         positiveButton = (Button) findViewById(R.id.positiveButton);
 
@@ -77,7 +76,9 @@ public class PromptDialog extends Dialog {
      * @param value String
      */
     public void setTitle(String value) {
-        title.setText(value);
+        if (content != null) {
+            content.setHint(value);
+        }
     }
 
     /**
@@ -96,23 +97,30 @@ public class PromptDialog extends Dialog {
 
     /**
      * Positive button click listener
-     * @param onPrompt OnPrompt
+     * @param promptListener PromptListener
      */
-    public void setOnPositiveClickListener(OnPrompt onPrompt) {
-        this.onPrompt = onPrompt;
+    public void setOnPositiveClickListener(PromptListener promptListener) {
+        this.promptListener = promptListener;
     }
 
     /**
      * Check validation, then prompt as positive
      */
     private void promptPositive() {
-        String input = content.getText().toString();
+        String input;
+        if (isAllCaps) {
+            input = content.getText().toString().toUpperCase();
+        } else {
+            input = content.getText().toString();
+        }
 
-        if (isValidateAlphanumeric()) {
-            if (isAlphanumeric(input)) {
+        if (isAlphanumeric()) {
+            if (isValidAlphanumeric(input)) {
+                inputLayoutContent.setErrorEnabled(false);
+
                 promptPositive(input);
             } else {
-                showInvalidInputAlert();
+                inputLayoutContent.setError(context.getString(R.string.enterAlphanumeric));
             }
         } else {
             promptPositive(input);
@@ -124,8 +132,8 @@ public class PromptDialog extends Dialog {
      * @param input String
      */
     private void promptPositive(String input) {
-        if (onPrompt != null) {
-            onPrompt.OnPrompt(input);
+        if (promptListener != null) {
+            promptListener.OnPrompt(input);
         }
     }
 
@@ -134,6 +142,7 @@ public class PromptDialog extends Dialog {
      */
     public void setAllCaps() {
         content.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+        isAllCaps = true;
     }
 
     @Override
@@ -148,7 +157,7 @@ public class PromptDialog extends Dialog {
      * @param s String
      * @return Boolean
      */
-    private boolean isAlphanumeric(String s){
+    private boolean isValidAlphanumeric(String s){
         String pattern = "^[a-zA-Z0-9\\s]*$";
         if (s.matches(pattern)) {
             return true;
@@ -157,43 +166,17 @@ public class PromptDialog extends Dialog {
     }
 
     /**
-     * Show alert to warn to enter only alphanumeric characters
-     */
-    private void showInvalidInputAlert() {
-        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
-        customAlertDialog.setMessage(context.getString(R.string.enterAlphanumeric));
-        customAlertDialog.setPositiveButtonText(context.getString(R.string.ok));
-        customAlertDialog.setOnClickListener(new OnClick() {
-            @Override
-            public void OnPositive() {
-                //show input dialog
-                show();
-            }
-
-            @Override
-            public void OnNegative() {
-                //do nothing
-            }
-        });
-
-        //hide input dialog
-        hide();
-        //show alert dialog
-        customAlertDialog.showDialog();
-    }
-
-    /**
      * Is alphanumeric validation needed
      * @return Boolean
      */
-    public boolean isValidateAlphanumeric() {
-        return validateAlphanumeric;
+    public boolean isAlphanumeric() {
+        return isAlphanumeric;
     }
 
     /**
-     * Make alphanumeric validation
+     * Make alphanumeric validation obliged
      */
-    public void setValidateAlphanumeric() {
-        this.validateAlphanumeric = true;
+    public void setAlphanumeric() {
+        isAlphanumeric = true;
     }
 }

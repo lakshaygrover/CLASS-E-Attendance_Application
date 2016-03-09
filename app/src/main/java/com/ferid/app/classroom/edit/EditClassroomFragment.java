@@ -36,7 +36,7 @@ import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.ClassroomAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
 import com.ferid.app.classroom.interfaces.OnClick;
-import com.ferid.app.classroom.interfaces.OnPrompt;
+import com.ferid.app.classroom.interfaces.PromptListener;
 import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 import com.ferid.app.classroom.material_dialog.PromptDialog;
 import com.ferid.app.classroom.model.Classroom;
@@ -162,8 +162,8 @@ public class EditClassroomFragment extends Fragment {
         promptDialog.setTitle(getString(R.string.classroomName));
         promptDialog.setPositiveButton(getString(R.string.ok));
         promptDialog.setAllCaps();
-        promptDialog.setValidateAlphanumeric();
-        promptDialog.setOnPositiveClickListener(new OnPrompt() {
+        promptDialog.setAlphanumeric();
+        promptDialog.setOnPositiveClickListener(new PromptListener() {
             @Override
             public void OnPrompt(String promptText) {
                 closeKeyboard();

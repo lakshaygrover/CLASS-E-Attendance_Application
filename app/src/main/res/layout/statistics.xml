@@ -61,7 +61,7 @@
                 android:layout_marginLeft="@dimen/default_margin"
                 android:layout_centerVertical="true"
                 android:background="@color/transparent"
-                android:src="@drawable/abc_ic_clear_mtrl_alpha"/>
+                android:src="@drawable/ic_action_close"/>
 
             <TextView
                 android:id="@+id/className"
@@ -80,7 +80,7 @@
                 android:layout_marginRight="@dimen/default_margin"
                 android:layout_centerVertical="true"
                 android:background="@color/transparent"
-                android:src="@drawable/abc_ic_menu_share_mtrl_alpha"/>
+                android:src="@drawable/ic_action_share"/>
 
         </RelativeLayout>
 

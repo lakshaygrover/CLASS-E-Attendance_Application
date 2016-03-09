@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
+import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.interfaces.OnClick;
 
 /**
@@ -99,7 +100,16 @@ public class CustomAlertDialog {
             });
         }
         //create and show
-        AlertDialog alertDialog = builder.create();
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                        .setTextColor(context.getResources().getColor(R.color.dialogColour));
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setTextColor(context.getResources().getColor(R.color.dialogColour));
+            }
+        });
         alertDialog.show();
     }
 }

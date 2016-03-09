@@ -9,7 +9,7 @@
     <color name="gray">#b6b6b6</color>
     <color name="transparent">#00000000</color>
     <color name="statisticsItemColour">#EDE7F6</color>
-    <color name="darkGreen">#689F38</color>
+    <color name="dialogColour">@color/colourPrimaryDark</color>
 
     <!-- material colours -->
     <color name="materialDeepPurple">#673AB7</color>
