@@ -8,8 +8,10 @@ android {
         applicationId "com.ferid.app.classroom"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 20
-        versionName "2.7.0"
+        versionCode 21
+        versionName "2.7.1"
+
+        generatedDensities = []
     }
     buildTypes {
         release {
@@ -20,6 +22,10 @@ android {
 
     compileOptions {
         encoding "UTF-8"
+    }
+
+    aaptOptions {
+        additionalParameters "--no-version-vectors"
     }
 }
 
