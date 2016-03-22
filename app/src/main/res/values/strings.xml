@@ -51,5 +51,6 @@
 
     <string name="ongoing">The process is ongoing</string>
     <string name="wait">Please Wait</string>
+    <string name="extensionWarning">Please use XLS extension</string>
 
 </resources>

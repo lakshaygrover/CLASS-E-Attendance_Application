@@ -283,7 +283,9 @@ public class EditStudentActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean isSuccessful) {
-            progressDialog.dismiss();
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
 
             if (isSuccessful) {
                 new SelectStudents().execute();
@@ -423,6 +425,15 @@ public class EditStudentActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMPORT_EXCEL) {
             if (resultCode == RESULT_OK) {
                 String filePath = data.getData().getPath();
+
+                //only xls extensions are allowed
+                if (!filePath.endsWith("xls")) {
+                    Snackbar.make(list, getString(R.string.extensionWarning),
+                            Snackbar.LENGTH_LONG).show();
+
+                    return;
+                }
+
                 if (filePath.contains(":")) {
                     String[] partFilePath = filePath.split(":");
                     if (partFilePath.length == 2) {
