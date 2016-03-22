@@ -380,14 +380,27 @@ public class EditStudentActivity extends AppCompatActivity {
             // Iterate through the cells
             Iterator rowIter = hssfSheet.rowIterator();
 
+            StringBuilder studentName; //full name
+
             while (rowIter.hasNext()) {
+                studentName = new StringBuilder("");
+
                 HSSFRow hssfRow = (HSSFRow) rowIter.next();
                 Iterator cellIter = hssfRow.cellIterator();
-                if (cellIter.hasNext()) {
+                while (cellIter.hasNext()) {
                     HSSFCell currentCell = (HSSFCell) cellIter.next();
-                    if (!currentCell.toString().equals("")) {
-                        studentsList.add(currentCell.toString());
+                    if (!currentCell.toString().trim().equals("")) {
+                        //put space in between name, surname, etc.
+                        if (studentName.toString().length() > 0) {
+                            studentName.append(" ");
+                        }
+                        studentName.append(currentCell.toString());
                     }
+                }
+
+                //add to list
+                if (!studentName.toString().equals("")) {
+                    studentsList.add(studentName.toString());
                 }
             }
         } catch (Exception e) {
