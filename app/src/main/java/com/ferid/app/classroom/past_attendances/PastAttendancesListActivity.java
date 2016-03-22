@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Ferid Cafer
+ * Copyright (C) 2016 Ferid Cafer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,7 +70,7 @@ public class PastAttendancesListActivity extends AppCompatActivity {
         setToolbar();
 
         list = (ListView) findViewById(R.id.list);
-        arrayList = new ArrayList<Attendance>();
+        arrayList = new ArrayList<>();
         adapter = new PastAttendancesListAdapter(context, R.layout.simple_text_item_small, arrayList);
         list.setAdapter(adapter);
 

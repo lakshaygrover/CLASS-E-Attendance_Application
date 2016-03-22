@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Ferid Cafer
+ * Copyright (C) 2016 Ferid Cafer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@ public class TakeAttendanceFragment extends Fragment {
         context = rootView.getContext();
 
         list = (ListView) rootView.findViewById(R.id.list);
-        arrayList = new ArrayList<Classroom>();
+        arrayList = new ArrayList<>();
         adapter = new ClassroomAdapter(context, R.layout.simple_text_item_big, arrayList);
         list.setAdapter(adapter);
 

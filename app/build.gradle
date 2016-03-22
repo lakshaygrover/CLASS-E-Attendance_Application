@@ -8,8 +8,8 @@ android {
         applicationId "com.ferid.app.classroom"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 21
-        versionName "2.7.1"
+        versionCode 22
+        versionName "2.8.0"
 
         generatedDensities = []
     }
@@ -33,10 +33,10 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     //support lib
-    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:appcompat-v7:23.2.1'
 
     //design
-    compile 'com.android.support:design:23.2.0'
+    compile 'com.android.support:design:23.2.1'
 
     //excel
     compile 'org.apache.poi:poi:3.14'

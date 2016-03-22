@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Ferid Cafer
+ * Copyright (C) 2016 Ferid Cafer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,7 +90,7 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
         setToolbar();
 
         list = (ListView) findViewById(R.id.list);
-        arrayList = new ArrayList<Student>();
+        arrayList = new ArrayList<>();
         adapter = new AttendanceAdapter(context, R.layout.checkable_text_item, arrayList);
         list.setAdapter(adapter);
 

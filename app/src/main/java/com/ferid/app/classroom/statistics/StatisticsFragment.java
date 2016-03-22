@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Ferid Cafer
+ * Copyright (C) 2016 Ferid Cafer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ public class StatisticsFragment extends Fragment {
 
     //excel
     private final String FILE_NAME = "attendances.xls";
-    private ArrayList<Attendance> attendanceArrayList = new ArrayList<Attendance>();
+    private ArrayList<Attendance> attendanceArrayList = new ArrayList<>();
 
 
     public StatisticsFragment() {}
@@ -94,7 +94,7 @@ public class StatisticsFragment extends Fragment {
         context = rootView.getContext();
 
         list = (ListView) rootView.findViewById(R.id.list);
-        classroomArrayList = new ArrayList<Classroom>();
+        classroomArrayList = new ArrayList<>();
         classroomAdapter = new ClassroomAdapter(context, R.layout.simple_text_item_big, classroomArrayList);
         list.setAdapter(classroomAdapter);
 
@@ -225,7 +225,7 @@ public class StatisticsFragment extends Fragment {
 
             //header
             HashMap<String, Integer> date_column_map = new HashMap<String, Integer>();
-            ArrayList<String> dates = new ArrayList<String>();
+            ArrayList<String> dates = new ArrayList<>();
             int rowNumber = 0;
             int colNumber = 1;
             HSSFRow row = sheet.createRow(rowNumber);
@@ -250,7 +250,7 @@ public class StatisticsFragment extends Fragment {
 
             //students list at the left column
             HashMap<Integer, Integer> student_row_map = new HashMap<Integer, Integer>();
-            ArrayList<Integer> studentIds = new ArrayList<Integer>();
+            ArrayList<Integer> studentIds = new ArrayList<>();
             rowNumber = 1;
             for (int j = 0; j < attendanceArrayList.size(); j++) {
                 Attendance attendance = attendanceArrayList.get(j);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Ferid Cafer
+ * Copyright (C) 2016 Ferid Cafer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,7 +94,7 @@ public class StudentsListActivity extends AppCompatActivity {
         setToolbar();
 
         //graph
-        graphList = new ArrayList<Attendance>();
+        graphList = new ArrayList<>();
         graphLayout = (LinearLayout) findViewById(R.id.graphLayout);
         graph = (GraphView) findViewById(R.id.graph);
         closeGraphIcon = (ImageButton) findViewById(R.id.closeGraphIcon);
@@ -104,7 +104,7 @@ public class StudentsListActivity extends AppCompatActivity {
 
         //list
         list = (ListView) findViewById(R.id.list);
-        attendanceList = new ArrayList<Attendance>();
+        attendanceList = new ArrayList<>();
         adapter = new StatisticsAdapter(context, R.layout.hash_text_item, attendanceList);
         list.setAdapter(adapter);
 
@@ -293,7 +293,7 @@ public class StudentsListActivity extends AppCompatActivity {
      * Calculate presence percentage by week
      */
     private void calculateAttendanceByWeek() {
-        ArrayList<Integer> presenceList = new ArrayList<Integer>();
+        ArrayList<Integer> presenceList = new ArrayList<>();
         int numberOfWeeks = graphList.size();
         int numberOfPresence = 0;
 

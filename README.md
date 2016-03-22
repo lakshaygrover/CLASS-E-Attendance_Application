@@ -2,7 +2,7 @@
 
 This is an open source professional attendance taker, developed for academicians, instructors and school teachers.
 
-Copyright (C) 2015 Ferid Cafer
+Copyright (C) 2016 Ferid Cafer
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -25,6 +25,7 @@
     <string name="allToDelete">All attendances of this class will be deleted</string>
     <string name="changeDateTime">Change Date and Time</string>
     <string name="enterAlphanumeric">Enter only alphanumeric characters</string>
+    <string name="importFromExcel">Import from Excel</string>
 
     <string name="emptyMessageClassroom">Add classrooms and students, then pull to refresh&#8230;</string>
     <string name="emptyMessageStudent">Add with plus icon; press long on item to delete&#8230;</string>
@@ -44,6 +45,11 @@
     <string name="sendMail">Send Mail</string>
     <string name="excelError">Excel file related error</string>
     <string name="takeAttendanceBeforeExcel">Take attendance before Excel</string>
+    <string name="selectFile">Select a File to Upload</string>
 
-    <string name="grantPermission">Grant permission to create Excel</string>
+    <string name="grantPermission">Grant permission for Excel</string>
+
+    <string name="ongoing">The process is ongoing</string>
+    <string name="wait">Please Wait</string>
+
 </resources>

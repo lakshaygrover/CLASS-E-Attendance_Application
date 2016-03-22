@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Ferid Cafer
+ * Copyright (C) 2016 Ferid Cafer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -114,7 +114,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public ArrayList<Classroom> selectClassrooms() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        ArrayList<Classroom> list = new ArrayList<Classroom>();
+        ArrayList<Classroom> list = new ArrayList<>();
 
         String query = "SELECT id, name FROM classroom";
         Cursor cursor = db.rawQuery(query, null);
@@ -142,7 +142,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public ArrayList<Classroom> selectClassroomsWithStudentNumber() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        ArrayList<Classroom> list = new ArrayList<Classroom>();
+        ArrayList<Classroom> list = new ArrayList<>();
 
         String query = "SELECT classroom.id, classroom.name, COUNT(classroomStudent.student_id) " +
                 "FROM classroom " +
@@ -262,7 +262,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String classroom_id = String.valueOf(classroomId);
-        ArrayList<Student> list = new ArrayList<Student>();
+        ArrayList<Student> list = new ArrayList<>();
 
         String query = "SELECT student.id, student.name, classroomstudent.id FROM student " +
                 "INNER JOIN classroomstudent " +
@@ -449,7 +449,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String classroom_id = String.valueOf(classroomId);
-        ArrayList<Attendance> list = new ArrayList<Attendance>();
+        ArrayList<Attendance> list = new ArrayList<>();
 
         String query = "SELECT DISTINCT date_time FROM attendance " +
                 "WHERE classroomstudent_id IN (SELECT id FROM classroomStudent " +
@@ -468,8 +468,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         cursor.close();
         db.close();
 
-        if (list != null)
+        if (!list.isEmpty()) {
             Collections.sort(list, new DateComparator());
+        }
 
         return list;
     }
@@ -506,7 +507,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String classroom_id = String.valueOf(classroomId);
-        ArrayList<Attendance> list = new ArrayList<Attendance>();
 
         String query = "SELECT distinct date_time FROM attendance " +
                 "WHERE classroomstudent_id in (SELECT id FROM classroomStudent " +
@@ -534,7 +534,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String classroom_id = String.valueOf(classroomId);
-        ArrayList<Student> list = new ArrayList<Student>();
+        ArrayList<Student> list = new ArrayList<>();
 
         String query = "SELECT attendance.id, attendance.date_time, attendance.present, student.name " +
                 "FROM student " +
@@ -598,7 +598,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public ArrayList<Attendance> selectAllAttendances() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        ArrayList<Attendance> list = new ArrayList<Attendance>();
+        ArrayList<Attendance> list = new ArrayList<>();
 
         String query = "SELECT attendance.date_time, attendance.present, " +
                 "student.name, classroom.name, " +
@@ -631,8 +631,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         cursor.close();
         db.close();
 
-        if (list != null)
+        if (!list.isEmpty()) {
             Collections.sort(list, new DateComparator());
+        }
 
         return list;
     }
@@ -646,7 +647,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String classroom_id = String.valueOf(classroomId);
-        ArrayList<Attendance> list = new ArrayList<Attendance>();
+        ArrayList<Attendance> list = new ArrayList<>();
 
         String query = "SELECT attendance.id, attendance.date_time, attendance.present, " +
                 "student.name, classroom.name, " +
@@ -687,7 +688,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     /**
-     * Given student's all attendances in given class'
+     * Given student's all attendances in given class
      * @param classroomId
      * @return
      */
@@ -696,7 +697,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         String classroom_id = String.valueOf(classroomId);
         String student_id = String.valueOf(studentId);
-        ArrayList<Attendance> list = new ArrayList<Attendance>();
+        ArrayList<Attendance> list = new ArrayList<>();
 
         String query = "SELECT attendance.id, attendance.date_time, attendance.present, " +
                 "student.name, classroom.name, " +

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Ferid Cafer
+ * Copyright (C) 2016 Ferid Cafer
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,13 @@
 
 package com.ferid.app.classroom;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,9 +30,11 @@ import android.view.View;
 
 import com.ferid.app.classroom.attendance.TakeAttendanceFragment;
 import com.ferid.app.classroom.edit.EditClassroomFragment;
+import com.ferid.app.classroom.interfaces.PermissionGrantListener;
 import com.ferid.app.classroom.statistics.StatisticsFragment;
 import com.ferid.app.classroom.tabs.SlidingTabLayout;
 import com.ferid.app.classroom.utility.ApplicationRating;
+import com.ferid.app.classroom.utility.PermissionProcessor;
 
 /**
  * Created by ferid.cafer on 4/15/2015.
@@ -48,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
     private SlidingTabLayout mSlidingTabLayout;
 
     private FloatingActionButton floatingActionButton;
-
-    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 101;
 
 
     @Override
@@ -179,60 +175,43 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDataForExcel();
+                checkPermissionForExcel();
             }
         });
     }
 
-    /**
-     * Check for permission before going to excel sheet
-     */
-    public void getDataForExcel() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) { //permission yet to be granted
-
-            //ask for permission
-            getPermissionWriteExternalStorage();
-        } else { //permission granted
-            StatisticsFragment fragment = (StatisticsFragment) getSupportFragmentManager()
-                    .findFragmentByTag("android:switcher:" + viewPager.getId() + ":"
-                            + mAdapter.getItemId(2));
-            fragment.getDataForExcel();
-        }
+    private void exportToExcel() {
+        StatisticsFragment fragment = (StatisticsFragment) getSupportFragmentManager()
+                .findFragmentByTag("android:switcher:" + viewPager.getId() + ":"
+                        + mAdapter.getItemId(2));
+        fragment.getDataForExcel();
     }
 
-    private void getPermissionWriteExternalStorage() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-            Snackbar.make(viewPager, R.string.grantPermission,
-                    Snackbar.LENGTH_LONG)
-                    .setAction(R.string.ok, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ActivityCompat.requestPermissions(MainActivity.this,
-                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                    REQUEST_WRITE_EXTERNAL_STORAGE);
-                        }
-                    }).show();
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_WRITE_EXTERNAL_STORAGE);
-        }
+    /**
+     * Checks permission before going to excel sheet.<br />
+     * If permission is granted excel exporting process starts.
+     */
+    public void checkPermissionForExcel() {
+        PermissionProcessor permissionProcessor = new PermissionProcessor(this, viewPager);
+        permissionProcessor.setPermissionGrantListener(new PermissionGrantListener() {
+            @Override
+            public void OnGranted() {
+                exportToExcel();
+            }
+        });
+        permissionProcessor.askForPermissionExternalStorage();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case REQUEST_WRITE_EXTERNAL_STORAGE: {
+            case PermissionProcessor.REQUEST_EXTERNAL_STORAGE: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    getDataForExcel();
+                    exportToExcel();
                 }
                 return;
             }

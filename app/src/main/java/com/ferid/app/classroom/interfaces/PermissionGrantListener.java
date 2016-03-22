@@ -17,21 +17,11 @@
 package com.ferid.app.classroom.interfaces;
 
 /**
- * Created by ferid.cafer on 3/9/2015.
+ * Created by ferid.cafer on 3/22/2016.
  */
-public interface BackNavigationListener {
+public interface PermissionGrantListener {
     /**
-     * Date
-     * @param dayOfMonth int
-     * @param month int
-     * @param year int
+     * Permission granted
      */
-    void OnPress(int dayOfMonth, int month, int year);
-
-    /**
-     * Time
-     * @param minute int
-     * @param hour int
-     */
-    void OnPress(int minute, int hour);
+    void OnGranted();
 }
