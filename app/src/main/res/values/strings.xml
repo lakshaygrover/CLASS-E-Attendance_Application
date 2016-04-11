@@ -28,10 +28,10 @@
     <string name="importFromExcel">Import from Excel</string>
 
     <string name="emptyMessageClassroom">Add classrooms and students, then pull to refresh&#8230;</string>
-    <string name="emptyMessageStudent">Add with plus icon; press long on item to delete&#8230;</string>
-    <string name="emptyMessageDelete">Press long on item to delete item; press bin to delete all&#8230;</string>
+    <string name="emptyMessageStudent">Either add one by one or import all from xls file</string>
+    <string name="emptyMessagePastAttendance">Take attendances to see the past attendances</string>
     <string name="emptyMessageSave">You may change date and time if needed&#8230;</string>
-    <string name="emptyMessageStatistics">Take attendance, then press on item here to see graph&#8230;</string>
+    <string name="emptyMessageStatistics">Take attendances, then press on item here to see its graph</string>
 
     <string name="couldNotInsertAttendance">Already exists! Check Past Attendances.</string>
     <string name="couldNotInsertClassroom">This class already exists!</string>
@@ -52,5 +52,10 @@
     <string name="ongoing">The process is ongoing</string>
     <string name="wait">Please Wait</string>
     <string name="extensionWarning">Please use XLS extension</string>
+    <string name="mountExternalStorage">Please mount external storage</string>
+
+    <string name="showStudents">Students</string>
+    <string name="deleteItem">Delete</string>
+    <string name="edit">Edit</string>
 
 </resources>

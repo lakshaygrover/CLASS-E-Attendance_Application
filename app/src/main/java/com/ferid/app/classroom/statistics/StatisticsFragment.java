@@ -28,16 +28,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.adapters.ClassroomAdapter;
+import com.ferid.app.classroom.adapters.OperateClassroomsAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
+import com.ferid.app.classroom.interfaces.AdapterClickListener;
 import com.ferid.app.classroom.model.Attendance;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.utility.DirectoryUtility;
@@ -59,12 +60,15 @@ import java.util.HashMap;
  * Prepares statistical data and excel file.
  */
 public class StatisticsFragment extends Fragment {
+
     private Context context;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ListView list;
-    private ArrayList<Classroom> classroomArrayList;
-    private ClassroomAdapter classroomAdapter;
+    private RecyclerView list;
+    private ArrayList<Classroom> classroomArrayList = new ArrayList<>();
+    private OperateClassroomsAdapter classroomAdapter;
+
+    private TextView emptyText; //empty list view text
 
     //excel
     private final String FILE_NAME = "attendances.xls";
@@ -89,18 +93,17 @@ public class StatisticsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.simple_listview, container, false);
+        View rootView = inflater.inflate(R.layout.refreshable_list, container, false);
 
         context = rootView.getContext();
 
-        list = (ListView) rootView.findViewById(R.id.list);
-        classroomArrayList = new ArrayList<>();
-        classroomAdapter = new ClassroomAdapter(context, R.layout.simple_text_item_big, classroomArrayList);
+        list = (RecyclerView) rootView.findViewById(R.id.list);
+        classroomAdapter = new OperateClassroomsAdapter(classroomArrayList);
         list.setAdapter(classroomAdapter);
+        list.setLayoutManager(new LinearLayoutManager(context));
+        list.setHasFixedSize(true);
 
-        //empty list view text
-        TextView emptyText = (TextView) rootView.findViewById(R.id.emptyText);
-        list.setEmptyView(emptyText);
+        emptyText = (TextView) rootView.findViewById(R.id.emptyText);
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -114,7 +117,7 @@ public class StatisticsFragment extends Fragment {
             }
         });
 
-        setListItemClickListener();
+        addAdapterClickListener();
 
         new SelectClassrooms().execute();
 
@@ -123,14 +126,27 @@ public class StatisticsFragment extends Fragment {
     }
 
     /**
-     * setOnItemClickListener
+     * Set empty list text
      */
-    private void setListItemClickListener() {
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void setEmptyText() {
+        if (emptyText != null) {
+            if (classroomArrayList.isEmpty()) {
+                emptyText.setVisibility(View.VISIBLE);
+            } else {
+                emptyText.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * List item click event
+     */
+    private void addAdapterClickListener() {
+        classroomAdapter.setAdapterClickListener(new AdapterClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void OnItemClick(int position) {
                 if (classroomArrayList != null && classroomArrayList.size() > position) {
-                    Intent intent = new Intent(context, StudentsListActivity.class);
+                    Intent intent = new Intent(context, StatisticalListActivity.class);
                     intent.putExtra("classroom", classroomArrayList.get(position));
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.move_in_from_bottom,
@@ -167,6 +183,8 @@ public class StatisticsFragment extends Fragment {
             if (tmpList != null) {
                 classroomArrayList.addAll(tmpList);
                 classroomAdapter.notifyDataSetChanged();
+
+                setEmptyText();
             }
         }
     }
@@ -218,18 +236,19 @@ public class StatisticsFragment extends Fragment {
         HSSFWorkbook wb = new HSSFWorkbook();
         ExcelStyleManager excelStyleManager = new ExcelStyleManager();
 
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) { //each sheet
             Classroom classroom = classroomArrayList.get(i);
 
             HSSFSheet sheet = wb.createSheet(classroom.getName());
 
             //header
-            HashMap<String, Integer> date_column_map = new HashMap<String, Integer>();
+            HashMap<String, Integer> date_column_map = new HashMap<>();
             ArrayList<String> dates = new ArrayList<>();
             int rowNumber = 0;
             int colNumber = 1;
             HSSFRow row = sheet.createRow(rowNumber);
 
+            //dates columns
             for (int j = 0; j < attendanceArrayList.size(); j++) {
                 Attendance attendance = attendanceArrayList.get(j);
 
@@ -244,12 +263,21 @@ public class StatisticsFragment extends Fragment {
                     dates.add(attendance.getDateTime());
                     date_column_map.put(attendance.getDateTime(), colNumber);
 
+                    //set width of the dates columns
+                    sheet.setColumnWidth(colNumber, getResources()
+                            .getInteger(R.integer.statistics_excel_column_width_dates));
+
                     colNumber++;
                 }
             }
 
+            //set width of the students column
+            //it is always the first column
+            sheet.setColumnWidth(0, getResources()
+                    .getInteger(R.integer.statistics_excel_column_width_students));
+
             //students list at the left column
-            HashMap<Integer, Integer> student_row_map = new HashMap<Integer, Integer>();
+            HashMap<Integer, Integer> student_row_map = new HashMap<>();
             ArrayList<Integer> studentIds = new ArrayList<>();
             rowNumber = 1;
             for (int j = 0; j < attendanceArrayList.size(); j++) {
@@ -325,16 +353,17 @@ public class StatisticsFragment extends Fragment {
                     }
                 }
             }
-        } else { //external storage is not available
-            isFileOperationSuccessful = false;
-        }
 
-        //if file is successfully created and closed
-        //show list dialog, otherwise display error
-        if (isFileOperationSuccessful) {
-            showDialogForAction();
-        } else {
-            excelFileError(getString(R.string.excelError));
+            //if file is successfully created and closed
+            //show list dialog, otherwise display error
+            if (isFileOperationSuccessful) {
+                showDialogForAction();
+            } else {
+                excelFileError(getString(R.string.excelError));
+            }
+
+        } else { //external storage is not available
+            excelFileError(getString(R.string.mountExternalStorage));
         }
     }
 
@@ -380,7 +409,7 @@ public class StatisticsFragment extends Fragment {
                 startActivityForExcel(intent);
             }
         } else {
-            excelFileError(getString(R.string.excelError));
+            excelFileError(getString(R.string.mountExternalStorage));
         }
     }
 
@@ -401,7 +430,7 @@ public class StatisticsFragment extends Fragment {
                 excelFileError(getString(R.string.excelError));
             }
         } else {
-            excelFileError(getString(R.string.excelError));
+            excelFileError(getString(R.string.mountExternalStorage));
         }
     }
 

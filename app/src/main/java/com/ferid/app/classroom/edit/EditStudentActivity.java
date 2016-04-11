@@ -28,21 +28,23 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.adapters.StudentAdapter;
+import com.ferid.app.classroom.adapters.EditStudentsAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
-import com.ferid.app.classroom.interfaces.OnClick;
+import com.ferid.app.classroom.enums.StudentPopup;
+import com.ferid.app.classroom.interfaces.OnAlertClick;
 import com.ferid.app.classroom.interfaces.PermissionGrantListener;
+import com.ferid.app.classroom.interfaces.PopupClickListener;
 import com.ferid.app.classroom.interfaces.PromptListener;
 import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 import com.ferid.app.classroom.material_dialog.PromptDialog;
@@ -69,9 +71,11 @@ import java.util.Iterator;
 public class EditStudentActivity extends AppCompatActivity {
     private Context context;
 
-    private ListView list;
-    private ArrayList<Student> arrayList;
-    private StudentAdapter adapter;
+    private RecyclerView list;
+    private ArrayList<Student> arrayList = new ArrayList<>();
+    private EditStudentsAdapter adapter;
+
+    private TextView emptyText; //empty list view text
 
     private Classroom classroom;
 
@@ -85,7 +89,7 @@ public class EditStudentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.simple_listview_with_toolbar);
+        setContentView(R.layout.list_with_toolbar);
 
         Bundle args = getIntent().getExtras();
         if (args != null) {
@@ -97,20 +101,19 @@ public class EditStudentActivity extends AppCompatActivity {
         //toolbar
         setToolbar();
 
-        list = (ListView) findViewById(R.id.list);
-        arrayList = new ArrayList<>();
-        adapter = new StudentAdapter(context, R.layout.simple_text_item_small, arrayList);
+        list = (RecyclerView) findViewById(R.id.list);
+        adapter = new EditStudentsAdapter(context, arrayList);
         list.setAdapter(adapter);
+        list.setLayoutManager(new LinearLayoutManager(context));
+        list.setHasFixedSize(true);
 
-        //empty list view text
-        TextView emptyText = (TextView) findViewById(R.id.emptyText);
+        emptyText = (TextView) findViewById(R.id.emptyText);
         emptyText.setText(getString(R.string.emptyMessageStudent));
-        list.setEmptyView(emptyText);
-
-        setListItemClickListener();
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         setFloatingButton();
+
+        addPopupClickListener();
 
         new SelectStudents().execute();
     }
@@ -129,37 +132,87 @@ public class EditStudentActivity extends AppCompatActivity {
     }
 
     /**
-     * setOnItemClickListener
+     * Set empty list text
      */
-    private void setListItemClickListener() {
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+    private void setEmptyText() {
+        if (emptyText != null) {
+            if (arrayList.isEmpty()) {
+                emptyText.setVisibility(View.VISIBLE);
+            } else {
+                emptyText.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * Add new student item
+     */
+    private void addNewItem() {
+        final PromptDialog promptDialog = new PromptDialog(context);
+        promptDialog.setHint(getString(R.string.studentName));
+        promptDialog.setPositiveButton(getString(R.string.ok));
+        promptDialog.setOnPositiveClickListener(new PromptListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if (arrayList != null && arrayList.size() > position) {
-                    final Student student = arrayList.get(position);
+            public void OnPrompt(String promptText) {
+                closeKeyboard();
 
-                    //alert
-                    CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
-                    customAlertDialog.setMessage(student.getName()
-                            + getString(R.string.sureToDelete));
-                    customAlertDialog.setPositiveButtonText(getString(R.string.delete));
-                    customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
-                    customAlertDialog.setOnClickListener(new OnClick() {
-                        @Override
-                        public void OnPositive() {
-                            new DeleteStudent().execute(student.getId());
-                        }
+                promptDialog.dismiss();
 
-                        @Override
-                        public void OnNegative() {
-                            //do nothing
-                        }
-                    });
-                    customAlertDialog.showDialog();
+                if (!TextUtils.isEmpty(promptText)) {
+                    new InsertStudent().execute(promptText);
                 }
-                return true;
             }
         });
+        promptDialog.show();
+    }
+
+    /**
+     * Change the name of the selected student
+     * @param studentId current student to be changed
+     * @param content current name of the student
+     */
+    private void editStudent(final int studentId, final String content) {
+        final PromptDialog promptDialog = new PromptDialog(context);
+        promptDialog.setContent(content);
+        promptDialog.setPositiveButton(getString(R.string.ok));
+        promptDialog.setOnPositiveClickListener(new PromptListener() {
+            @Override
+            public void OnPrompt(String promptText) {
+                closeKeyboard();
+
+                promptDialog.dismiss();
+
+                if (!TextUtils.isEmpty(promptText)) {
+                    new UpdateStudent().execute(String.valueOf(studentId), promptText);
+                }
+            }
+        });
+        promptDialog.show();
+    }
+
+    /**
+     * Delete student
+     * @param student Student
+     */
+    private void deleteStudent(final Student student) {
+        //show alert before deleting
+        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
+        customAlertDialog.setMessage(student.getName()
+                + getString(R.string.sureToDelete));
+        customAlertDialog.setPositiveButtonText(getString(R.string.delete));
+        customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
+        customAlertDialog.setOnClickListener(new OnAlertClick() {
+            @Override
+            public void OnPositive() {
+                new DeleteStudent().execute(student.getId());
+            }
+
+            @Override
+            public void OnNegative() {
+                //do nothing
+            }
+        });
+        customAlertDialog.showDialog();
     }
 
     /**
@@ -183,25 +236,23 @@ public class EditStudentActivity extends AppCompatActivity {
     }
 
     /**
-     * Add new student item
+     * Pop-up menu item click event
      */
-    private void addNewItem() {
-        final PromptDialog promptDialog = new PromptDialog(context);
-        promptDialog.setTitle(getString(R.string.studentName));
-        promptDialog.setPositiveButton(getString(R.string.ok));
-        promptDialog.setOnPositiveClickListener(new PromptListener() {
+    public void addPopupClickListener() {
+        adapter.setPopupClickListener(new PopupClickListener() {
             @Override
-            public void OnPrompt(String promptText) {
-                closeKeyboard();
+            public void OnPopupClick(int itemPosition, int menuPosition) {
+                if (arrayList != null && arrayList.size() > itemPosition) {
+                    Student student = arrayList.get(itemPosition);
 
-                promptDialog.dismiss();
-
-                if (!TextUtils.isEmpty(promptText)) {
-                    new InsertStudent().execute(promptText);
+                    if (menuPosition == StudentPopup.CHANGE_NAME.getValue()) {
+                        editStudent(student.getId(), student.getName());
+                    } else if (menuPosition == StudentPopup.DELETE_STUDENT.getValue()) {
+                        deleteStudent(student);
+                    }
                 }
             }
         });
-        promptDialog.show();
     }
 
     /**
@@ -227,6 +278,8 @@ public class EditStudentActivity extends AppCompatActivity {
             if (tmpList != null) {
                 arrayList.addAll(tmpList);
                 adapter.notifyDataSetChanged();
+
+                setEmptyText();
             }
         }
     }
@@ -244,6 +297,34 @@ public class EditStudentActivity extends AppCompatActivity {
             if (classroom != null) {
                 DatabaseManager databaseManager = new DatabaseManager(context);
                 isSuccessful = databaseManager.insertStudent(classroom.getId(), student);
+            }
+
+            return isSuccessful;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccessful) {
+            if (isSuccessful) {
+                new SelectStudents().execute();
+            }
+        }
+    }
+
+    /**
+     * Update student name in the DB
+     */
+    private class UpdateStudent extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            boolean isSuccessful = false;
+
+            String studentId = params[0];
+            String newName = params[1];
+
+            if (classroom != null) {
+                DatabaseManager databaseManager = new DatabaseManager(context);
+                isSuccessful = databaseManager.updateStudentName(studentId, newName);
             }
 
             return isSuccessful;
@@ -350,22 +431,16 @@ public class EditStudentActivity extends AppCompatActivity {
 
     /**
      * Import students form excel
-     * @param filename Excel file name
+     * @param fileName Excel file name
      */
-    private void readExcelFile(String filename) {
-        //if directory is not mounted do not start the operation
-        if (!DirectoryUtility.isExternalStorageMounted()) {
-            excelFileError();
-            return;
-        }
-
+    private void readXlsFile(String fileName) {
         ArrayList<String> studentsList = new ArrayList<>();
         progressDialog = ProgressDialog.show(this, getString(R.string.wait),
                 getString(R.string.ongoing), true, false);
 
         try {
             // Creating Input Stream
-            File file = new File(filename);
+            File file = new File(fileName);
             FileInputStream fileInputStream = new FileInputStream(file);
 
             // Create a POIFSFileSystem object
@@ -420,14 +495,21 @@ public class EditStudentActivity extends AppCompatActivity {
      * Get the path of the excel file to import students list
      */
     private void browseFiles() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        try {
-            startActivityForResult(Intent.createChooser(intent,
-                    getString(R.string.selectFile)), REQUEST_IMPORT_EXCEL);
-        } catch (ActivityNotFoundException e) {
-            excelFileError();
+        //if directory is not mounted do not start the operation
+        if (DirectoryUtility.isExternalStorageMounted()) {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            try {
+                startActivityForResult(Intent.createChooser(intent,
+                        getString(R.string.selectFile)), REQUEST_IMPORT_EXCEL);
+            } catch (ActivityNotFoundException e) {
+                excelFileError();
+            }
+
+        } else {
+            Snackbar.make(list, getString(R.string.mountExternalStorage),
+                    Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -439,24 +521,23 @@ public class EditStudentActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 String filePath = data.getData().getPath();
 
-                //only xls extensions are allowed
+                //only xls and xlsx extensions are allowed
                 if (!filePath.endsWith("xls")) {
                     Snackbar.make(list, getString(R.string.extensionWarning),
                             Snackbar.LENGTH_LONG).show();
-
                     return;
                 }
 
                 if (filePath.contains(":")) {
                     String[] partFilePath = filePath.split(":");
                     if (partFilePath.length == 2) {
-                        readExcelFile(Environment.getExternalStorageDirectory()
+                        readXlsFile(Environment.getExternalStorageDirectory()
                                 + "/" + partFilePath[1]);
                     } else {
                         excelFileError();
                     }
                 } else {
-                    if (filePath != null) readExcelFile(filePath);
+                    if (filePath != null) readXlsFile(filePath);
                 }
             }
         }
@@ -475,8 +556,10 @@ public class EditStudentActivity extends AppCompatActivity {
      */
     private void closeKeyboard(){
         try {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
         } catch (Exception ignored) {}
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -19,21 +19,39 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/listview_item_small">
+            android:layout_height="@dimen/listview_item_small"
+            android:paddingLeft="@dimen/left_padding">
+
+            <TextView
+                android:id="@+id/counter"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:background="@drawable/square"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium"
+                android:fontFamily="@string/fontFamilyCondensed"/>
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/counter"
+                android:layout_toLeftOf="@+id/settings"
                 style="@style/ListItemTextView"/>
 
-            <ImageView
-                android:id="@+id/checkBox"
+            <ImageButton
+                android:id="@+id/settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/default_margin"/>
+                android:layout_marginRight="@dimen/margin_small"
+                android:gravity="center"
+                android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
+                android:tint="@color/secondary_text"
+                style="@style/Widget.AppCompat.ActionButton"/>
 
         </RelativeLayout>
 

@@ -7,14 +7,15 @@
     <include
         layout="@layout/toolbar"/>
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:background="@color/page_background"
-        android:divider="@color/divider_colour"
-        android:dividerHeight="@dimen/listview_divider_height"/>
+        android:paddingTop="@dimen/margin_small"
+        android:dividerHeight="0dp"
+        android:divider="@null"
+        android:clipToPadding="false"/>
 
     <TextView
         android:id="@+id/emptyText"
@@ -23,12 +24,8 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/default_margin"
-        android:textSize="@dimen/text_size_large"
-        android:textColor="@color/secondary_text"
-        android:fontFamily="@string/fontFamilyLight"
-        android:gravity="center"
-        android:textAllCaps="true"
-        android:text="@string/emptyMessageStatistics"/>
+        android:text="@string/emptyMessageStatistics"
+        style="@style/EmptyText" />
 
     <View
         android:layout_below="@+id/toolbar"

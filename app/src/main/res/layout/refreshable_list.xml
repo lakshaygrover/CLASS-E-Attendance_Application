@@ -10,14 +10,13 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true">
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/page_background"
-            android:divider="@color/divider_colour"
-            android:dividerHeight="@dimen/listview_divider_height"
-            android:drawSelectorOnTop="true"/>
+            android:dividerHeight="0dp"
+            android:divider="@null"
+            android:clipToPadding="false"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -28,12 +27,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_margin="@dimen/default_margin"
-        android:textColor="@color/secondary_text"
-        android:textSize="@dimen/text_size_large"
         android:text="@string/emptyMessageClassroom"
-        android:fontFamily="@string/fontFamilyLight"
-        android:gravity="center"
-        android:textAllCaps="true"/>
+        style="@style/EmptyText"/>
 
     <View
         android:layout_alignParentTop="true"

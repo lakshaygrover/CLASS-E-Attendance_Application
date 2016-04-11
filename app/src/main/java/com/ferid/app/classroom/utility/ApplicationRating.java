@@ -22,7 +22,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.interfaces.OnClick;
+import com.ferid.app.classroom.interfaces.OnAlertClick;
 import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 
 /**
@@ -92,7 +92,7 @@ public class ApplicationRating {
         customAlertDialog.setMessage(context.getString(R.string.rateApp));
         customAlertDialog.setPositiveButtonText(context.getString(R.string.yes));
         customAlertDialog.setNegativeButtonText(context.getString(R.string.no));
-        customAlertDialog.setOnClickListener(new OnClick() {
+        customAlertDialog.setOnClickListener(new OnAlertClick() {
             @Override
             public void OnPositive() {
                 //if user decides to rate it

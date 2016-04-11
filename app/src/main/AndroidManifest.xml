@@ -27,7 +27,7 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan"/>
 
-        <activity android:name="com.ferid.app.classroom.attendance.AttendanceActivity"
+        <activity android:name=".attendance.TakeAttendanceActivity"
             android:configChanges="orientation|screenSize"/>
 
         <activity android:name="com.ferid.app.classroom.past_attendances.PastAttendancesListActivity"
@@ -36,7 +36,7 @@
         <activity android:name="com.ferid.app.classroom.past_attendances.PastAttendanceActivity"
             android:configChanges="orientation|screenSize"/>
 
-        <activity android:name="com.ferid.app.classroom.statistics.StudentsListActivity"
+        <activity android:name=".statistics.StatisticalListActivity"
             android:windowSoftInputMode="adjustPan"/>
 
     </application>

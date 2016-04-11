@@ -72,12 +72,23 @@ public class PromptDialog extends Dialog {
     }
 
     /**
-     * Set title
+     * Set text hint
      * @param value String
      */
-    public void setTitle(String value) {
+    public void setHint(String value) {
         if (content != null) {
             content.setHint(value);
+        }
+    }
+
+    /**
+     * Set content to edit
+     * @param text Editable text
+     */
+    public void setContent(String text) {
+        if (content != null) {
+            content.setText(text);
+            content.setSelection(content.getText().length());
         }
     }
 

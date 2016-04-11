@@ -71,6 +71,7 @@ public class ExcelStyleManager {
 
     /**
      * Header cell style (dates)
+     * @param wb HSSFWorkbook
      * @return HSSFCellStyle
      */
     public static HSSFCellStyle getHeaderCellStyle(HSSFWorkbook wb) {

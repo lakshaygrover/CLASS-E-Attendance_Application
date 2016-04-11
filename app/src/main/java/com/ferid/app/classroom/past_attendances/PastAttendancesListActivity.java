@@ -23,18 +23,21 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.adapters.PastAttendancesListAdapter;
+import com.ferid.app.classroom.adapters.PastAttendancesAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
-import com.ferid.app.classroom.interfaces.OnClick;
+import com.ferid.app.classroom.enums.PastAttendancePopup;
+import com.ferid.app.classroom.interfaces.AdapterClickListener;
+import com.ferid.app.classroom.interfaces.OnAlertClick;
+import com.ferid.app.classroom.interfaces.PopupClickListener;
 import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 import com.ferid.app.classroom.model.Attendance;
 import com.ferid.app.classroom.model.Classroom;
@@ -48,16 +51,18 @@ import java.util.ArrayList;
 public class PastAttendancesListActivity extends AppCompatActivity {
     private Context context;
 
-    private ListView list;
-    private ArrayList<Attendance> arrayList;
-    private PastAttendancesListAdapter adapter;
+    private RecyclerView list;
+    private ArrayList<Attendance> arrayList = new ArrayList<>();
+    private PastAttendancesAdapter adapter;
+
+    private TextView emptyText; //empty list view text
 
     private Classroom classroom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.simple_listview_with_toolbar);
+        setContentView(R.layout.list_with_toolbar);
 
         Bundle args = getIntent().getExtras();
         if (args != null) {
@@ -69,66 +74,19 @@ public class PastAttendancesListActivity extends AppCompatActivity {
         //toolbar
         setToolbar();
 
-        list = (ListView) findViewById(R.id.list);
-        arrayList = new ArrayList<>();
-        adapter = new PastAttendancesListAdapter(context, R.layout.simple_text_item_small, arrayList);
+        list = (RecyclerView) findViewById(R.id.list);
+        adapter = new PastAttendancesAdapter(context, arrayList);
         list.setAdapter(adapter);
+        list.setLayoutManager(new LinearLayoutManager(context));
+        list.setHasFixedSize(true);
 
-        //empty list view text
-        TextView emptyText = (TextView) findViewById(R.id.emptyText);
-        emptyText.setText(getString(R.string.emptyMessageDelete));
-        list.setEmptyView(emptyText);
+        emptyText = (TextView) findViewById(R.id.emptyText);
+        emptyText.setText(getString(R.string.emptyMessagePastAttendance));
 
-        setListItemClickListener();
+        addAdapterClickListener();
+        addPopupClickListener();
 
         new SelectAttendances().execute();
-    }
-
-    /**
-     * setOnItemClickListener & setOnItemLongClickListener
-     */
-    private void setListItemClickListener() {
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (arrayList != null && arrayList.size() > position) {
-                    Intent intent = new Intent(context, PastAttendanceActivity.class);
-                    intent.putExtra("classroom", classroom);
-                    intent.putExtra("dateTime", arrayList.get(position).getDateTime());
-                    startActivityForResult(intent, 0);
-                    overridePendingTransition(R.anim.move_in_from_bottom, R.anim.stand_still);
-                }
-            }
-        });
-
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if (arrayList != null && arrayList.size() > position) {
-                    final Attendance attendance = arrayList.get(position);
-
-                    //alert
-                    CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
-                    customAlertDialog.setMessage(attendance.getDateTime()
-                            + getString(R.string.sureToDelete));
-                    customAlertDialog.setPositiveButtonText(getString(R.string.delete));
-                    customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
-                    customAlertDialog.setOnClickListener(new OnClick() {
-                        @Override
-                        public void OnPositive() {
-                            new DeleteAttendance().execute(attendance.getDateTime());
-                        }
-
-                        @Override
-                        public void OnNegative() {
-                            //do nothing
-                        }
-                    });
-                    customAlertDialog.showDialog();
-                }
-                return true;
-            }
-        });
     }
 
     /**
@@ -143,6 +101,90 @@ public class PastAttendancesListActivity extends AppCompatActivity {
 
         setTitle(getString(R.string.pastAttendances));
         toolbar.setSubtitle(classroom.getName());
+    }
+
+    /**
+     * Set empty list text
+     */
+    private void setEmptyText() {
+        if (emptyText != null) {
+            if (arrayList.isEmpty()) {
+                emptyText.setVisibility(View.VISIBLE);
+            } else {
+                emptyText.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * Show student attendance list of the selected item
+     * @param dateTime Taken attendance date
+     */
+    private void showAttendance(String dateTime) {
+        Intent intent = new Intent(context, PastAttendanceActivity.class);
+        intent.putExtra("classroom", classroom);
+        intent.putExtra("dateTime", dateTime);
+        startActivityForResult(intent, 0);
+        overridePendingTransition(R.anim.move_in_from_bottom, R.anim.stand_still);
+    }
+
+    /**
+     * Delete attendance
+     * @param attendance Taken attendance
+     */
+    private void deleteAttendance(final Attendance attendance) {
+        //show alert before deleting
+        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
+        customAlertDialog.setMessage(attendance.getDateTime()
+                + getString(R.string.sureToDelete));
+        customAlertDialog.setPositiveButtonText(getString(R.string.delete));
+        customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
+        customAlertDialog.setOnClickListener(new OnAlertClick() {
+            @Override
+            public void OnPositive() {
+                new DeleteAttendance().execute(attendance.getDateTime());
+            }
+
+            @Override
+            public void OnNegative() {
+                //do nothing
+            }
+        });
+        customAlertDialog.showDialog();
+    }
+
+    /**
+     * List item click event
+     */
+    private void addAdapterClickListener() {
+        adapter.setAdapterClickListener(new AdapterClickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                if (arrayList != null && arrayList.size() > position) {
+                    showAttendance(arrayList.get(position).getDateTime());
+                }
+            }
+        });
+    }
+
+    /**
+     * Pop-up menu item click event
+     */
+    public void addPopupClickListener() {
+        adapter.setPopupClickListener(new PopupClickListener() {
+            @Override
+            public void OnPopupClick(int itemPosition, int menuPosition) {
+                if (arrayList != null && arrayList.size() > itemPosition) {
+                    Attendance attendance = arrayList.get(itemPosition);
+
+                    if (menuPosition == PastAttendancePopup.SHOW_ATTENDANCE.getValue()) {
+                        showAttendance(attendance.getDateTime());
+                    } else if (menuPosition == PastAttendancePopup.DELETE_ATTENDANCE.getValue()) {
+                        deleteAttendance(attendance);
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -165,6 +207,8 @@ public class PastAttendancesListActivity extends AppCompatActivity {
             if (tmpList != null) {
                 arrayList.addAll(tmpList);
                 adapter.notifyDataSetChanged();
+
+                setEmptyText();
             }
         }
     }
@@ -216,23 +260,26 @@ public class PastAttendancesListActivity extends AppCompatActivity {
      * Ask to delete all
      */
     private void deleteAllAttendances() {
-        //alert
-        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
-        customAlertDialog.setMessage(getString(R.string.allToDelete));
-        customAlertDialog.setPositiveButtonText(getString(R.string.delete));
-        customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
-        customAlertDialog.setOnClickListener(new OnClick() {
-            @Override
-            public void OnPositive() {
-                new DeleteAllAttendances().execute();
-            }
+        //try to delete if there are items in the list
+        if (!arrayList.isEmpty()) {
+            //show alert before deleting
+            CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
+            customAlertDialog.setMessage(getString(R.string.allToDelete));
+            customAlertDialog.setPositiveButtonText(getString(R.string.delete));
+            customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
+            customAlertDialog.setOnClickListener(new OnAlertClick() {
+                @Override
+                public void OnPositive() {
+                    new DeleteAllAttendances().execute();
+                }
 
-            @Override
-            public void OnNegative() {
-                //do nothing
-            }
-        });
-        customAlertDialog.showDialog();
+                @Override
+                public void OnNegative() {
+                    //do nothing
+                }
+            });
+            customAlertDialog.showDialog();
+        }
     }
 
     @Override

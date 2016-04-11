@@ -22,7 +22,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.interfaces.OnClick;
+import com.ferid.app.classroom.interfaces.OnAlertClick;
 
 /**
  * Created by ferid.cafer on 7/7/2015.
@@ -34,7 +34,7 @@ public class CustomAlertDialog {
     private String positiveButtonText = "";
     private String negativeButtonText = "";
 
-    private OnClick onClick;
+    private OnAlertClick onAlertClick;
 
     /**
      * Set context
@@ -70,10 +70,10 @@ public class CustomAlertDialog {
 
     /**
      * Set on click listener (positive and negative click)
-     * @param onClick
+     * @param onAlertClick
      */
-    public void setOnClickListener(OnClick onClick) {
-        this.onClick = onClick;
+    public void setOnClickListener(OnAlertClick onAlertClick) {
+        this.onAlertClick = onAlertClick;
     }
 
     /**
@@ -87,7 +87,7 @@ public class CustomAlertDialog {
         builder.setPositiveButton(positiveButtonText, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (onClick != null) onClick.OnPositive();
+                if (onAlertClick != null) onAlertClick.OnPositive();
             }
         });
         //negative button
@@ -95,7 +95,7 @@ public class CustomAlertDialog {
             builder.setNegativeButton(negativeButtonText, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (onClick != null) onClick.OnNegative();
+                    if (onAlertClick != null) onAlertClick.OnNegative();
                 }
             });
         }

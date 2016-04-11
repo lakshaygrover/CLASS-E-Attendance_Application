@@ -25,21 +25,22 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.adapters.AttendanceAdapter;
+import com.ferid.app.classroom.adapters.TakeAttendanceAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
 import com.ferid.app.classroom.date_time_pickers.CustomDatePickerDialog;
 import com.ferid.app.classroom.date_time_pickers.CustomTimePickerDialog;
 import com.ferid.app.classroom.date_time_pickers.DatePickerFragment;
 import com.ferid.app.classroom.date_time_pickers.TimePickerFragment;
+import com.ferid.app.classroom.interfaces.AdapterClickListener;
 import com.ferid.app.classroom.interfaces.BackNavigationListener;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.model.Student;
@@ -53,13 +54,15 @@ import java.util.Date;
  * Created by ferid.cafer on 4/16/2015.<br />
  * Takes attendance.
  */
-public class AttendanceActivity extends AppCompatActivity implements BackNavigationListener {
+public class TakeAttendanceActivity extends AppCompatActivity implements BackNavigationListener {
     private Context context;
     private Toolbar toolbar;
 
-    private ListView list;
-    private ArrayList<Student> arrayList;
-    private AttendanceAdapter adapter;
+    private RecyclerView list;
+    private ArrayList<Student> arrayList = new ArrayList<>();
+    private TakeAttendanceAdapter adapter;
+
+    private TextView emptyText; //empty list view text
 
     private Classroom classroom;
     private String classDate = "";
@@ -77,7 +80,7 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.simple_listview_with_toolbar);
+        setContentView(R.layout.list_with_toolbar);
 
         Bundle args = getIntent().getExtras();
         if (args != null) {
@@ -89,17 +92,16 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
         //toolbar
         setToolbar();
 
-        list = (ListView) findViewById(R.id.list);
-        arrayList = new ArrayList<>();
-        adapter = new AttendanceAdapter(context, R.layout.checkable_text_item, arrayList);
+        list = (RecyclerView) findViewById(R.id.list);
+        adapter = new TakeAttendanceAdapter(context, arrayList);
         list.setAdapter(adapter);
+        list.setLayoutManager(new LinearLayoutManager(context));
+        list.setHasFixedSize(true);
 
-        //empty list view text
-        TextView emptyText = (TextView) findViewById(R.id.emptyText);
+        emptyText = (TextView) findViewById(R.id.emptyText);
         emptyText.setText(getString(R.string.emptyMessageSave));
-        list.setEmptyView(emptyText);
 
-        setListItemClickListener();
+        addAdapterClickListener();
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         startButtonAnimation();
@@ -126,6 +128,19 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
     }
 
     /**
+     * Set empty list text
+     */
+    private void setEmptyText() {
+        if (emptyText != null) {
+            if (arrayList.isEmpty()) {
+                emptyText.setVisibility(View.VISIBLE);
+            } else {
+                emptyText.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
      * Set floating action button with its animation
      */
     private void startButtonAnimation() {
@@ -146,12 +161,12 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
     }
 
     /**
-     * setOnItemClickListener
+     * List item click event
      */
-    private void setListItemClickListener() {
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void addAdapterClickListener() {
+        adapter.setAdapterClickListener(new AdapterClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void OnItemClick(int position) {
                 if (arrayList.size() > position) {
                     Student student = arrayList.get(position);
                     boolean isPresent = !student.isPresent();
@@ -248,6 +263,8 @@ public class AttendanceActivity extends AppCompatActivity implements BackNavigat
             if (tmpList != null) {
                 arrayList.addAll(tmpList);
                 adapter.notifyDataSetChanged();
+
+                setEmptyText();
             }
         }
     }

@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package com.ferid.app.classroom.interfaces;
+package com.ferid.app.classroom.enums;
 
 /**
- * Created by ferid.cafer on 3/19/2015.
+ * Created by ferid.cafer  on 4/6/2016.
  */
-public interface OnClick {
-    /**
-     * On Positive Click
-     */
-    void OnPositive();
+public enum StudentPopup {
+    CHANGE_NAME(0),
+    DELETE_STUDENT(1);
 
-    /**
-     * On Negative Click
-     */
-    void OnNegative();
+    private final int value;
+
+    StudentPopup(int value) {
+        this.value = value;
+    }
+    public int getValue() {
+        return value;
+    }
 }

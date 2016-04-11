@@ -25,17 +25,18 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.adapters.ClassroomAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
+import com.ferid.app.classroom.interfaces.AdapterClickListener;
 import com.ferid.app.classroom.model.Classroom;
+import com.ferid.app.classroom.adapters.OperateClassroomsAdapter;
 
 import java.util.ArrayList;
 
@@ -43,20 +44,23 @@ import java.util.ArrayList;
  * Created by ferid.cafer on 4/15/2015.<br />
  * Shows classes to choose to take an attendance.
  */
-public class TakeAttendanceFragment extends Fragment {
+public class AttendancesFragment extends Fragment {
+
     private Context context;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ListView list;
-    private ArrayList<Classroom> arrayList;
-    private ClassroomAdapter adapter;
+    private RecyclerView list;
+    private ArrayList<Classroom> arrayList = new ArrayList<>();
+    private OperateClassroomsAdapter adapter;
+
+    private TextView emptyText; //empty list view text
 
 
-    public TakeAttendanceFragment() {}
+    public AttendancesFragment() {}
 
-    public static TakeAttendanceFragment newInstance() {
-        TakeAttendanceFragment takeAttendanceFragment = new TakeAttendanceFragment();
-        return takeAttendanceFragment;
+    public static AttendancesFragment newInstance() {
+        AttendancesFragment attendancesFragment = new AttendancesFragment();
+        return attendancesFragment;
     }
 
     @Override
@@ -70,18 +74,17 @@ public class TakeAttendanceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.simple_listview, container, false);
+        View rootView = inflater.inflate(R.layout.refreshable_list, container, false);
 
         context = rootView.getContext();
 
-        list = (ListView) rootView.findViewById(R.id.list);
-        arrayList = new ArrayList<>();
-        adapter = new ClassroomAdapter(context, R.layout.simple_text_item_big, arrayList);
+        list = (RecyclerView) rootView.findViewById(R.id.list);
+        adapter = new OperateClassroomsAdapter(arrayList);
         list.setAdapter(adapter);
+        list.setLayoutManager(new LinearLayoutManager(context));
+        list.setHasFixedSize(true);
 
-        //empty list view text
-        TextView emptyText = (TextView) rootView.findViewById(R.id.emptyText);
-        list.setEmptyView(emptyText);
+        emptyText = (TextView) rootView.findViewById(R.id.emptyText);
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -95,22 +98,36 @@ public class TakeAttendanceFragment extends Fragment {
             }
         });
 
-        setListItemClickListener();
+        addAdapterClickListener();
 
         new SelectClassrooms().execute();
+
 
         return rootView;
     }
 
     /**
-     * setOnItemClickListener
+     * Set empty list text
      */
-    private void setListItemClickListener() {
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void setEmptyText() {
+        if (emptyText != null) {
+            if (arrayList.isEmpty()) {
+                emptyText.setVisibility(View.VISIBLE);
+            } else {
+                emptyText.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * List item click event
+     */
+    public void addAdapterClickListener() {
+        adapter.setAdapterClickListener(new AdapterClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void OnItemClick(int position) {
                 if (arrayList != null && arrayList.size() > position) {
-                    Intent intent = new Intent(context, AttendanceActivity.class);
+                    Intent intent = new Intent(context, TakeAttendanceActivity.class);
                     intent.putExtra("classroom", arrayList.get(position));
                     startActivityForResult(intent, 0);
                     getActivity().overridePendingTransition(R.anim.move_in_from_bottom,
@@ -147,6 +164,8 @@ public class TakeAttendanceFragment extends Fragment {
             if (tmpList != null) {
                 arrayList.addAll(tmpList);
                 adapter.notifyDataSetChanged();
+
+                setEmptyText();
             }
         }
     }

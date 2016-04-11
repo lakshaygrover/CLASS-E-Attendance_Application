@@ -23,23 +23,26 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.adapters.ClassroomAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
-import com.ferid.app.classroom.interfaces.OnClick;
+import com.ferid.app.classroom.enums.ClassroomPopup;
+import com.ferid.app.classroom.interfaces.AdapterClickListener;
+import com.ferid.app.classroom.interfaces.OnAlertClick;
+import com.ferid.app.classroom.interfaces.PopupClickListener;
 import com.ferid.app.classroom.interfaces.PromptListener;
 import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 import com.ferid.app.classroom.material_dialog.PromptDialog;
 import com.ferid.app.classroom.model.Classroom;
+import com.ferid.app.classroom.adapters.EditClassroomsAdapter;
 
 import java.util.ArrayList;
 
@@ -48,12 +51,15 @@ import java.util.ArrayList;
  * Adds and removes classes.
  */
 public class EditClassroomFragment extends Fragment {
+
     private Context context;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ListView list;
-    private ArrayList<Classroom> arrayList;
-    private ClassroomAdapter adapter;
+    private RecyclerView list;
+    private ArrayList<Classroom> arrayList = new ArrayList<>();
+    private EditClassroomsAdapter adapter;
+
+    private TextView emptyText; //empty list view text
 
 
     public EditClassroomFragment() {}
@@ -74,18 +80,17 @@ public class EditClassroomFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.simple_listview, container, false);
+        View rootView = inflater.inflate(R.layout.refreshable_list, container, false);
 
         context = rootView.getContext();
 
-        list = (ListView) rootView.findViewById(R.id.list);
-        arrayList = new ArrayList<>();
-        adapter = new ClassroomAdapter(context, R.layout.simple_text_item_big, arrayList);
+        list = (RecyclerView) rootView.findViewById(R.id.list);
+        adapter = new EditClassroomsAdapter(context, arrayList);
         list.setAdapter(adapter);
+        list.setLayoutManager(new LinearLayoutManager(context));
+        list.setHasFixedSize(true);
 
-        //empty list view text
-        TextView emptyText = (TextView) rootView.findViewById(R.id.emptyText);
-        list.setEmptyView(emptyText);
+        emptyText = (TextView) rootView.findViewById(R.id.emptyText);
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -99,7 +104,8 @@ public class EditClassroomFragment extends Fragment {
             }
         });
 
-        setListItemClickListener();
+        addAdapterClickListener();
+        addPopupClickListener();
 
         new SelectClassrooms().execute();
 
@@ -108,58 +114,42 @@ public class EditClassroomFragment extends Fragment {
     }
 
     /**
-     * setOnItemClickListener & setOnItemLongClickListener
+     * Set empty list text
      */
-    private void setListItemClickListener() {
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (arrayList != null && arrayList.size() > position) {
-                    Intent intent = new Intent(context, EditStudentActivity.class);
-                    intent.putExtra("classroom", arrayList.get(position));
-                    startActivity(intent);
-                    getActivity().overridePendingTransition(R.anim.move_in_from_bottom,
-                            R.anim.stand_still);
-                }
+    private void setEmptyText() {
+        if (emptyText != null) {
+            if (arrayList.isEmpty()) {
+                emptyText.setVisibility(View.VISIBLE);
+            } else {
+                emptyText.setVisibility(View.GONE);
             }
-        });
+        }
+    }
 
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if (arrayList != null && arrayList.size() > position) {
-                    final Classroom classroom = arrayList.get(position);
+    /**
+     * Check if the given classroom name already exists
+     * @param classroomName Selected classroom
+     * @return
+     */
+    private boolean isAlreadyExist(String classroomName) {
+        boolean isAlreadyExist = false;
 
-                    //alert
-                    CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
-                    customAlertDialog.setMessage(classroom.getName()
-                            + getString(R.string.sureToDelete));
-                    customAlertDialog.setPositiveButtonText(getString(R.string.delete));
-                    customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
-                    customAlertDialog.setOnClickListener(new OnClick() {
-                        @Override
-                        public void OnPositive() {
-                            new DeleteClassroom().execute(classroom.getId());
-                        }
-
-                        @Override
-                        public void OnNegative() {
-                            //do nothing
-                        }
-                    });
-                    customAlertDialog.showDialog();
-                }
-                return true;
+        for (Classroom classroom : arrayList) {
+            if (classroom.getName().equals(classroomName)) {
+                isAlreadyExist = true;
+                break;
             }
-        });
+        }
+
+        return isAlreadyExist;
     }
 
     /**
      * Add new class item
      */
-    public void addNewItem() {
+    public void addClassroom() {
         final PromptDialog promptDialog = new PromptDialog(context);
-        promptDialog.setTitle(getString(R.string.classroomName));
+        promptDialog.setHint(getString(R.string.classroomName));
         promptDialog.setPositiveButton(getString(R.string.ok));
         promptDialog.setAllCaps();
         promptDialog.setAlphanumeric();
@@ -187,21 +177,102 @@ public class EditClassroomFragment extends Fragment {
     }
 
     /**
-     * Check if the given classroom name already exists
-     * @param classroomName
-     * @return
+     * Change the selected class name
+     * @param classroomId current classroom to be changed
+     * @param content current name of the classroom
      */
-    private boolean isAlreadyExist(String classroomName) {
-        boolean isAlreadyExist = false;
+    public void editClassroom(final int classroomId, String content) {
+        final PromptDialog promptDialog = new PromptDialog(context);
+        promptDialog.setContent(content);
+        promptDialog.setPositiveButton(getString(R.string.ok));
+        promptDialog.setAllCaps();
+        promptDialog.setAlphanumeric();
+        promptDialog.setOnPositiveClickListener(new PromptListener() {
+            @Override
+            public void OnPrompt(String promptText) {
+                closeKeyboard();
 
-        for (Classroom classroom : arrayList) {
-            if (classroom.getName().equals(classroomName)) {
-                isAlreadyExist = true;
-                break;
+                promptDialog.dismiss();
+
+                if (!TextUtils.isEmpty(promptText)) {
+                    new UpdateClassroom().execute(String.valueOf(classroomId), promptText);
+                }
             }
-        }
+        });
+        promptDialog.show();
+    }
 
-        return isAlreadyExist;
+    /**
+     * Delete classroom
+     * @param classroom Selected classroom
+     */
+    private void deleteClassroom(final Classroom classroom) {
+        //show alert before deleting
+        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
+        customAlertDialog.setMessage(classroom.getName()
+                + getString(R.string.sureToDelete));
+        customAlertDialog.setPositiveButtonText(getString(R.string.delete));
+        customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
+        customAlertDialog.setOnClickListener(new OnAlertClick() {
+            @Override
+            public void OnPositive() {
+                new DeleteClassroom().execute(classroom.getId());
+            }
+
+            @Override
+            public void OnNegative() {
+                //do nothing
+            }
+        });
+        customAlertDialog.showDialog();
+    }
+
+    /**
+     * Go inside classroom to add, change or delete students
+     * @param classroom
+     */
+    private void showStudents(Classroom classroom) {
+        Intent intent = new Intent(context, EditStudentActivity.class);
+        intent.putExtra("classroom", classroom);
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.move_in_from_bottom,
+                R.anim.stand_still);
+    }
+
+    /**
+     * List item click event
+     */
+    private void addAdapterClickListener() {
+        adapter.setAdapterClickListener(new AdapterClickListener() {
+            @Override
+            public void OnItemClick(int position) {
+                if (arrayList != null && arrayList.size() > position) {
+                    showStudents(arrayList.get(position));
+                }
+            }
+        });
+    }
+
+    /**
+     * Pop-up menu item click event
+     */
+    public void addPopupClickListener() {
+        adapter.setPopupClickListener(new PopupClickListener() {
+            @Override
+            public void OnPopupClick(int itemPosition, int menuPosition) {
+                if (arrayList != null && arrayList.size() > itemPosition) {
+                    Classroom classroom = arrayList.get(itemPosition);
+
+                    if (menuPosition == ClassroomPopup.SHOW_STUDENTS.getValue()) {
+                        showStudents(classroom);
+                    } else if (menuPosition == ClassroomPopup.CHANGE_NAME.getValue()) {
+                        editClassroom(classroom.getId(), classroom.getName());
+                    } else if (menuPosition == ClassroomPopup.DELETE_CLASSROOM.getValue()) {
+                        deleteClassroom(classroom);
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -231,6 +302,8 @@ public class EditClassroomFragment extends Fragment {
             if (tmpList != null) {
                 arrayList.addAll(tmpList);
                 adapter.notifyDataSetChanged();
+
+                setEmptyText();
             }
         }
     }
@@ -245,6 +318,29 @@ public class EditClassroomFragment extends Fragment {
             String classroom = params[0];
             DatabaseManager databaseManager = new DatabaseManager(context);
             boolean isSuccessful = databaseManager.insertClassroom(classroom);
+
+            return isSuccessful;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccessful) {
+            if (isSuccessful) {
+                new SelectClassrooms().execute();
+            }
+        }
+    }
+
+    /**
+     * Update classroom name in the DB
+     */
+    private class UpdateClassroom extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            String classroomId = params[0];
+            String newName = params[1];
+            DatabaseManager databaseManager = new DatabaseManager(context);
+            boolean isSuccessful = databaseManager.updateClassroomName(classroomId, newName);
 
             return isSuccessful;
         }
@@ -284,8 +380,10 @@ public class EditClassroomFragment extends Fragment {
      */
     private void closeKeyboard(){
         try {
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            InputMethodManager imm = (InputMethodManager)
+                    getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
         } catch (Exception ignored) {}
     }
 }

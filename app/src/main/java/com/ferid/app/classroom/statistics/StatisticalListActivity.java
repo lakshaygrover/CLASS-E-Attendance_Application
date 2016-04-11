@@ -22,21 +22,23 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.adapters.StatisticsAdapter;
+import com.ferid.app.classroom.adapters.StatisticalAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
+import com.ferid.app.classroom.interfaces.AdapterClickListener;
 import com.ferid.app.classroom.model.Attendance;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.utility.DirectoryUtility;
@@ -55,13 +57,15 @@ import java.util.ArrayList;
  * Created by ferid.cafer on 4/20/2015.<br />
  * Shows the student attendance rate and graph.
  */
-public class StudentsListActivity extends AppCompatActivity {
+public class StatisticalListActivity extends AppCompatActivity {
 
     private Context context;
 
-    private ListView list;
-    private ArrayList<Attendance> attendanceList;
-    private StatisticsAdapter adapter;
+    private RecyclerView list;
+    private ArrayList<Attendance> attendanceList = new ArrayList<>();
+    private StatisticalAdapter adapter;
+
+    private TextView emptyText; //empty list view text
 
     private Classroom classroom;
 
@@ -69,7 +73,7 @@ public class StudentsListActivity extends AppCompatActivity {
     private GraphView graph;
     private LinearLayout graphLayout;
     private Attendance attendance;
-    private ArrayList<Attendance> graphList;
+    private ArrayList<Attendance> graphList = new ArrayList<>();
     //close graph icon
     private ImageButton closeGraphIcon;
     //share graph icon
@@ -94,7 +98,6 @@ public class StudentsListActivity extends AppCompatActivity {
         setToolbar();
 
         //graph
-        graphList = new ArrayList<>();
         graphLayout = (LinearLayout) findViewById(R.id.graphLayout);
         graph = (GraphView) findViewById(R.id.graph);
         closeGraphIcon = (ImageButton) findViewById(R.id.closeGraphIcon);
@@ -103,18 +106,17 @@ public class StudentsListActivity extends AppCompatActivity {
         className.setText(classroom.getName());
 
         //list
-        list = (ListView) findViewById(R.id.list);
-        attendanceList = new ArrayList<>();
-        adapter = new StatisticsAdapter(context, R.layout.hash_text_item, attendanceList);
+        list = (RecyclerView) findViewById(R.id.list);
+        adapter = new StatisticalAdapter(attendanceList);
         list.setAdapter(adapter);
+        list.setLayoutManager(new LinearLayoutManager(context));
+        list.setHasFixedSize(true);
 
-        //empty list view text
-        TextView emptyText = (TextView) findViewById(R.id.emptyText);
-        list.setEmptyView(emptyText);
+        emptyText = (TextView) findViewById(R.id.emptyText);
 
         setCloseGraphIconListener();
         setShareGraphIconListener();
-        setListItemClickListener();
+        addAdapterClickListener();
 
         new SelectAllAttendancesOfClass().execute();
     }
@@ -133,12 +135,25 @@ public class StudentsListActivity extends AppCompatActivity {
     }
 
     /**
-     * setOnItemClickListener
+     * Set empty list text
      */
-    private void setListItemClickListener() {
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void setEmptyText() {
+        if (emptyText != null) {
+            if (attendanceList.isEmpty()) {
+                emptyText.setVisibility(View.VISIBLE);
+            } else {
+                emptyText.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * List item click event
+     */
+    private void addAdapterClickListener() {
+        adapter.setAdapterClickListener(new AdapterClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void OnItemClick(int position) {
                 if (attendanceList != null && attendanceList.size() > position) {
                     attendance = attendanceList.get(position);
                     graphList.clear();
@@ -213,6 +228,9 @@ public class StudentsListActivity extends AppCompatActivity {
                     }
                 }
             }
+        } else {
+            Snackbar.make(list, getString(R.string.mountExternalStorage),
+                    Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -230,6 +248,9 @@ public class StudentsListActivity extends AppCompatActivity {
             share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///"
                     + DirectoryUtility.getPathFolder() + FILE_NAME));
             startActivity(Intent.createChooser(share, getString(R.string.shareText)));
+        } else {
+            Snackbar.make(list, getString(R.string.mountExternalStorage),
+                    Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -256,6 +277,8 @@ public class StudentsListActivity extends AppCompatActivity {
             if (tmpList != null) {
                 attendanceList.addAll(tmpList);
                 adapter.notifyDataSetChanged();
+
+                setEmptyText();
             }
         }
     }
@@ -325,7 +348,7 @@ public class StudentsListActivity extends AppCompatActivity {
         graph.getViewport().setXAxisBoundsManual(true);
 
         graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.BOTH);
-        graph.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.gray));
+        graph.getGridLabelRenderer().setGridColor(getResources().getColor(R.color.grey));
         graph.getGridLabelRenderer().setHorizontalLabelsColor(getResources().getColor(R.color.blackish));
         graph.getGridLabelRenderer().setVerticalLabelsColor(getResources().getColor(R.color.blackish));
 
@@ -354,7 +377,7 @@ public class StudentsListActivity extends AppCompatActivity {
             dataPoints[i + 1] = new DataPoint((i+1), presenceList.get(i));
         }
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(dataPoints);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
         series.setColor(getResources().getColor(R.color.colourAccent));
         series.setThickness(getResources().getInteger(R.integer.statistics_series_thickness));
 

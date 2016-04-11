@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="statistics_series_thickness">5</integer>
+
+    <integer name="statistics_excel_column_width_students">4000</integer>
+    <integer name="statistics_excel_column_width_dates">2500</integer>
 </resources>

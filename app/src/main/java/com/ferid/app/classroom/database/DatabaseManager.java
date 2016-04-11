@@ -185,6 +185,31 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     /**
+     * Update classroom
+     * @param classroom_id the class to be changed
+     * @param newName the new name of the class
+     * @return success or not
+     */
+    public boolean updateClassroomName(String classroom_id, String newName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int rowsAffected;
+
+        ContentValues values = new ContentValues();
+        values.put("name", newName);
+        rowsAffected = db.update("classroom", values, "id = ?",
+                new String[]{classroom_id});
+
+        db.close();
+
+        if (rowsAffected > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Delete classroom item
      * @param classroomId
      * @return
@@ -305,6 +330,31 @@ public class DatabaseManager extends SQLiteOpenHelper {
         boolean isSuccessfulClassromStudent = insertClassroomStudent(classroomId, studentId);
 
         return isSuccessful && isSuccessfulClassromStudent;
+    }
+
+    /**
+     * Update student
+     * @param student_id the student to be changed
+     * @param newName the new name of the class
+     * @return success or not
+     */
+    public boolean updateStudentName(String student_id, String newName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int rowsAffected;
+
+        ContentValues values = new ContentValues();
+        values.put("name", newName);
+        rowsAffected = db.update("student", values, "id = ?",
+                new String[]{student_id});
+
+        db.close();
+
+        if (rowsAffected > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -569,10 +619,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
      * Update attendance - present/not present and date
      * @param students
      * @param date_time
-     * @return
+     * @return number of rows affected
      */
     public int updateAttendance(ArrayList<Student> students, String date_time) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 
         int rowsAffected = 0;
 

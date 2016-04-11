@@ -28,7 +28,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.ferid.app.classroom.attendance.TakeAttendanceFragment;
+import com.ferid.app.classroom.attendance.AttendancesFragment;
 import com.ferid.app.classroom.edit.EditClassroomFragment;
 import com.ferid.app.classroom.interfaces.PermissionGrantListener;
 import com.ferid.app.classroom.statistics.StatisticsFragment;
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 EditClassroomFragment fragment = (EditClassroomFragment) getSupportFragmentManager()
                         .findFragmentByTag("android:switcher:" + viewPager.getId() + ":"
                                 + mAdapter.getItemId(0));
-                fragment.addNewItem();
+                fragment.addClassroom();
             }
         });
     }
@@ -230,11 +230,11 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     return EditClassroomFragment.newInstance();
                 case 1:
-                    return TakeAttendanceFragment.newInstance();
+                    return AttendancesFragment.newInstance();
                 case 2:
                     return StatisticsFragment.newInstance();
                 default:
-                    return TakeAttendanceFragment.newInstance();
+                    return AttendancesFragment.newInstance();
             }
         }
 
