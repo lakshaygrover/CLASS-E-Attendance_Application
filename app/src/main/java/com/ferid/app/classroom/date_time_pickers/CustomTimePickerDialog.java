@@ -23,7 +23,7 @@ import android.widget.Button;
 import android.widget.TimePicker;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.interfaces.BackNavigationListener;
+import com.ferid.app.classroom.interfaces.DateBackListener;
 
 /**
  * Created by ferid.cafer on 3/16/2015.
@@ -33,7 +33,7 @@ public class CustomTimePickerDialog extends Dialog {
     private TimePicker timePicker;
     private Button buttonOk;
 
-    private BackNavigationListener backNavigationListener;
+    private DateBackListener dateBackListener;
 
     public CustomTimePickerDialog(Context context__) {
         super(context__);
@@ -41,7 +41,7 @@ public class CustomTimePickerDialog extends Dialog {
 
         context = context__;
 
-        backNavigationListener = (BackNavigationListener) context;
+        dateBackListener = (DateBackListener) context;
 
         timePicker = (TimePicker) findViewById(R.id.timePicker);
 
@@ -52,8 +52,8 @@ public class CustomTimePickerDialog extends Dialog {
                 int minute = timePicker.getCurrentMinute();
                 int hour = timePicker.getCurrentHour();
 
-                if (backNavigationListener != null)
-                    backNavigationListener.OnPress(minute, hour);
+                if (dateBackListener != null)
+                    dateBackListener.OnPress(minute, hour);
 
                 dismiss();
             }

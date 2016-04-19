@@ -18,9 +18,11 @@ package com.ferid.app.classroom.statistics;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +31,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
@@ -79,7 +83,7 @@ public class StatisticalListActivity extends AppCompatActivity {
     //share graph icon
     private ImageButton shareGraphIcon;
     //graph file name (out of screen shot)
-    private final String FILE_NAME = "graph.png";
+    private final static String FILE_NAME = "graph.png";
 
 
     @Override
@@ -103,7 +107,9 @@ public class StatisticalListActivity extends AppCompatActivity {
         closeGraphIcon = (ImageButton) findViewById(R.id.closeGraphIcon);
         shareGraphIcon = (ImageButton) findViewById(R.id.shareGraphIcon);
         TextView className = (TextView) findViewById(R.id.className);
-        className.setText(classroom.getName());
+        if (className != null && classroom != null) {
+            className.setText(classroom.getName());
+        }
 
         //list
         list = (RecyclerView) findViewById(R.id.list);
@@ -128,10 +134,14 @@ public class StatisticalListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
-        setTitle(classroom.getName());
+        if (classroom != null) {
+            setTitle(classroom.getName());
+        }
     }
 
     /**
@@ -410,6 +420,8 @@ public class StatisticalListActivity extends AppCompatActivity {
             Animation animShow = AnimationUtils.loadAnimation(context, R.anim.push_from_bottom);
             graphLayout.startAnimation(animShow);
             graphLayout.setVisibility(View.VISIBLE);
+
+            setStatusBarColour();
         }
     }
 
@@ -422,6 +434,31 @@ public class StatisticalListActivity extends AppCompatActivity {
                     R.anim.push_to_bottom);
             graphLayout.setAnimation(animHide);
             graphLayout.setVisibility(View.GONE);
+
+            setStatusBarColour();
+        }
+    }
+
+    /**
+     * Set status bar colour on graph visibility change
+     */
+    private void setStatusBarColour() {
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+            if (graphLayout.getVisibility() == View.VISIBLE) {
+                Configuration configuration = getResources().getConfiguration();
+
+                if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    window.setStatusBarColor(getResources().getColor(R.color.materialLightGreen));
+                } else if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    window.setStatusBarColor(getResources().getColor(R.color.colourPrimaryDark));
+                }
+            } else {
+                window.setStatusBarColor(getResources().getColor(R.color.colourPrimaryDark));
+            }
         }
     }
 

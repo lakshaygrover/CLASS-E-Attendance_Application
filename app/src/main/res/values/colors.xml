@@ -7,6 +7,7 @@
     <color name="white">#ffffff</color>
     <color name="smoothWhite">#FCF9F9</color>
     <color name="grey">#b6b6b6</color>
+    <color name="lightGrey">#e5e5e5</color>
     <color name="transparent">#00000000</color>
     <color name="statisticsItemColour">#EDE7F6</color>
     <color name="dialogColour">@color/colourPrimaryDark</color>
@@ -21,7 +22,7 @@
     <color name="colourPrimary">@color/materialDeepPurple</color>
     <color name="colourPrimaryDark">#512DA8</color>
 
-    <color name="page_background">@color/grey</color>
+    <color name="page_background">@color/lightGrey</color>
     <color name="primary_text">@color/blackish</color>
     <color name="secondary_text">@color/darkGray</color>
     <color name="left_menu_bg_colour">@color/white</color>

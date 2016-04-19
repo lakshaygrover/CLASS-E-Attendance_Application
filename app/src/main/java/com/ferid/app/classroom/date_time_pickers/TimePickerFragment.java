@@ -23,7 +23,7 @@ import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
-import com.ferid.app.classroom.interfaces.BackNavigationListener;
+import com.ferid.app.classroom.interfaces.DateBackListener;
 
 import java.util.Calendar;
 
@@ -33,11 +33,11 @@ import java.util.Calendar;
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
-    private BackNavigationListener backNavigationListener;
+    private DateBackListener dateBackListener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        backNavigationListener = (BackNavigationListener) getActivity();
+        dateBackListener = (DateBackListener) getActivity();
 
         // Use the current time as the default values for the picker
         final Calendar c = Calendar.getInstance();
@@ -50,8 +50,8 @@ public class TimePickerFragment extends DialogFragment
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        if (backNavigationListener != null)
-            backNavigationListener.OnPress(minute, hourOfDay);
+        if (dateBackListener != null)
+            dateBackListener.OnPress(minute, hourOfDay);
 
         dismiss();
     }

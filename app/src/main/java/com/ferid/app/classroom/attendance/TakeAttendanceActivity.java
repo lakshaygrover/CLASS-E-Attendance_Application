@@ -41,7 +41,7 @@ import com.ferid.app.classroom.date_time_pickers.CustomTimePickerDialog;
 import com.ferid.app.classroom.date_time_pickers.DatePickerFragment;
 import com.ferid.app.classroom.date_time_pickers.TimePickerFragment;
 import com.ferid.app.classroom.interfaces.AdapterClickListener;
-import com.ferid.app.classroom.interfaces.BackNavigationListener;
+import com.ferid.app.classroom.interfaces.DateBackListener;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.model.Student;
 import com.ferid.app.classroom.past_attendances.PastAttendancesListActivity;
@@ -54,7 +54,7 @@ import java.util.Date;
  * Created by ferid.cafer on 4/16/2015.<br />
  * Takes attendance.
  */
-public class TakeAttendanceActivity extends AppCompatActivity implements BackNavigationListener {
+public class TakeAttendanceActivity extends AppCompatActivity implements DateBackListener {
     private Context context;
     private Toolbar toolbar;
 
@@ -116,15 +116,19 @@ public class TakeAttendanceActivity extends AppCompatActivity implements BackNav
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
         Date dateTime = new Date();
         SimpleDateFormat targetFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         classDate = targetFormat.format(dateTime);
 
-        setTitle(classroom.getName());
-        toolbar.setSubtitle(classDate);
+        if (toolbar != null && classroom != null && classDate != null) {
+            setTitle(classroom.getName());
+            toolbar.setSubtitle(classDate);
+        }
     }
 
     /**

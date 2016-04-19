@@ -40,7 +40,7 @@ import com.ferid.app.classroom.date_time_pickers.CustomTimePickerDialog;
 import com.ferid.app.classroom.date_time_pickers.DatePickerFragment;
 import com.ferid.app.classroom.date_time_pickers.TimePickerFragment;
 import com.ferid.app.classroom.interfaces.AdapterClickListener;
-import com.ferid.app.classroom.interfaces.BackNavigationListener;
+import com.ferid.app.classroom.interfaces.DateBackListener;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.model.Student;
 
@@ -52,7 +52,7 @@ import java.util.Date;
  * Created by ferid.cafer on 4/16/2015.<br />
  * Alters a past attendance.
  */
-public class PastAttendanceActivity extends AppCompatActivity implements BackNavigationListener {
+public class PastAttendanceActivity extends AppCompatActivity implements DateBackListener {
     private Context context;
     private Toolbar toolbar;
 
@@ -114,11 +114,15 @@ public class PastAttendanceActivity extends AppCompatActivity implements BackNav
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
-        setTitle(classroom.getName());
-        toolbar.setSubtitle(dateTime);
+        if (toolbar != null && classroom != null && dateTime != null) {
+            setTitle(classroom.getName());
+            toolbar.setSubtitle(dateTime);
+        }
     }
 
     /**

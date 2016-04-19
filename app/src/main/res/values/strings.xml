@@ -26,6 +26,8 @@
     <string name="changeDateTime">Change Date and Time</string>
     <string name="enterAlphanumeric">Enter only alphanumeric characters</string>
     <string name="importFromExcel">Import from Excel</string>
+    <string name="importDatabase">Import Database</string>
+    <string name="exportDatabase">Export Database</string>
 
     <string name="emptyMessageClassroom">Add classrooms and students, then pull to refresh&#8230;</string>
     <string name="emptyMessageStudent">Either add one by one or import all from xls file</string>
@@ -47,7 +49,7 @@
     <string name="takeAttendanceBeforeExcel">Take attendance before Excel</string>
     <string name="selectFile">Select a File to Upload</string>
 
-    <string name="grantPermission">Grant permission for Excel</string>
+    <string name="grantPermission">Grant permission</string>
 
     <string name="ongoing">The process is ongoing</string>
     <string name="wait">Please Wait</string>
@@ -57,5 +59,10 @@
     <string name="showStudents">Students</string>
     <string name="deleteItem">Delete</string>
     <string name="edit">Edit</string>
+
+    <string name="databaseImportError">Database import error</string>
+    <string name="databaseExportError">Database export error</string>
+    <string name="databaseImportSuccess">Successfully imported. Pull to refresh.</string>
+    <string name="databaseExportSuccess">Successfully exported. Share it.</string>
 
 </resources>

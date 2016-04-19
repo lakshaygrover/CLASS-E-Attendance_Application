@@ -33,6 +33,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
+import com.ferid.app.classroom.adapters.EditClassroomsAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
 import com.ferid.app.classroom.enums.ClassroomPopup;
 import com.ferid.app.classroom.interfaces.AdapterClickListener;
@@ -42,7 +43,6 @@ import com.ferid.app.classroom.interfaces.PromptListener;
 import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 import com.ferid.app.classroom.material_dialog.PromptDialog;
 import com.ferid.app.classroom.model.Classroom;
-import com.ferid.app.classroom.adapters.EditClassroomsAdapter;
 
 import java.util.ArrayList;
 

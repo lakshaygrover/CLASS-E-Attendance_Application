@@ -19,7 +19,7 @@ package com.ferid.app.classroom.interfaces;
 /**
  * Created by ferid.cafer on 3/9/2015.
  */
-public interface BackNavigationListener {
+public interface DateBackListener {
     /**
      * Date
      * @param dayOfMonth int

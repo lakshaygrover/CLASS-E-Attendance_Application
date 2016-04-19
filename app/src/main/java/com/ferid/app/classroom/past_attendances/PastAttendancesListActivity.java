@@ -96,11 +96,15 @@ public class PastAttendancesListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
         setTitle(getString(R.string.pastAttendances));
-        toolbar.setSubtitle(classroom.getName());
+        if (toolbar != null && classroom != null) {
+            toolbar.setSubtitle(classroom.getName());
+        }
     }
 
     /**

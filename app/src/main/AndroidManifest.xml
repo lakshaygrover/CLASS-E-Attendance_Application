@@ -19,21 +19,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.ferid.app.classroom.MainActivity"
+        <activity android:name=".MainActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan"/>
 
-        <activity android:name="com.ferid.app.classroom.edit.EditStudentActivity"
+        <activity android:name=".edit.EditStudentActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan"/>
 
         <activity android:name=".attendance.TakeAttendanceActivity"
             android:configChanges="orientation|screenSize"/>
 
-        <activity android:name="com.ferid.app.classroom.past_attendances.PastAttendancesListActivity"
+        <activity android:name=".past_attendances.PastAttendancesListActivity"
             android:configChanges="orientation|screenSize"/>
 
-        <activity android:name="com.ferid.app.classroom.past_attendances.PastAttendanceActivity"
+        <activity android:name=".past_attendances.PastAttendanceActivity"
             android:configChanges="orientation|screenSize"/>
 
         <activity android:name=".statistics.StatisticalListActivity"

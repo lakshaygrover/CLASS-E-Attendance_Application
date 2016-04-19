@@ -23,7 +23,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.interfaces.BackNavigationListener;
+import com.ferid.app.classroom.interfaces.DateBackListener;
 
 
 /**
@@ -34,7 +34,7 @@ public class CustomDatePickerDialog extends Dialog {
     private DatePicker datePicker;
     private Button buttonOk;
 
-    private BackNavigationListener backNavigationListener;
+    private DateBackListener dateBackListener;
 
     public CustomDatePickerDialog(Context context__) {
         super(context__);
@@ -42,7 +42,7 @@ public class CustomDatePickerDialog extends Dialog {
 
         context = context__;
 
-        backNavigationListener = (BackNavigationListener) context;
+        dateBackListener = (DateBackListener) context;
 
         datePicker = (DatePicker) findViewById(R.id.datePicker);
         datePicker.setCalendarViewShown(false);
@@ -55,8 +55,8 @@ public class CustomDatePickerDialog extends Dialog {
                 int month = datePicker.getMonth();
                 int year = datePicker.getYear();
 
-                if (backNavigationListener != null)
-                    backNavigationListener.OnPress(dayOfMonth, month, year);
+                if (dateBackListener != null)
+                    dateBackListener.OnPress(dayOfMonth, month, year);
 
                 dismiss();
             }
