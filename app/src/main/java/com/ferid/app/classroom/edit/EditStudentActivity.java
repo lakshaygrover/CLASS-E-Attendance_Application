@@ -527,7 +527,7 @@ public class EditStudentActivity extends AppCompatActivity {
 
                 //only xls and xlsx extensions are allowed
                 if (!filePath.endsWith("xls")) {
-                    Snackbar.make(list, getString(R.string.extensionWarning),
+                    Snackbar.make(list, getString(R.string.extensionWarningXls),
                             Snackbar.LENGTH_LONG).show();
                     return;
                 }

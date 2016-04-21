@@ -53,7 +53,8 @@
 
     <string name="ongoing">The process is ongoing</string>
     <string name="wait">Please Wait</string>
-    <string name="extensionWarning">Please use XLS extension</string>
+    <string name="extensionWarningXls">Please use xls extension</string>
+    <string name="extensionWarningSqlite">Please use sqlite extension</string>
     <string name="mountExternalStorage">Please mount external storage</string>
 
     <string name="showStudents">Students</string>

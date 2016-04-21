@@ -285,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //only sqlite extension is allowed
                 if (!filePath.endsWith("sqlite")) {
-                    Snackbar.make(viewPager, getString(R.string.extensionWarning),
+                    Snackbar.make(viewPager, getString(R.string.extensionWarningSqlite),
                             Snackbar.LENGTH_LONG).show();
                     return;
                 }
