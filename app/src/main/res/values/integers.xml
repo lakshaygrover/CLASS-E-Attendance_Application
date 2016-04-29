@@ -4,4 +4,6 @@
 
     <integer name="statistics_excel_column_width_students">4000</integer>
     <integer name="statistics_excel_column_width_dates">2500</integer>
+
+    <integer name="list_pop_up_width">250</integer>
 </resources>

@@ -6,8 +6,7 @@
     <string name="statistics">STATISTICS</string>
     <string name="pastAttendances">Past Attendances</string>
 
-    <string name="classroomName">Classroom Name</string>
-    <string name="studentName">Student Name</string>
+    <string name="enterName">Enter Name</string>
 
     <string name="attendance">Attendance</string>
     <string name="taker">Taker</string>
@@ -57,7 +56,6 @@
     <string name="extensionWarningSqlite">Please use sqlite extension</string>
     <string name="mountExternalStorage">Please mount external storage</string>
 
-    <string name="showStudents">Students</string>
     <string name="deleteItem">Delete</string>
     <string name="edit">Edit</string>
 

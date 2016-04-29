@@ -18,7 +18,6 @@ package com.ferid.app.classroom.material_dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.TextInputLayout;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -53,8 +52,6 @@ public class PromptDialog extends Dialog {
 
         context = context__;
 
-        getWindow().setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.transparent)));
-
         inputLayoutContent = (TextInputLayout) findViewById(R.id.inputLayoutContent);
         content = (EditText) findViewById(R.id.content);
         positiveButton = (Button) findViewById(R.id.positiveButton);
@@ -69,16 +66,6 @@ public class PromptDialog extends Dialog {
                 return false;
             }
         });
-    }
-
-    /**
-     * Set text hint
-     * @param value String
-     */
-    public void setHint(String value) {
-        if (content != null) {
-            content.setHint(value);
-        }
     }
 
     /**

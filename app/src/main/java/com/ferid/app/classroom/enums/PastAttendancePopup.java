@@ -20,8 +20,7 @@ package com.ferid.app.classroom.enums;
  * Created by ferid.cafer on 4/7/2016.
  */
 public enum PastAttendancePopup {
-    SHOW_ATTENDANCE(0),
-    DELETE_ATTENDANCE(1);
+    DELETE_ATTENDANCE(0);
 
     private final int value;
 

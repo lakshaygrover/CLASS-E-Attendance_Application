@@ -181,9 +181,7 @@ public class PastAttendancesListActivity extends AppCompatActivity {
                 if (arrayList != null && arrayList.size() > itemPosition) {
                     Attendance attendance = arrayList.get(itemPosition);
 
-                    if (menuPosition == PastAttendancePopup.SHOW_ATTENDANCE.getValue()) {
-                        showAttendance(attendance.getDateTime());
-                    } else if (menuPosition == PastAttendancePopup.DELETE_ATTENDANCE.getValue()) {
+                    if (menuPosition == PastAttendancePopup.DELETE_ATTENDANCE.getValue()) {
                         deleteAttendance(attendance);
                     }
                 }

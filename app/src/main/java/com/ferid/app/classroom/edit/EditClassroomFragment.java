@@ -149,7 +149,6 @@ public class EditClassroomFragment extends Fragment {
      */
     public void addClassroom() {
         final PromptDialog promptDialog = new PromptDialog(context);
-        promptDialog.setHint(getString(R.string.classroomName));
         promptDialog.setPositiveButton(getString(R.string.ok));
         promptDialog.setAllCaps();
         promptDialog.setAlphanumeric();
@@ -263,9 +262,7 @@ public class EditClassroomFragment extends Fragment {
                 if (arrayList != null && arrayList.size() > itemPosition) {
                     Classroom classroom = arrayList.get(itemPosition);
 
-                    if (menuPosition == ClassroomPopup.SHOW_STUDENTS.getValue()) {
-                        showStudents(classroom);
-                    } else if (menuPosition == ClassroomPopup.CHANGE_NAME.getValue()) {
+                    if (menuPosition == ClassroomPopup.CHANGE_NAME.getValue()) {
                         editClassroom(classroom.getId(), classroom.getName());
                     } else if (menuPosition == ClassroomPopup.DELETE_CLASSROOM.getValue()) {
                         deleteClassroom(classroom);

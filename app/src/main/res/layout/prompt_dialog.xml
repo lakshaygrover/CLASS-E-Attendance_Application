@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/dialog_shape">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,7 +26,8 @@
                 android:inputType="textCapWords"
                 android:imeOptions="actionDone"
                 android:singleLine="true"
-                android:maxLength="24"/>
+                android:maxLength="24"
+                android:hint="@string/enterName"/>
 
         </android.support.design.widget.TextInputLayout>
 

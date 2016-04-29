@@ -12,7 +12,6 @@
     </string-array>
 
     <string-array name="edit_classroom">
-        <item>@string/showStudents</item>
         <item>@string/edit</item>
         <item>@string/deleteItem</item>
     </string-array>
@@ -23,7 +22,6 @@
     </string-array>
 
     <string-array name="edit_past_attendance">
-        <item>@string/attendance</item>
         <item>@string/deleteItem</item>
     </string-array>
 </resources>

@@ -20,9 +20,8 @@ package com.ferid.app.classroom.enums;
  * Created by ferid.cafer  on 4/6/2016.
  */
 public enum ClassroomPopup {
-    SHOW_STUDENTS(0),
-    CHANGE_NAME(1),
-    DELETE_CLASSROOM(2);
+    CHANGE_NAME(0),
+    DELETE_CLASSROOM(1);
 
     private final int value;
 

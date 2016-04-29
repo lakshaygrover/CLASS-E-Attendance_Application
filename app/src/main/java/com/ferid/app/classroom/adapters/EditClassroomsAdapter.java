@@ -127,7 +127,8 @@ public class EditClassroomsAdapter extends RecyclerView.Adapter<EditClassroomsAd
         listPopupWindow.setAdapter(new ArrayAdapter(context, android.R.layout.simple_list_item_1,
                 context.getResources().getStringArray(R.array.edit_classroom)));
         listPopupWindow.setAnchorView(anchor);
-        listPopupWindow.setContentWidth(300);
+        listPopupWindow.setContentWidth(context.getResources()
+                .getInteger(R.integer.list_pop_up_width));
         listPopupWindow.setDropDownGravity(Gravity.LEFT);
         listPopupWindow.setModal(true);
         listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {

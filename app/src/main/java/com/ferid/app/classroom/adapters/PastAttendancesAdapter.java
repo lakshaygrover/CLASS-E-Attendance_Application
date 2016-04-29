@@ -130,7 +130,8 @@ public class PastAttendancesAdapter extends RecyclerView.Adapter<PastAttendances
         listPopupWindow.setAdapter(new ArrayAdapter(context, android.R.layout.simple_list_item_1,
                 context.getResources().getStringArray(R.array.edit_past_attendance)));
         listPopupWindow.setAnchorView(anchor);
-        listPopupWindow.setContentWidth(350);
+        listPopupWindow.setContentWidth(context.getResources()
+                .getInteger(R.integer.list_pop_up_width));
         listPopupWindow.setDropDownGravity(Gravity.LEFT);
         listPopupWindow.setModal(true);
         listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {

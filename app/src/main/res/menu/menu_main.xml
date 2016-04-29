@@ -5,15 +5,13 @@
     <item
         android:id="@+id/importDb"
         android:title="@string/importDatabase"
-        android:icon="@drawable/ic_action_db_in"
         android:orderInCategory="1"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/exportDb"
         android:title="@string/exportDatabase"
-        android:icon="@drawable/ic_action_db_out"
         android:orderInCategory="2"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 
 </menu>

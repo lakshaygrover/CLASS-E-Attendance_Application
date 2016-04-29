@@ -153,7 +153,6 @@ public class EditStudentActivity extends AppCompatActivity {
      */
     private void addNewItem() {
         final PromptDialog promptDialog = new PromptDialog(context);
-        promptDialog.setHint(getString(R.string.studentName));
         promptDialog.setPositiveButton(getString(R.string.ok));
         promptDialog.setOnPositiveClickListener(new PromptListener() {
             @Override
