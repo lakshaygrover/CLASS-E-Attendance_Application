@@ -18,7 +18,6 @@ package com.ferid.app.classroom.statistics;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -27,7 +26,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -355,60 +353,14 @@ public class StatisticsFragment extends Fragment {
             }
 
             //if file is successfully created and closed
-            //show list dialog, otherwise display error
+            //open file, otherwise display error
             if (isFileOperationSuccessful) {
-                showDialogForAction();
+                openExcelFile();
             } else {
                 excelFileError(getString(R.string.excelError));
             }
 
         } else { //external storage is not available
-            excelFileError(getString(R.string.mountExternalStorage));
-        }
-    }
-
-    /**
-     * What to do, open file or send mail
-     */
-    private void showDialogForAction() {
-        //list dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(R.string.whatToDoWithExcel)
-                .setItems(R.array.excel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                openExcelFile();
-                                break;
-                            case 1:
-                                sendExcelByMail();
-                                break;
-                        }
-                    }
-                });
-        //create and show
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
-    /**
-     * Send excel file by mail
-     */
-    private void sendExcelByMail() {
-        if (DirectoryUtility.isExternalStorageMounted()) {
-
-            File file = new File(DirectoryUtility.getPathFolder() + FILE_NAME);
-
-            if (file.exists()) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("plain/text");
-                Uri attachment = Uri.fromFile(file);
-                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
-                intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.takeAttendance));
-                intent.putExtra(Intent.EXTRA_STREAM, attachment);
-                startActivityForExcel(intent);
-            }
-        } else {
             excelFileError(getString(R.string.mountExternalStorage));
         }
     }

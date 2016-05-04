@@ -17,8 +17,6 @@
 package com.ferid.app.classroom.utility;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -68,7 +66,6 @@ public class DbBackUp {
 
                         Snackbar.make(view, context.getString(R.string.databaseExportSuccess),
                                 Snackbar.LENGTH_LONG).show();
-                        shareDatabase(context);
                     }
                 }
             } catch (Exception e) {
@@ -114,22 +111,6 @@ public class DbBackUp {
             Snackbar.make(view, context.getString(R.string.mountExternalStorage),
                     Snackbar.LENGTH_LONG).show();
         }
-    }
-
-    /**
-     * Share database through media
-     * @param context
-     */
-    private static void shareDatabase(Context context) {
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("plain/text");
-        share.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name));
-        share.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.takeAttendance));
-        share.setType("image/png");
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///"
-                + DirectoryUtility.getPathFolder() + FILE_NAME));
-        context.startActivity(Intent.createChooser(share,
-                context.getString(R.string.shareText)));
     }
 
 }

@@ -41,9 +41,6 @@
 
     <string name="shareText">Share with</string>
 
-    <string name="whatToDoWithExcel">Excel File</string>
-    <string name="openFile">Open File</string>
-    <string name="sendMail">Send Mail</string>
     <string name="excelError">Excel file related error</string>
     <string name="takeAttendanceBeforeExcel">Take attendance before Excel</string>
     <string name="selectFile">Select a File to Upload</string>
@@ -62,6 +59,6 @@
     <string name="databaseImportError">Database import error</string>
     <string name="databaseExportError">Database export error</string>
     <string name="databaseImportSuccess">Successfully imported. Pull to refresh.</string>
-    <string name="databaseExportSuccess">Successfully exported. Share it.</string>
+    <string name="databaseExportSuccess">Successfully exported. It\'s under attendance_taker</string>
 
 </resources>
