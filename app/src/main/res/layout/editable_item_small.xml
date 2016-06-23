@@ -20,12 +20,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_item_small"
-            android:paddingLeft="@dimen/left_padding">
+            android:background="?android:attr/selectableItemBackground">
 
             <TextView
                 android:id="@+id/counter"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/margin_small"
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:background="@drawable/square"

@@ -19,7 +19,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/listview_item_small">
+            android:layout_height="@dimen/listview_item_small"
+            android:background="?android:attr/selectableItemBackground">
 
             <TextView
                 android:id="@+id/text"
@@ -33,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/default_margin"/>
+                android:layout_marginRight="@dimen/margin_small"/>
 
         </RelativeLayout>
 

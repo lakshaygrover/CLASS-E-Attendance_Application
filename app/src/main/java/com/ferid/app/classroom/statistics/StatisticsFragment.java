@@ -377,24 +377,12 @@ public class StatisticsFragment extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.fromFile(file), "application/vnd.ms-excel");
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivityForExcel(intent);
+                startActivity(intent);
             } else {
                 excelFileError(getString(R.string.excelError));
             }
         } else {
             excelFileError(getString(R.string.mountExternalStorage));
-        }
-    }
-
-    /**
-     * Start activity either to open or to send mail the excel file
-     * @param intent Intent
-     */
-    private void startActivityForExcel(Intent intent) {
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            excelFileError(getString(R.string.excelError));
         }
     }
 

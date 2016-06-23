@@ -5,7 +5,6 @@
     <dimen name="default_margin">32dp</dimen>
     <dimen name="margin_small">16dp</dimen>
     <dimen name="margin_tiny">8dp</dimen>
-    <dimen name="left_padding">20dp</dimen>
 
     <!-- text sizes -->
     <dimen name="text_size_micro">14sp</dimen>

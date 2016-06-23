@@ -19,13 +19,14 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/listview_item_big">
+            android:layout_height="@dimen/listview_item_big"
+            android:background="?android:attr/selectableItemBackground">
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ListItemTextView" />
+                style="@style/ListItemTextView"/>
 
             <ImageButton
                 android:id="@+id/settings"
@@ -33,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginRight="@dimen/margin_small"
                 android:gravity="center"
                 android:src="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
                 android:tint="@color/secondary_text"
