@@ -374,10 +374,31 @@ public class StatisticsFragment extends Fragment {
             File file = new File(DirectoryUtility.getPathFolder() + FILE_NAME);
 
             if (file.exists()) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.fromFile(file), "application/vnd.ms-excel");
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.fromFile(file), "application/vnd.ms-excel");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    //if excel reader not found, ask to download one (Google Sheets)
+                    Snackbar.make(list, getString(R.string.excelReaderNotFound),
+                            Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.download), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    final String appPackageName
+                                            = "com.google.android.apps.docs.editors.sheets";
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                                Uri.parse("market://details?id=" + appPackageName)));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                                Uri.parse("https://play.google.com/store/apps/details?id="
+                                                        + appPackageName)));
+                                    }
+                                }
+                            }).show();
+                }
             } else {
                 excelFileError(getString(R.string.excelError));
             }

@@ -8,8 +8,8 @@ android {
         applicationId "com.ferid.app.classroom"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 30
-        versionName "4.2.1"
+        versionCode 31
+        versionName "4.2.2"
 
         generatedDensities = []
     }
@@ -45,5 +45,5 @@ dependencies {
     compile 'org.apache.poi:poi:3.14'
 
     //graph
-    compile 'com.jjoe64:graphview:4.0.1'
+    compile 'com.jjoe64:graphview:4.1.1'
 }
