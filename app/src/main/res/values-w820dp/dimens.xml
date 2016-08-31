@@ -7,17 +7,11 @@
     <dimen name="margin_tiny">8dp</dimen>
 
     <!-- text sizes -->
-    <dimen name="text_size_micro">14sp</dimen>
     <dimen name="text_size_small">18sp</dimen>
     <dimen name="text_size_medium">22sp</dimen>
     <dimen name="text_size_large">28sp</dimen>
 
-    <dimen name="listview_divider_height">1dp</dimen>
     <dimen name="listview_item_small">72dp</dimen>
     <dimen name="listview_item_big">96dp</dimen>
-
-    <dimen name="dialog_button_height">64dp</dimen>
-    <dimen name="dialog_positive_button_width">100dp</dimen>
-    <dimen name="dialog_negative_button_width">100dp</dimen>
 
 </resources>

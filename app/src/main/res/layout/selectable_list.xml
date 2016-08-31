@@ -12,11 +12,40 @@
         <include
             layout="@layout/toolbar"/>
 
+        <RelativeLayout
+            android:id="@+id/selectAllLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/listview_item_small"
+            android:layout_below="@+id/toolbar"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/text_size_small"
+                android:text="@string/selectAll"/>
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/checkBoxSelectAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin_small"/>
+
+        </RelativeLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/selectAllLayout"
             android:paddingTop="@dimen/margin_small"
             android:dividerHeight="0dp"
             android:divider="@null"
@@ -32,9 +61,9 @@
             style="@style/EmptyText" />
 
         <View
-            android:layout_below="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/drop_shadow_height"
+            android:layout_below="@+id/selectAllLayout"
             android:background="@drawable/drop_shadow"
             android:alpha="0.5" />
 

@@ -25,12 +25,14 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
@@ -74,13 +76,17 @@ public class TakeAttendanceActivity extends AppCompatActivity implements DateBac
     private CustomTimePickerDialog timePickerDialog;
     private Date changedDate;
 
+    //save button
     private FloatingActionButton floatingActionButton;
+
+    //select all - all students are present or absent
+    private AppCompatCheckBox checkBoxSelectAll;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_with_toolbar);
+        setContentView(R.layout.selectable_list);
 
         Bundle args = getIntent().getExtras();
         if (args != null) {
@@ -105,6 +111,21 @@ public class TakeAttendanceActivity extends AppCompatActivity implements DateBac
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         startButtonAnimation();
+
+        checkBoxSelectAll = (AppCompatCheckBox) findViewById(R.id.checkBoxSelectAll);
+        checkBoxSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!arrayList.isEmpty()) {
+                    //make all students present or absent
+                    for (Student stud : arrayList) {
+                        stud.setPresent(isChecked);
+                    }
+
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
 
         new SelectStudents().execute();
     }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_background">
+
+        <include
+            layout="@layout/toolbar"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:paddingTop="@dimen/margin_small"
+            android:dividerHeight="0dp"
+            android:divider="@null"
+            android:clipToPadding="false"/>
+
+        <TextView
+            android:id="@+id/emptyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/default_margin"
+            style="@style/EmptyText" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/drop_shadow_height"
+            android:layout_below="@+id/toolbar"
+            android:background="@drawable/drop_shadow"
+            android:alpha="0.5" />
+
+    </RelativeLayout>
+
+    <include
+        layout="@layout/floating_action_button"/>
+
+</android.support.design.widget.CoordinatorLayout>

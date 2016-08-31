@@ -62,7 +62,7 @@ public class PastAttendancesListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_with_toolbar);
+        setContentView(R.layout.editable_list);
 
         Bundle args = getIntent().getExtras();
         if (args != null) {

@@ -16,33 +16,25 @@
 
 package com.ferid.app.classroom;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.ferid.app.classroom.attendance.AttendancesFragment;
 import com.ferid.app.classroom.edit.EditClassroomFragment;
-import com.ferid.app.classroom.enums.PermissionFor;
 import com.ferid.app.classroom.interfaces.PermissionGrantListener;
 import com.ferid.app.classroom.statistics.StatisticsFragment;
 import com.ferid.app.classroom.tabs.SlidingTabLayout;
 import com.ferid.app.classroom.utility.ApplicationRating;
-import com.ferid.app.classroom.utility.DbBackUp;
-import com.ferid.app.classroom.utility.DirectoryUtility;
 import com.ferid.app.classroom.utility.PermissionProcessor;
 
 /**
@@ -55,10 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private SlidingTabLayout mSlidingTabLayout;
 
     private FloatingActionButton floatingActionButton;
-
-    //permission for action
-    private PermissionFor permissionFor = PermissionFor.NONE;
-    private static final int REQUEST_IMPORT_DATABASE = 102;
 
 
     @Override
@@ -80,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(mAdapter);
 
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setDividerColors(getResources().getColor(R.color.transparent));
-        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.white));
+        mSlidingTabLayout.setDividerColors(ContextCompat.getColor(this, R.color.transparent));
+        mSlidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(this, R.color.white));
         mSlidingTabLayout.setCustomTabView(R.layout.tab_view, R.id.tabText);
         mSlidingTabLayout.setViewPager(viewPager);
 
@@ -188,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                permissionFor = PermissionFor.EXCEL_IMPORT;
                 checkPermissionForExternal();
             }
         });
@@ -212,16 +199,7 @@ public class MainActivity extends AppCompatActivity {
         permissionProcessor.setPermissionGrantListener(new PermissionGrantListener() {
             @Override
             public void OnGranted() {
-                if (permissionFor == PermissionFor.EXCEL_IMPORT) {
-                    exportToExcel();
-                } else if (permissionFor == PermissionFor.DATABASE_IMPORT) {
-                    browseFiles();
-                } else if (permissionFor == PermissionFor.DATABASE_EXPORT) {
-                    DbBackUp.exportDatabse(MainActivity.this, viewPager);
-                }
-
-                //back to its initial state
-                permissionFor = PermissionFor.NONE;
+                exportToExcel();
             }
         });
         permissionProcessor.askForPermissionExternalStorage();
@@ -236,100 +214,9 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    if (permissionFor == PermissionFor.EXCEL_IMPORT) {
-                        exportToExcel();
-                    } else if (permissionFor == PermissionFor.DATABASE_IMPORT) {
-                        browseFiles();
-                    } else if (permissionFor == PermissionFor.DATABASE_EXPORT) {
-                        DbBackUp.exportDatabse(MainActivity.this, viewPager);
-                    }
-
-                    //back to its initial state
-                    permissionFor = PermissionFor.NONE;
-                }
-                return;
-            }
-        }
-    }
-
-    /**
-     * Get the path of the database file to import
-     */
-    private void browseFiles() {
-        //if directory is not mounted do not start the operation
-        if (DirectoryUtility.isExternalStorageMounted()) {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("*/*");
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            try {
-                startActivityForResult(Intent.createChooser(intent,
-                        getString(R.string.selectFile)), REQUEST_IMPORT_DATABASE);
-            } catch (ActivityNotFoundException e) {
-                Snackbar.make(viewPager, getString(R.string.databaseImportError),
-                        Snackbar.LENGTH_LONG).show();
-            }
-
-        } else {
-            Snackbar.make(viewPager, getString(R.string.mountExternalStorage),
-                    Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_IMPORT_DATABASE) {
-            if (resultCode == RESULT_OK) {
-                String filePath = data.getData().getPath();
-
-                //only sqlite extension is allowed
-                if (!filePath.endsWith("sqlite")) {
-                    Snackbar.make(viewPager, getString(R.string.extensionWarningSqlite),
-                            Snackbar.LENGTH_LONG).show();
-                    return;
-                }
-
-                if (filePath.contains(":")) {
-                    String[] partFilePath = filePath.split(":");
-                    if (partFilePath.length == 2) {
-                        String fullPath = Environment.getExternalStorageDirectory()
-                                + "/" + partFilePath[1];
-
-                        DbBackUp.importDatabase(MainActivity.this, viewPager, fullPath);
-                    } else {
-                        Snackbar.make(viewPager, getString(R.string.databaseImportError),
-                                Snackbar.LENGTH_LONG).show();
-                    }
-                } else {
-                    if (filePath != null) {
-                        DbBackUp.importDatabase(MainActivity.this, viewPager, filePath);
-                    }
+                    exportToExcel();
                 }
             }
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar actions click
-        switch (item.getItemId()) {
-            case R.id.importDb:
-                permissionFor = PermissionFor.DATABASE_IMPORT;
-                checkPermissionForExternal();
-                return true;
-            case R.id.exportDb:
-                permissionFor = PermissionFor.DATABASE_EXPORT;
-                checkPermissionForExternal();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -365,5 +252,4 @@ public class MainActivity extends AppCompatActivity {
             return titles[position];
         }
     }
-
 }

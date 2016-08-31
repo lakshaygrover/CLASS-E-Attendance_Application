@@ -17,11 +17,11 @@
 package com.ferid.app.classroom.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
@@ -65,13 +65,7 @@ public class TakeAttendanceAdapter extends RecyclerView.Adapter<TakeAttendanceAd
         Student item = studentList.get(position);
 
         viewHolder.text.setText(item.getName());
-        if (item.isPresent()) {
-            viewHolder.checkBox.setImageResource(R.drawable.ic_checkbox_full);
-            viewHolder.checkBox.setColorFilter(context.getResources().getColor(R.color.colourAccent));
-        } else {
-            viewHolder.checkBox.setImageResource(R.drawable.ic_checkbox_empty);
-            viewHolder.checkBox.setColorFilter(context.getResources().getColor(R.color.grey));
-        }
+        viewHolder.checkBox.setChecked(item.isPresent());
     }
 
     @Override
@@ -81,13 +75,13 @@ public class TakeAttendanceAdapter extends RecyclerView.Adapter<TakeAttendanceAd
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView text;
-        ImageView checkBox;
+        AppCompatCheckBox checkBox;
 
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             text = (TextView) itemView.findViewById(R.id.text);
-            checkBox = (ImageView) itemView.findViewById(R.id.checkBox);
+            checkBox = (AppCompatCheckBox) itemView.findViewById(R.id.checkBox);
         }
 
         @Override

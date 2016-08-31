@@ -45,7 +45,6 @@
         android:visibility="gone">
 
         <RelativeLayout
-            android:id="@+id/customToolbar"
             android:layout_height="48dp"
             android:layout_width="match_parent"
             android:background="@color/colourAccent">

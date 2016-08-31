@@ -19,14 +19,12 @@
 
     <string name="deleteAll">Delete All</string>
     <string name="sureToDelete">&#160;will be deleted</string>
-    <string name="save">Save</string>
     <string name="saved">Saved</string>
     <string name="allToDelete">All attendances of this class will be deleted</string>
     <string name="changeDateTime">Change Date and Time</string>
     <string name="enterAlphanumeric">Enter only alphanumeric characters</string>
     <string name="importFromExcel">Import from Excel</string>
-    <string name="importDatabase">Import Database</string>
-    <string name="exportDatabase">Export Database</string>
+    <string name="selectAll">Select All</string>
 
     <string name="emptyMessageClassroom">Add classrooms and students, then pull to refresh&#8230;</string>
     <string name="emptyMessageStudent">Either add one by one or import all from xls file</string>
@@ -52,15 +50,9 @@
     <string name="ongoing">The process is ongoing</string>
     <string name="wait">Please Wait</string>
     <string name="extensionWarningXls">Please use xls extension</string>
-    <string name="extensionWarningSqlite">Please use sqlite extension</string>
     <string name="mountExternalStorage">Please mount external storage</string>
 
     <string name="deleteItem">Delete</string>
     <string name="edit">Edit</string>
-
-    <string name="databaseImportError">Database import error</string>
-    <string name="databaseExportError">Database export error</string>
-    <string name="databaseImportSuccess">Successfully imported. Pull to refresh.</string>
-    <string name="databaseExportSuccess">Successfully exported. It\'s under attendance_taker</string>
 
 </resources>
