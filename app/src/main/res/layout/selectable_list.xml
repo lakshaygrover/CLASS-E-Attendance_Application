@@ -26,7 +26,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="@dimen/margin_small"
                 android:textColor="@color/secondary_text"
                 android:textSize="@dimen/text_size_small"
                 android:text="@string/selectAll"/>
@@ -36,8 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_small"/>
+                android:layout_alignParentRight="true"/>
 
         </RelativeLayout>
 

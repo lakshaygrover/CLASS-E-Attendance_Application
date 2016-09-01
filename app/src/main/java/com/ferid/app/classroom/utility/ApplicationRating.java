@@ -79,7 +79,7 @@ public class ApplicationRating {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt(context
                 .getString(R.string.pref_beforeRatingViewingNumber), beforeRatingViewingNumber);
-        editor.commit();
+        editor.apply();
     }
 
     /**
