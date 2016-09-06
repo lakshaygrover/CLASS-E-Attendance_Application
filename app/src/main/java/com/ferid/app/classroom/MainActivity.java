@@ -20,6 +20,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -33,7 +34,6 @@ import com.ferid.app.classroom.attendance.AttendancesFragment;
 import com.ferid.app.classroom.edit.EditClassroomFragment;
 import com.ferid.app.classroom.interfaces.PermissionGrantListener;
 import com.ferid.app.classroom.statistics.StatisticsFragment;
-import com.ferid.app.classroom.tabs.SlidingTabLayout;
 import com.ferid.app.classroom.utility.ApplicationRating;
 import com.ferid.app.classroom.utility.PermissionProcessor;
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
 
-    private SlidingTabLayout mSlidingTabLayout;
+    private TabLayout mSlidingTabLayout;
 
     private FloatingActionButton floatingActionButton;
 
@@ -67,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
 
-        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setDividerColors(ContextCompat.getColor(this, R.color.transparent));
-        mSlidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(this, R.color.white));
-        mSlidingTabLayout.setCustomTabView(R.layout.tab_view, R.id.tabText);
-        mSlidingTabLayout.setViewPager(viewPager);
+        mSlidingTabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.white));
+        mSlidingTabLayout.setTabTextColors(ContextCompat.getColor(this, R.color.colourPrimaryLight),
+                ContextCompat.getColor(this, R.color.white));
+        mSlidingTabLayout.setupWithViewPager(viewPager);
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
 
