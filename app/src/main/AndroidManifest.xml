@@ -11,7 +11,8 @@
         android:theme="@style/Theme.Attendance">
 
         <activity
-            android:name=".splash.SplashActivity">
+            android:name=".splash.SplashActivity"
+            android:resizeableActivity="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,23 +22,29 @@
 
         <activity android:name=".MainActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan"
+            android:resizeableActivity="true"/>
 
         <activity android:name=".edit.EditStudentActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan"
+            android:resizeableActivity="true"/>
 
         <activity android:name=".attendance.TakeAttendanceActivity"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize"
+            android:resizeableActivity="true"/>
 
         <activity android:name=".past_attendances.PastAttendancesListActivity"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize"
+            android:resizeableActivity="true"/>
 
         <activity android:name=".past_attendances.PastAttendanceActivity"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize"
+            android:resizeableActivity="true"/>
 
         <activity android:name=".statistics.StatisticalListActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan"
+            android:resizeableActivity="true"/>
 
     </application>
 

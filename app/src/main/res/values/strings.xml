@@ -37,8 +37,6 @@
 
     <string name="rateApp">Would you support the application with 5 stars, please?</string>
 
-    <string name="shareText">Share with</string>
-
     <string name="download">Download</string>
     <string name="excelReaderNotFound">Excel reader is not found</string>
     <string name="excelError">Excel file related error</string>
