@@ -38,15 +38,6 @@ public class Student implements Serializable {
         attendanceId = 0;
     }
 
-    public Student(String name) {
-        id = 0;
-        this.name = name;
-        isPresent = false;
-        classroomStudentId = 0;
-        dateTime = "";
-        attendanceId = 0;
-    }
-
     public String getName() {
         return name;
     }
