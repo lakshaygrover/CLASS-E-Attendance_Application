@@ -108,7 +108,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/pre-dexed" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/reload-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/restart-dex" />
@@ -132,9 +131,10 @@
     <orderEntry type="library" exported="" name="support-vector-drawable-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-24.2.1" level="project" />
-    <orderEntry type="library" exported="" name="poi-3.14" level="project" />
+    <orderEntry type="library" exported="" name="poi-3.15" level="project" />
     <orderEntry type="library" exported="" name="commons-codec-1.10" level="project" />
     <orderEntry type="library" exported="" name="graphview-4.2.1" level="project" />
+    <orderEntry type="library" exported="" name="commons-collections4-4.1" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="design-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="android-android-24" level="project" />

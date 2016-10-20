@@ -759,7 +759,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 "ON classroomStudent.id = attendance.classroomstudent_id " +
                 "WHERE classroom.id = classroomStudent.classroom_id " +
                 "AND classroom.id = ? AND classroomStudent.student_id = ? " +
-                "ORDER BY classroomStudent.student_id";
+                "ORDER BY attendance.date_time";
 
         Cursor cursor = db.rawQuery(query, new String[]{classroom_id, student_id});
 

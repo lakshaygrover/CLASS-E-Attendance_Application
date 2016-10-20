@@ -82,7 +82,7 @@ public class StatisticalListActivity extends AppCompatActivity {
 
         Bundle args = getIntent().getExtras();
         if (args != null) {
-            classroom = (Classroom) args.getSerializable("classroom");
+            classroom = args.getParcelable("classroom");
         }
 
         context = this;
@@ -301,6 +301,7 @@ public class StatisticalListActivity extends AppCompatActivity {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
         series.setColor(ContextCompat.getColor(this, R.color.colourAccent));
         series.setThickness(getResources().getInteger(R.integer.statistics_series_thickness));
+        series.setAnimated(true);
 
         graph.removeAllSeries();
         graph.addSeries(series);

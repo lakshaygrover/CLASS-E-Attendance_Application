@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         applicationId "com.ferid.app.classroom"
         minSdkVersion 16
-        targetSdkVersion 23
-        versionCode 35
-        versionName "4.5.0"
+        targetSdkVersion 24
+        versionCode 36
+        versionName "4.6.0"
 
         vectorDrawables.generatedDensities = ['mdpi','hdpi','xhdpi','xxhdpi']
     }
@@ -42,7 +42,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:24.2.1'
 
     //excel
-    compile 'org.apache.poi:poi:3.14'
+    compile 'org.apache.poi:poi:3.15'
 
     //graph
     compile 'com.jjoe64:graphview:4.2.1'

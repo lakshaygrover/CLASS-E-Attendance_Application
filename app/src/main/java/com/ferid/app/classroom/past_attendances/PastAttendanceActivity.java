@@ -87,7 +87,7 @@ public class PastAttendanceActivity extends AppCompatActivity implements DateBac
 
         Bundle args = getIntent().getExtras();
         if (args != null) {
-            classroom = (Classroom) args.getSerializable("classroom");
+            classroom = args.getParcelable("classroom");
             dateTime = args.getString("dateTime");
         }
 

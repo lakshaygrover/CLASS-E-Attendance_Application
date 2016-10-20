@@ -16,12 +16,13 @@
 
 package com.ferid.app.classroom.model;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by ferid.cafer on 4/3/2015.
  */
-public class Classroom implements Serializable {
+public class Classroom implements Parcelable {
     private int id;
     private String name;
     private int studentNumber;
@@ -60,5 +61,34 @@ public class Classroom implements Serializable {
 
     public void setStudentNumber(int studentNumber) {
         this.studentNumber = studentNumber;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeInt(studentNumber);
+    }
+
+    public static final Parcelable.Creator<Classroom> CREATOR
+            = new Parcelable.Creator<Classroom>() {
+        public Classroom createFromParcel(Parcel in) {
+            return new Classroom(in);
+        }
+
+        public Classroom[] newArray(int size) {
+            return new Classroom[size];
+        }
+    };
+
+    private Classroom(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        studentNumber = in.readInt();
     }
 }
