@@ -7,9 +7,9 @@ android {
     defaultConfig {
         applicationId "com.ferid.app.classroom"
         minSdkVersion 16
-        targetSdkVersion 24
-        versionCode 36
-        versionName "4.6.0"
+        targetSdkVersion 23
+        versionCode 37
+        versionName "4.6.1"
 
         vectorDrawables.generatedDensities = ['mdpi','hdpi','xhdpi','xxhdpi']
     }
