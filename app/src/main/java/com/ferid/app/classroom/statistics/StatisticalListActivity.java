@@ -174,7 +174,7 @@ public class StatisticalListActivity extends AppCompatActivity {
     }
 
     /**
-     * Select all students' attendance as a percentage from DB
+     * Select all students' attendances in percentage from DB
      */
     private class SelectAllAttendancesOfClass extends AsyncTask<Void, Void, ArrayList<Attendance>> {
 
