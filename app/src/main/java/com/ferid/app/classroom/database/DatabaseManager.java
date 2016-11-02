@@ -23,6 +23,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.ferid.app.classroom.model.Attendance;
+import com.ferid.app.classroom.model.AttendanceStatistics;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.model.Student;
 
@@ -692,17 +693,18 @@ public class DatabaseManager extends SQLiteOpenHelper {
      * @param classroomId
      * @return
      */
-    public ArrayList<Attendance> selectAllAttendancesOfClass(int classroomId) {
+    public ArrayList<AttendanceStatistics> selectAllAttendancesOfClass(int classroomId) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String classroom_id = String.valueOf(classroomId);
-        ArrayList<Attendance> list = new ArrayList<>();
+        ArrayList<AttendanceStatistics> list = new ArrayList<>();
 
-        String query = "SELECT attendance.id, attendance.date_time, student.name, " +
-                "classroomStudent.student_id, classroomStudent.classroom_id, " +
+        String query = "SELECT attendance.id, " +
+                "classroomStudent.classroom_id, classroomStudent.student_id, " +
                 "(SUM(attendance.present)*100/COUNT(attendance.id)) as percentage, " +
                 "SUM(attendance.present) as presence, " +
-                "COUNT(attendance.id) " +
+                "COUNT(attendance.id), " +
+                "student.name " +
                 "FROM student, classroom " +
                 "INNER JOIN classroomStudent " +
                 "ON student.id = classroomStudent.student_id " +
@@ -716,18 +718,17 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                Attendance attendance = new Attendance();
+                AttendanceStatistics attendanceStatistics = new AttendanceStatistics();
 
-                attendance.setId(cursor.getInt(0));
-                attendance.setDateTime(cursor.getString(1));
-                attendance.setStudentName(cursor.getString(2));
-                attendance.setStudentId(cursor.getInt(3));
-                attendance.setClassroomId(cursor.getInt(4));
-                attendance.setPresencePercentage(cursor.getInt(5));
-                attendance.setAttendedClasses(cursor.getInt(6));
-                attendance.setAvailableClasses(cursor.getInt(7));
+                attendanceStatistics.setId(cursor.getInt(0));
+                attendanceStatistics.setClassroomId(cursor.getInt(1));
+                attendanceStatistics.setStudentId(cursor.getInt(2));
+                attendanceStatistics.setPresencePercentage(cursor.getInt(3));
+                attendanceStatistics.setAttendedClasses(cursor.getInt(4));
+                attendanceStatistics.setAvailableClasses(cursor.getInt(5));
+                attendanceStatistics.setStudentName(cursor.getString(6));
 
-                list.add(attendance);
+                list.add(attendanceStatistics);
             } while (cursor.moveToNext());
         }
 

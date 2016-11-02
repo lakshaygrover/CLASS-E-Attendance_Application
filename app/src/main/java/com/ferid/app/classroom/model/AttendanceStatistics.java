@@ -20,25 +20,31 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by ferid.cafer on 4/6/2015.
+ * Created by ferid.cafer on 11/2/2016.
  */
-public class Attendance implements Parcelable {
+
+public class AttendanceStatistics implements Parcelable {
     private int id;
     private int classroomId;
     private int studentId;
-    private int present;
-    private String dateTime;
+
+    private int presencePercentage; //percentage of presence
+    private int availableClasses;   //number of classes that could be attended
+    private int attendedClasses;    //number of classes student attended
+
     private String studentName;
 
-
-    public Attendance() {
+    public AttendanceStatistics() {
         id = 0;
         classroomId = 0;
         studentId = 0;
-        present = 0;
-        dateTime = "";
+        presencePercentage = 0;
+        availableClasses = 0;
+        attendedClasses = 0;
         studentName = "";
     }
+
+
 
     public int getId() {
         return id;
@@ -64,20 +70,28 @@ public class Attendance implements Parcelable {
         this.studentId = studentId;
     }
 
-    public int getPresent() {
-        return present;
+    public int getPresencePercentage() {
+        return presencePercentage;
     }
 
-    public void setPresent(int present) {
-        this.present = present;
+    public void setPresencePercentage(int presencePercentage) {
+        this.presencePercentage = presencePercentage;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public int getAvailableClasses() {
+        return availableClasses;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setAvailableClasses(int availableClasses) {
+        this.availableClasses = availableClasses;
+    }
+
+    public int getAttendedClasses() {
+        return attendedClasses;
+    }
+
+    public void setAttendedClasses(int attendedClasses) {
+        this.attendedClasses = attendedClasses;
     }
 
     public String getStudentName() {
@@ -89,37 +103,39 @@ public class Attendance implements Parcelable {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeInt(classroomId);
         dest.writeInt(studentId);
-        dest.writeInt(present);
-        dest.writeString(dateTime);
-        dest.writeString(studentName);
+        dest.writeInt(presencePercentage);
+        dest.writeInt(availableClasses);
+        dest.writeInt(attendedClasses);
     }
 
-    public static final Parcelable.Creator<Attendance> CREATOR
-            = new Parcelable.Creator<Attendance>() {
-        public Attendance createFromParcel(Parcel in) {
-            return new Attendance(in);
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<AttendanceStatistics> CREATOR = new Creator<AttendanceStatistics>() {
+        @Override
+        public AttendanceStatistics createFromParcel(Parcel in) {
+            return new AttendanceStatistics(in);
         }
 
-        public Attendance[] newArray(int size) {
-            return new Attendance[size];
+        @Override
+        public AttendanceStatistics[] newArray(int size) {
+            return new AttendanceStatistics[size];
         }
     };
 
-    protected Attendance(Parcel in) {
+    protected AttendanceStatistics(Parcel in) {
         id = in.readInt();
         classroomId = in.readInt();
         studentId = in.readInt();
-        present = in.readInt();
-        dateTime = in.readString();
+        presencePercentage = in.readInt();
+        availableClasses = in.readInt();
+        attendedClasses = in.readInt();
         studentName = in.readString();
     }
 }

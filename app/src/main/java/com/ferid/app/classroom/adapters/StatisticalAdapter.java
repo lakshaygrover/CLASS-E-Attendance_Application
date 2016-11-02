@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.interfaces.AdapterClickListener;
-import com.ferid.app.classroom.model.Attendance;
+import com.ferid.app.classroom.model.AttendanceStatistics;
 
 import java.util.ArrayList;
 
@@ -32,11 +32,11 @@ import java.util.ArrayList;
  * Created by ferid.cafer on 4/7/2016.
  */
 public class StatisticalAdapter extends RecyclerView.Adapter<StatisticalAdapter.ViewHolder> {
-    private ArrayList<Attendance> attendanceList;
+    private ArrayList<AttendanceStatistics> attendanceList;
 
     private AdapterClickListener adapterClickListener;
 
-    public StatisticalAdapter(ArrayList<Attendance> attendanceList) {
+    public StatisticalAdapter(ArrayList<AttendanceStatistics> attendanceList) {
         this.attendanceList = attendanceList;
     }
 
@@ -58,7 +58,7 @@ public class StatisticalAdapter extends RecyclerView.Adapter<StatisticalAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        Attendance item = attendanceList.get(position);
+        AttendanceStatistics item = attendanceList.get(position);
 
         viewHolder.key.setText(item.getStudentName());
         viewHolder.valuePercentage.setText(item.getPresencePercentage() + "%");

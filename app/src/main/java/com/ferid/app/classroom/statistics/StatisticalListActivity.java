@@ -41,6 +41,7 @@ import com.ferid.app.classroom.adapters.StatisticalAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
 import com.ferid.app.classroom.interfaces.AdapterClickListener;
 import com.ferid.app.classroom.model.Attendance;
+import com.ferid.app.classroom.model.AttendanceStatistics;
 import com.ferid.app.classroom.model.Classroom;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -59,7 +60,7 @@ public class StatisticalListActivity extends AppCompatActivity {
     private Context context;
 
     private RecyclerView list;
-    private ArrayList<Attendance> attendanceList = new ArrayList<>();
+    private ArrayList<AttendanceStatistics> attendanceList = new ArrayList<>();
     private StatisticalAdapter adapter;
 
     private TextView emptyText; //empty list view text
@@ -69,7 +70,7 @@ public class StatisticalListActivity extends AppCompatActivity {
     //graphics
     private GraphView graph;
     private LinearLayout graphLayout;
-    private Attendance attendance;
+    private AttendanceStatistics attendance;
     private ArrayList<Attendance> graphList = new ArrayList<>();
     //close graph icon
     private ImageButton closeGraphIcon;
@@ -176,11 +177,11 @@ public class StatisticalListActivity extends AppCompatActivity {
     /**
      * Select all students' attendances in percentage from DB
      */
-    private class SelectAllAttendancesOfClass extends AsyncTask<Void, Void, ArrayList<Attendance>> {
+    private class SelectAllAttendancesOfClass extends AsyncTask<Void, Void, ArrayList<AttendanceStatistics>> {
 
         @Override
-        protected ArrayList<Attendance> doInBackground(Void... params) {
-            ArrayList<Attendance> tmpList = null;
+        protected ArrayList<AttendanceStatistics> doInBackground(Void... params) {
+            ArrayList<AttendanceStatistics> tmpList = null;
             if (classroom != null) {
                 DatabaseManager databaseManager = new DatabaseManager(context);
                 tmpList = databaseManager.selectAllAttendancesOfClass(classroom.getId());
@@ -190,7 +191,7 @@ public class StatisticalListActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Attendance> tmpList) {
+        protected void onPostExecute(ArrayList<AttendanceStatistics> tmpList) {
             attendanceList.clear();
 
             if (tmpList != null) {
