@@ -700,7 +700,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         String query = "SELECT attendance.id, attendance.date_time, student.name, " +
                 "classroomStudent.student_id, classroomStudent.classroom_id, " +
-                "(SUM(attendance.present)*100/COUNT(attendance.id)) as presence " +
+                "(SUM(attendance.present)*100/COUNT(attendance.id)) as percentage, " +
+                "SUM(attendance.present) as presence, " +
+                "COUNT(attendance.id) " +
                 "FROM student, classroom " +
                 "INNER JOIN classroomStudent " +
                 "ON student.id = classroomStudent.student_id " +
@@ -722,6 +724,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 attendance.setStudentId(cursor.getInt(3));
                 attendance.setClassroomId(cursor.getInt(4));
                 attendance.setPresencePercentage(cursor.getInt(5));
+                attendance.setAttendedClasses(cursor.getInt(6));
+                attendance.setAvailableClasses(cursor.getInt(7));
 
                 list.add(attendance);
             } while (cursor.moveToNext());

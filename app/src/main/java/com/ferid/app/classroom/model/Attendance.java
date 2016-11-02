@@ -28,7 +28,9 @@ public class Attendance implements Parcelable {
     private int studentId;
 
     private int present;
-    private int presencePercentage;
+    private int presencePercentage; //percentage of presence
+    private int availableClasses;   //number of classes that could be attended
+    private int attendedClasses;    //number of classes student attended
 
     private String dateTime;
     private String studentName;
@@ -41,6 +43,8 @@ public class Attendance implements Parcelable {
 
         present = 0;
         presencePercentage = 0;
+        availableClasses = 0;
+        attendedClasses = 0;
 
         dateTime = "";
         studentName = "";
@@ -102,6 +106,22 @@ public class Attendance implements Parcelable {
         this.studentName = studentName;
     }
 
+    public int getAvailableClasses() {
+        return availableClasses;
+    }
+
+    public void setAvailableClasses(int availableClasses) {
+        this.availableClasses = availableClasses;
+    }
+
+    public int getAttendedClasses() {
+        return attendedClasses;
+    }
+
+    public void setAttendedClasses(int attendedClasses) {
+        this.attendedClasses = attendedClasses;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -115,6 +135,8 @@ public class Attendance implements Parcelable {
 
         dest.writeInt(present);
         dest.writeInt(presencePercentage);
+        dest.writeInt(availableClasses);
+        dest.writeInt(attendedClasses);
 
         dest.writeString(dateTime);
         dest.writeString(studentName);
@@ -138,6 +160,8 @@ public class Attendance implements Parcelable {
 
         present = in.readInt();
         presencePercentage = in.readInt();
+        availableClasses = in.readInt();
+        attendedClasses = in.readInt();
 
         dateTime = in.readString();
         studentName = in.readString();

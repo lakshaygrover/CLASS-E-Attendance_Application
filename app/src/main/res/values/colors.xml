@@ -7,7 +7,6 @@
     <color name="grey">#b6b6b6</color>
     <color name="lightGrey">#e5e5e5</color>
     <color name="transparent">#00000000</color>
-    <color name="statisticsItemColour">#EDE7F6</color>
     <color name="dialogColour">@color/colourPrimaryDark</color>
 
     <!-- material colours -->

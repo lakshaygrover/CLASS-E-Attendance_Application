@@ -20,7 +20,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
@@ -62,12 +61,9 @@ public class StatisticalAdapter extends RecyclerView.Adapter<StatisticalAdapter.
         Attendance item = attendanceList.get(position);
 
         viewHolder.key.setText(item.getStudentName());
-        viewHolder.value.setText(String.valueOf(item.getPresencePercentage()) + "%");
-
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
-                viewHolder.valueView.getLayoutParams();
-        layoutParams.weight = item.getPresencePercentage() / 100f;
-        viewHolder.valueView.setLayoutParams(layoutParams);
+        viewHolder.valuePercentage.setText(item.getPresencePercentage() + "%");
+        viewHolder.valueNumeric.setText(item.getAttendedClasses()
+                + "/" + item.getAvailableClasses());
     }
 
     @Override
@@ -77,15 +73,15 @@ public class StatisticalAdapter extends RecyclerView.Adapter<StatisticalAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView key;
-        TextView value;
-        View valueView;
+        TextView valuePercentage;
+        TextView valueNumeric;
 
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             key = (TextView) itemView.findViewById(R.id.key);
-            value = (TextView) itemView.findViewById(R.id.value);
-            valueView = itemView.findViewById(R.id.valueView);
+            valuePercentage = (TextView) itemView.findViewById(R.id.valuePercentage);
+            valueNumeric = (TextView) itemView.findViewById(R.id.valueNumeric);
         }
 
         @Override
