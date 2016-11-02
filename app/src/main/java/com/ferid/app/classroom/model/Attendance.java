@@ -31,7 +31,6 @@ public class Attendance implements Parcelable {
     private int presencePercentage;
 
     private String dateTime;
-    private String classroomName;
     private String studentName;
 
 
@@ -44,7 +43,6 @@ public class Attendance implements Parcelable {
         presencePercentage = 0;
 
         dateTime = "";
-        classroomName = "";
         studentName = "";
     }
 
@@ -96,14 +94,6 @@ public class Attendance implements Parcelable {
         this.dateTime = dateTime;
     }
 
-    public String getClassroomName() {
-        return classroomName;
-    }
-
-    public void setClassroomName(String classroomName) {
-        this.classroomName = classroomName;
-    }
-
     public String getStudentName() {
         return studentName;
     }
@@ -127,7 +117,6 @@ public class Attendance implements Parcelable {
         dest.writeInt(presencePercentage);
 
         dest.writeString(dateTime);
-        dest.writeString(classroomName);
         dest.writeString(studentName);
     }
 
@@ -151,7 +140,6 @@ public class Attendance implements Parcelable {
         presencePercentage = in.readInt();
 
         dateTime = in.readString();
-        classroomName = in.readString();
         studentName = in.readString();
     }
 }

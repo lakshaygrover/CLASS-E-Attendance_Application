@@ -651,8 +651,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         ArrayList<Attendance> list = new ArrayList<>();
 
-        String query = "SELECT attendance.date_time, attendance.present, " +
-                "student.name, classroom.name, " +
+        String query = "SELECT attendance.date_time, attendance.present, student.name, " +
                 "classroomStudent.student_id, classroomStudent.classroom_id " +
                 "FROM student, classroom " +
                 "INNER JOIN classroomStudent " +
@@ -671,9 +670,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 attendance.setDateTime(cursor.getString(0));
                 attendance.setPresent(cursor.getInt(1));
                 attendance.setStudentName(cursor.getString(2));
-                attendance.setClassroomName(cursor.getString(3));
-                attendance.setStudentId(cursor.getInt(4));
-                attendance.setClassroomId(cursor.getInt(5));
+                attendance.setStudentId(cursor.getInt(3));
+                attendance.setClassroomId(cursor.getInt(4));
 
                 list.add(attendance);
             } while (cursor.moveToNext());
