@@ -586,7 +586,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
         String classroom_id = String.valueOf(classroomId);
         ArrayList<Student> list = new ArrayList<>();
 
-        String query = "SELECT attendance.id, attendance.date_time, attendance.present, student.name " +
+        String query = "SELECT attendance.id, attendance.date_time, " +
+                "attendance.present, student.name " +
                 "FROM student " +
                 "INNER JOIN classroomStudent " +
                 "ON student.id = classroomStudent.student_id " +
@@ -602,7 +603,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 student.setAttendanceId(cursor.getInt(0));
                 student.setDateTime(cursor.getString(1));
                 int isPresent = cursor.getInt(2);
-                student.setPresent(isPresent==1?true:false);
+                student.setPresent(isPresent==1);
                 student.setName(cursor.getString(3));
 
                 list.add(student);
@@ -699,8 +700,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         String classroom_id = String.valueOf(classroomId);
         ArrayList<Attendance> list = new ArrayList<>();
 
-        String query = "SELECT attendance.id, attendance.date_time, attendance.present, " +
-                "student.name, classroom.name, " +
+        String query = "SELECT attendance.id, attendance.date_time, student.name, " +
                 "classroomStudent.student_id, classroomStudent.classroom_id, " +
                 "(SUM(attendance.present)*100/COUNT(attendance.id)) as presence " +
                 "FROM student, classroom " +
@@ -720,12 +720,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
                 attendance.setId(cursor.getInt(0));
                 attendance.setDateTime(cursor.getString(1));
-                attendance.setPresent(cursor.getInt(2));
-                attendance.setStudentName(cursor.getString(3));
-                attendance.setClassroomName(cursor.getString(4));
-                attendance.setStudentId(cursor.getInt(5));
-                attendance.setClassroomId(cursor.getInt(6));
-                attendance.setPresencePercentage(cursor.getInt(7));
+                attendance.setStudentName(cursor.getString(2));
+                attendance.setStudentId(cursor.getInt(3));
+                attendance.setClassroomId(cursor.getInt(4));
+                attendance.setPresencePercentage(cursor.getInt(5));
 
                 list.add(attendance);
             } while (cursor.moveToNext());
@@ -749,9 +747,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         String student_id = String.valueOf(studentId);
         ArrayList<Attendance> list = new ArrayList<>();
 
-        String query = "SELECT attendance.id, attendance.date_time, attendance.present, " +
-                "student.name, classroom.name, " +
-                "classroomStudent.student_id, classroomStudent.classroom_id " +
+        String query = "SELECT attendance.id, attendance.date_time, attendance.present " +
                 "FROM student, classroom " +
                 "INNER JOIN classroomStudent " +
                 "ON student.id = classroomStudent.student_id " +
@@ -770,10 +766,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 attendance.setId(cursor.getInt(0));
                 attendance.setDateTime(cursor.getString(1));
                 attendance.setPresent(cursor.getInt(2));
-                attendance.setStudentName(cursor.getString(3));
-                attendance.setClassroomName(cursor.getString(4));
-                attendance.setStudentId(cursor.getInt(5));
-                attendance.setClassroomId(cursor.getInt(6));
 
                 list.add(attendance);
             } while (cursor.moveToNext());

@@ -386,7 +386,7 @@ public class StatisticalListActivity extends AppCompatActivity {
         }
 
         outState.putBoolean("isGraphVisible", isGraphVisible);
-        outState.putSerializable("attendance", attendance);
+        outState.putParcelable("attendance", attendance);
 
         super.onSaveInstanceState(outState);
     }
@@ -396,7 +396,7 @@ public class StatisticalListActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         boolean isGraphVisible = savedInstanceState.getBoolean("isGraphVisible");
-        attendance = (Attendance) savedInstanceState.getSerializable("attendance");
+        attendance = savedInstanceState.getParcelable("attendance");
 
         if (isGraphVisible) {
             graphList.clear();

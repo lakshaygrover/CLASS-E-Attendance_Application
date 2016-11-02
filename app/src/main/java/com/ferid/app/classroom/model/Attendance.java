@@ -16,30 +16,36 @@
 
 package com.ferid.app.classroom.model;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by ferid.cafer on 4/6/2015.
  */
-public class Attendance implements Serializable {
+public class Attendance implements Parcelable {
     private int id;
+    private int classroomId;
+    private int studentId;
+
     private int present;
+    private int presencePercentage;
+
     private String dateTime;
     private String classroomName;
     private String studentName;
-    private int classroomId;
-    private int studentId;
-    private int presencePercentage;
+
 
     public Attendance() {
         id = 0;
+        classroomId = 0;
+        studentId = 0;
+
         present = 0;
+        presencePercentage = 0;
+
         dateTime = "";
         classroomName = "";
         studentName = "";
-        classroomId = 0;
-        studentId = 0;
-        presencePercentage = 0;
     }
 
     public int getId() {
@@ -50,12 +56,36 @@ public class Attendance implements Serializable {
         this.id = id;
     }
 
+    public int getClassroomId() {
+        return classroomId;
+    }
+
+    public void setClassroomId(int classroomId) {
+        this.classroomId = classroomId;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
     public int getPresent() {
         return present;
     }
 
     public void setPresent(int present) {
         this.present = present;
+    }
+
+    public int getPresencePercentage() {
+        return presencePercentage;
+    }
+
+    public void setPresencePercentage(int presencePercentage) {
+        this.presencePercentage = presencePercentage;
     }
 
     public String getDateTime() {
@@ -82,27 +112,46 @@ public class Attendance implements Serializable {
         this.studentName = studentName;
     }
 
-    public int getClassroomId() {
-        return classroomId;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setClassroomId(int classroomId) {
-        this.classroomId = classroomId;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(classroomId);
+        dest.writeInt(studentId);
+
+        dest.writeInt(present);
+        dest.writeInt(presencePercentage);
+
+        dest.writeString(dateTime);
+        dest.writeString(classroomName);
+        dest.writeString(studentName);
     }
 
-    public int getStudentId() {
-        return studentId;
-    }
+    public static final Parcelable.Creator<Attendance> CREATOR
+            = new Parcelable.Creator<Attendance>() {
+        public Attendance createFromParcel(Parcel in) {
+            return new Attendance(in);
+        }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
-    }
+        public Attendance[] newArray(int size) {
+            return new Attendance[size];
+        }
+    };
 
-    public int getPresencePercentage() {
-        return presencePercentage;
-    }
+    private Attendance(Parcel in) {
+        id = in.readInt();
+        classroomId = in.readInt();
+        studentId = in.readInt();
 
-    public void setPresencePercentage(int presencePercentage) {
-        this.presencePercentage = presencePercentage;
+        present = in.readInt();
+        presencePercentage = in.readInt();
+
+        dateTime = in.readString();
+        classroomName = in.readString();
+        studentName = in.readString();
     }
 }

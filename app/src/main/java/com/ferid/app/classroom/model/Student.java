@@ -16,12 +16,10 @@
 
 package com.ferid.app.classroom.model;
 
-import java.io.Serializable;
-
 /**
  * Created by ferid.cafer on 4/3/2015.
  */
-public class Student implements Serializable {
+public class Student {
     private int id;
     private String name;
     private boolean isPresent;
