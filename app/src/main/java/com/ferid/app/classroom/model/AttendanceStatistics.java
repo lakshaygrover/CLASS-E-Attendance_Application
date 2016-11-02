@@ -22,7 +22,6 @@ import android.os.Parcelable;
 /**
  * Created by ferid.cafer on 11/2/2016.
  */
-
 public class AttendanceStatistics implements Parcelable {
     private int id;
     private int classroomId;
