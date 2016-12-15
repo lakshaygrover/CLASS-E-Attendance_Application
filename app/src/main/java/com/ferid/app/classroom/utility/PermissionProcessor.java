@@ -25,7 +25,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.interfaces.PermissionGrantListener;
+import com.ferid.app.classroom.listeners.PermissionGrantListener;
 
 /**
  * Created by ferid.cafer on 3/22/2016.

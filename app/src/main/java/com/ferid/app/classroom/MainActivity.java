@@ -32,7 +32,7 @@ import android.view.View;
 
 import com.ferid.app.classroom.attendance.AttendancesFragment;
 import com.ferid.app.classroom.edit.EditClassroomFragment;
-import com.ferid.app.classroom.interfaces.PermissionGrantListener;
+import com.ferid.app.classroom.listeners.PermissionGrantListener;
 import com.ferid.app.classroom.statistics.StatisticsFragment;
 import com.ferid.app.classroom.utility.ApplicationRating;
 import com.ferid.app.classroom.utility.PermissionProcessor;

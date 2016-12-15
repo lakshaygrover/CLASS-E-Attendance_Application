@@ -35,7 +35,7 @@ import android.widget.TextView;
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.OperateClassroomsAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
-import com.ferid.app.classroom.interfaces.AdapterClickListener;
+import com.ferid.app.classroom.listeners.AdapterClickListener;
 import com.ferid.app.classroom.model.Classroom;
 
 import java.util.ArrayList;

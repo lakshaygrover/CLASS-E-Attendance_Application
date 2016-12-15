@@ -5,15 +5,13 @@
     <item
         android:id="@+id/changeDateTime"
         android:title="@string/changeDateTime"
-        android:icon="@drawable/ic_action_schedule"
         android:orderInCategory="1"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/pastAttendances"
         android:title="@string/pastAttendances"
-        android:icon="@drawable/ic_action_history"
         android:orderInCategory="2"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="never"/>
 
 </menu>

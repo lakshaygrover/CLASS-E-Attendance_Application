@@ -22,7 +22,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.interfaces.OnAlertClick;
+import com.ferid.app.classroom.listeners.OnAlertClick;
 import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 
 /**

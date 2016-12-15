@@ -21,7 +21,7 @@
     <string name="sureToDelete">&#160;will be deleted</string>
     <string name="saved">Saved</string>
     <string name="allToDelete">All attendances of this class will be deleted</string>
-    <string name="changeDateTime">Change Date and Time</string>
+    <string name="changeDateTime">Change Date/Time</string>
     <string name="enterAlphanumeric">Enter only alphanumeric characters</string>
     <string name="importFromExcel">Import from Excel</string>
     <string name="selectAll">Select All</string>

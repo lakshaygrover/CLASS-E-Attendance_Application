@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.interfaces.AdapterClickListener;
+import com.ferid.app.classroom.listeners.AdapterClickListener;
 import com.ferid.app.classroom.model.Classroom;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class OperateClassroomsAdapter extends RecyclerView.Adapter<OperateClassr
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.operatable_item_big, parent, false);
+                .inflate(R.layout.operate_classroom_item, parent, false);
 
         return new ViewHolder(view);
     }

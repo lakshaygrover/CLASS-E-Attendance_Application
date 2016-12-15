@@ -41,8 +41,8 @@ import com.ferid.app.classroom.date_time_pickers.CustomDatePickerDialog;
 import com.ferid.app.classroom.date_time_pickers.CustomTimePickerDialog;
 import com.ferid.app.classroom.date_time_pickers.DatePickerFragment;
 import com.ferid.app.classroom.date_time_pickers.TimePickerFragment;
-import com.ferid.app.classroom.interfaces.AdapterClickListener;
-import com.ferid.app.classroom.interfaces.DateBackListener;
+import com.ferid.app.classroom.listeners.AdapterClickListener;
+import com.ferid.app.classroom.listeners.DateBackListener;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.model.Student;
 

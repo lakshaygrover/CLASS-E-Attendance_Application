@@ -22,7 +22,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.interfaces.OnAlertClick;
+import com.ferid.app.classroom.listeners.OnAlertClick;
 
 /**
  * Created by ferid.cafer on 7/7/2015.

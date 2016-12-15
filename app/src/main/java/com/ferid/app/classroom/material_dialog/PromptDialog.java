@@ -29,7 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.interfaces.PromptListener;
+import com.ferid.app.classroom.listeners.PromptListener;
 
 /**
  * Created by ferid.cafer on 4/3/2015.

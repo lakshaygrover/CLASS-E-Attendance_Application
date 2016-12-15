@@ -29,7 +29,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ferid.app.classroom.R;
-import com.ferid.app.classroom.interfaces.PopupClickListener;
+import com.ferid.app.classroom.listeners.PopupClickListener;
 import com.ferid.app.classroom.model.Student;
 
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public class EditStudentsAdapter extends RecyclerView.Adapter<EditStudentsAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.editable_item_small, parent, false);
+                .inflate(R.layout.edit_student_item, parent, false);
 
         return new ViewHolder(view);
     }
@@ -114,7 +114,7 @@ public class EditStudentsAdapter extends RecyclerView.Adapter<EditStudentsAdapte
         listPopupWindow.setAnchorView(anchor);
         listPopupWindow.setContentWidth(context.getResources()
                 .getInteger(R.integer.list_pop_up_width));
-        listPopupWindow.setDropDownGravity(Gravity.LEFT);
+        listPopupWindow.setDropDownGravity(Gravity.RIGHT);
         listPopupWindow.setModal(true);
         listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -23,7 +23,7 @@ import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
-import com.ferid.app.classroom.interfaces.DateBackListener;
+import com.ferid.app.classroom.listeners.DateBackListener;
 
 import java.util.Calendar;
 

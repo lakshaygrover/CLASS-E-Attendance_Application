@@ -39,7 +39,7 @@ import android.widget.TextView;
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.StatisticalAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
-import com.ferid.app.classroom.interfaces.AdapterClickListener;
+import com.ferid.app.classroom.listeners.AdapterClickListener;
 import com.ferid.app.classroom.model.Attendance;
 import com.ferid.app.classroom.model.AttendanceStatistics;
 import com.ferid.app.classroom.model.Classroom;

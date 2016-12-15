@@ -34,10 +34,9 @@ import android.widget.TextView;
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.PastAttendancesAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
-import com.ferid.app.classroom.enums.PastAttendancePopup;
-import com.ferid.app.classroom.interfaces.AdapterClickListener;
-import com.ferid.app.classroom.interfaces.OnAlertClick;
-import com.ferid.app.classroom.interfaces.PopupClickListener;
+import com.ferid.app.classroom.listeners.AdapterClickListener;
+import com.ferid.app.classroom.listeners.ItemDeleteListener;
+import com.ferid.app.classroom.listeners.OnAlertClick;
 import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 import com.ferid.app.classroom.model.Attendance;
 import com.ferid.app.classroom.model.Classroom;
@@ -75,7 +74,7 @@ public class PastAttendancesListActivity extends AppCompatActivity {
         setToolbar();
 
         list = (RecyclerView) findViewById(R.id.list);
-        adapter = new PastAttendancesAdapter(context, arrayList);
+        adapter = new PastAttendancesAdapter(arrayList);
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(context));
         list.setHasFixedSize(true);
@@ -84,7 +83,7 @@ public class PastAttendancesListActivity extends AppCompatActivity {
         emptyText.setText(getString(R.string.emptyMessagePastAttendance));
 
         addAdapterClickListener();
-        addPopupClickListener();
+        addItemDeleteClickListener();
 
         new SelectAttendances().execute();
     }
@@ -172,27 +171,25 @@ public class PastAttendancesListActivity extends AppCompatActivity {
     }
 
     /**
-     * Pop-up menu item click event
+     * List item delete click event
      */
-    public void addPopupClickListener() {
-        adapter.setPopupClickListener(new PopupClickListener() {
+    public void addItemDeleteClickListener() {
+        adapter.setItemDeleteListener(new ItemDeleteListener() {
             @Override
-            public void OnPopupClick(int itemPosition, int menuPosition) {
-                if (arrayList != null && arrayList.size() > itemPosition) {
-                    Attendance attendance = arrayList.get(itemPosition);
+            public void OnItemDelete(int position) {
+                if (arrayList != null && arrayList.size() > position) {
+                    Attendance attendance = arrayList.get(position);
 
-                    if (menuPosition == PastAttendancePopup.DELETE_ATTENDANCE.getValue()) {
-                        deleteAttendance(attendance);
-                    }
+                    deleteAttendance(attendance);
                 }
             }
         });
     }
 
-    /**
-     * Select from the list of taken attendances
-     */
-    private class SelectAttendances extends AsyncTask<Void, Void, ArrayList<Attendance>> {
+                /**
+                 * Select from the list of taken attendances
+                 */
+        private class SelectAttendances extends AsyncTask<Void, Void, ArrayList<Attendance>> {
 
         @Override
         protected ArrayList<Attendance> doInBackground(Void... params) {
