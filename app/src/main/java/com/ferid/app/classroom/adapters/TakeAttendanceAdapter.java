@@ -56,7 +56,7 @@ public class TakeAttendanceAdapter extends RecyclerView.Adapter<TakeAttendanceAd
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.checkable_text_item, parent, false);
+                .inflate(R.layout.attendance_item, parent, false);
 
         return new ViewHolder(view);
     }

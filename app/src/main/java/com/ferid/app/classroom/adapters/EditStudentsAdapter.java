@@ -114,7 +114,7 @@ public class EditStudentsAdapter extends RecyclerView.Adapter<EditStudentsAdapte
         listPopupWindow.setAnchorView(anchor);
         listPopupWindow.setContentWidth(context.getResources()
                 .getInteger(R.integer.list_pop_up_width));
-        listPopupWindow.setDropDownGravity(Gravity.RIGHT);
+        listPopupWindow.setDropDownGravity(Gravity.END);
         listPopupWindow.setModal(true);
         listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
