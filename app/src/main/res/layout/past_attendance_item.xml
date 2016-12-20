@@ -38,20 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/counter"
-                android:layout_toLeftOf="@+id/settings"
                 style="@style/ListItemTextView"/>
-
-            <ImageButton
-                android:id="@+id/deleteItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_small"
-                android:gravity="center"
-                app:srcCompat="@drawable/ic_action_delete"
-                android:tint="@color/secondary_text"
-                style="@style/Widget.AppCompat.ActionButton"/>
 
         </RelativeLayout>
 

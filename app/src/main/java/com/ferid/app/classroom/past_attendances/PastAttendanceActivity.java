@@ -19,7 +19,6 @@ package com.ferid.app.classroom.past_attendances;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -37,12 +36,12 @@ import android.widget.TextView;
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.TakeAttendanceAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
-import com.ferid.app.classroom.date_time_pickers.CustomDatePickerDialog;
-import com.ferid.app.classroom.date_time_pickers.CustomTimePickerDialog;
 import com.ferid.app.classroom.date_time_pickers.DatePickerFragment;
 import com.ferid.app.classroom.date_time_pickers.TimePickerFragment;
 import com.ferid.app.classroom.listeners.AdapterClickListener;
 import com.ferid.app.classroom.listeners.DateBackListener;
+import com.ferid.app.classroom.listeners.OnAlertClick;
+import com.ferid.app.classroom.material_dialog.CustomAlertDialog;
 import com.ferid.app.classroom.model.Classroom;
 import com.ferid.app.classroom.model.Student;
 
@@ -70,8 +69,6 @@ public class PastAttendanceActivity extends AppCompatActivity implements DateBac
     //date and time pickers
     private DatePickerFragment datePickerFragment;
     private TimePickerFragment timePickerFragment;
-    private CustomDatePickerDialog datePickerDialog;
-    private CustomTimePickerDialog timePickerDialog;
     private Date changedDate;
 
     //save button
@@ -201,26 +198,16 @@ public class PastAttendanceActivity extends AppCompatActivity implements DateBac
      * Shows date picker
      */
     private void changeDate() {
-        if (Build.VERSION.SDK_INT < 21) {
-            datePickerDialog = new CustomDatePickerDialog(context);
-            datePickerDialog.show();
-        } else {
-            datePickerFragment = new DatePickerFragment();
-            datePickerFragment.show(getSupportFragmentManager(), "DatePickerFragment");
-        }
+        datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getSupportFragmentManager(), "DatePickerFragment");
     }
 
     /**
      * Shows time picker
      */
     private void changeTime() {
-        if (Build.VERSION.SDK_INT < 21) {
-            timePickerDialog = new CustomTimePickerDialog(context);
-            timePickerDialog.show();
-        } else {
-            timePickerFragment = new TimePickerFragment();
-            timePickerFragment.show(getSupportFragmentManager(), "TimePickerFragment");
-        }
+        timePickerFragment = new TimePickerFragment();
+        timePickerFragment.show(getSupportFragmentManager(), "TimePickerFragment");
     }
 
     /**
@@ -295,11 +282,60 @@ public class PastAttendanceActivity extends AppCompatActivity implements DateBac
         protected void onPostExecute(Integer rowsAffected) {
             if (rowsAffected > 0) {
                 Intent intent = new Intent();
+                intent.putExtra("actionMessage", getString(R.string.saved));
                 setResult(RESULT_OK, intent);
             }
 
             closeWindow();
         }
+    }
+
+    /**
+     * Delete selected date's attendance item from DB
+     */
+    private class DeleteAttendance extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            DatabaseManager databaseManager = new DatabaseManager(context);
+            boolean isSuccessful = databaseManager.deleteAttendance(dateTime, classroom.getId());
+
+            return isSuccessful;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccessful) {
+            if (isSuccessful) {
+                Intent intent = new Intent();
+                intent.putExtra("actionMessage", getString(R.string.deleted));
+                setResult(RESULT_OK, intent);
+                closeWindow();
+            }
+        }
+    }
+
+    /**
+     * Delete attendance
+     */
+    private void deleteAttendance() {
+        //show alert before deleting
+        CustomAlertDialog customAlertDialog = new CustomAlertDialog(context);
+        customAlertDialog.setMessage(dateTime
+                + getString(R.string.sureToDelete));
+        customAlertDialog.setPositiveButtonText(getString(R.string.delete));
+        customAlertDialog.setNegativeButtonText(getString(R.string.cancel));
+        customAlertDialog.setOnClickListener(new OnAlertClick() {
+            @Override
+            public void OnPositive() {
+                new DeleteAttendance().execute();
+            }
+
+            @Override
+            public void OnNegative() {
+                //do nothing
+            }
+        });
+        customAlertDialog.showDialog();
     }
 
     private void closeWindow() {
@@ -328,6 +364,9 @@ public class PastAttendanceActivity extends AppCompatActivity implements DateBac
             case R.id.changeDateTime:
                 changedDate = new Date();
                 changeDate();
+                return true;
+            case R.id.deleteAttendance:
+                deleteAttendance();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

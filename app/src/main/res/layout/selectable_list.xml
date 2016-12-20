@@ -10,6 +10,7 @@
         android:background="@color/page_background">
 
         <include
+            android:id="@+id/toolbar"
             layout="@layout/toolbar"/>
 
         <RelativeLayout

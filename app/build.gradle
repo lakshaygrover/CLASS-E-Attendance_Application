@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.ferid.app.classroom"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 39
-        versionName "4.7.1"
+        versionCode 40
+        versionName "4.7.2"
 
         vectorDrawables.useSupportLibrary = true
     }

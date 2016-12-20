@@ -20,6 +20,7 @@
     <string name="deleteAll">Delete All</string>
     <string name="sureToDelete">&#160;will be deleted</string>
     <string name="saved">Saved</string>
+    <string name="deleted">Deleted</string>
     <string name="allToDelete">All attendances of this class will be deleted</string>
     <string name="changeDateTime">Change Date/Time</string>
     <string name="enterAlphanumeric">Enter only alphanumeric characters</string>

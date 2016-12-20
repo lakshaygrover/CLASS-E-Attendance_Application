@@ -19,7 +19,6 @@ package com.ferid.app.classroom.attendance;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -38,8 +37,6 @@ import android.widget.TextView;
 import com.ferid.app.classroom.R;
 import com.ferid.app.classroom.adapters.TakeAttendanceAdapter;
 import com.ferid.app.classroom.database.DatabaseManager;
-import com.ferid.app.classroom.date_time_pickers.CustomDatePickerDialog;
-import com.ferid.app.classroom.date_time_pickers.CustomTimePickerDialog;
 import com.ferid.app.classroom.date_time_pickers.DatePickerFragment;
 import com.ferid.app.classroom.date_time_pickers.TimePickerFragment;
 import com.ferid.app.classroom.listeners.AdapterClickListener;
@@ -72,8 +69,6 @@ public class TakeAttendanceActivity extends AppCompatActivity implements DateBac
     //date and time pickers
     private DatePickerFragment datePickerFragment;
     private TimePickerFragment timePickerFragment;
-    private CustomDatePickerDialog datePickerDialog;
-    private CustomTimePickerDialog timePickerDialog;
     private Date changedDate;
 
     //save button
@@ -207,26 +202,16 @@ public class TakeAttendanceActivity extends AppCompatActivity implements DateBac
      * Shows date picker
      */
     private void changeDate() {
-        if (Build.VERSION.SDK_INT < 21) {
-            datePickerDialog = new CustomDatePickerDialog(context);
-            datePickerDialog.show();
-        } else {
-            datePickerFragment = new DatePickerFragment();
-            datePickerFragment.show(getSupportFragmentManager(), "DatePickerFragment");
-        }
+        datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getSupportFragmentManager(), "DatePickerFragment");
     }
 
     /**
      * Shows time picker
      */
     private void changeTime() {
-        if (Build.VERSION.SDK_INT < 21) {
-            timePickerDialog = new CustomTimePickerDialog(context);
-            timePickerDialog.show();
-        } else {
-            timePickerFragment = new TimePickerFragment();
-            timePickerFragment.show(getSupportFragmentManager(), "TimePickerFragment");
-        }
+        timePickerFragment = new TimePickerFragment();
+        timePickerFragment.show(getSupportFragmentManager(), "TimePickerFragment");
     }
 
     /**
