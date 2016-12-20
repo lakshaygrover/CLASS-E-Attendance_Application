@@ -26,6 +26,7 @@
     <string name="enterAlphanumeric">Enter only alphanumeric characters</string>
     <string name="importFromExcel">Import from Excel</string>
     <string name="selectAll">Select All</string>
+    <string name="deleteAttendance">Delete Attendance</string>
 
     <string name="emptyMessageClassroom">Add classrooms and students, then pull to refresh&#8230;</string>
     <string name="emptyMessageStudent">Either add one by one or import all from xls file</string>

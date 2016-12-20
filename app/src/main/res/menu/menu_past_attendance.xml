@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/deleteAttendance"
-        android:title="@string/deleteItem"
+        android:title="@string/deleteAttendance"
         android:orderInCategory="2"
         app:showAsAction="never"/>
 
