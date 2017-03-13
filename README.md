@@ -2,6 +2,11 @@
 
 This is an open source professional attendance taker, developed for academicians, instructors and school teachers.
 
+[Play Store](https://play.google.com/store/apps/details?id=com.ferid.app.classroom)
+
+
+# Licence
+
 Copyright (C) 2016 Ferid Cafer
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,5 +20,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-[Play Store](https://play.google.com/store/apps/details?id=com.ferid.app.classroom)
