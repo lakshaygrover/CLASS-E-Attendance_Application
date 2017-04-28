@@ -33,12 +33,6 @@ public class Classroom implements Parcelable {
         studentNumber = 0;
     }
 
-    public Classroom(String name) {
-        id = 0;
-        this.name = name;
-        studentNumber = 0;
-    }
-
     public int getId() {
         return id;
     }

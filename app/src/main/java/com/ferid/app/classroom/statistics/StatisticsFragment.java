@@ -334,20 +334,25 @@ public class StatisticsFragment extends Fragment {
 
         if (DirectoryUtility.isExternalStorageMounted()) {
 
-            DirectoryUtility.createDirectory();
-
-            try {
-                fileOut = new FileOutputStream(DirectoryUtility.getPathFolder() + FILE_NAME);
-                wb.write(fileOut);
-            } catch (IOException e) {
+            boolean isDirCreatedSuccessfully = DirectoryUtility.createDirectory();
+            if (!isDirCreatedSuccessfully) {
                 isFileOperationSuccessful = false;
-            } finally {
-                if (fileOut != null) {
-                    try {
-                        fileOut.flush();
-                        fileOut.close();
-                    } catch (IOException e) {
-                        isFileOperationSuccessful = false;
+            }
+
+            if (isFileOperationSuccessful) {
+                try {
+                    fileOut = new FileOutputStream(DirectoryUtility.getPathFolder() + FILE_NAME);
+                    wb.write(fileOut);
+                } catch (IOException e) {
+                    isFileOperationSuccessful = false;
+                } finally {
+                    if (fileOut != null) {
+                        try {
+                            fileOut.flush();
+                            fileOut.close();
+                        } catch (IOException e) {
+                            isFileOperationSuccessful = false;
+                        }
                     }
                 }
             }

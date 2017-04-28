@@ -55,4 +55,6 @@
     <string name="deleteItem">Delete</string>
     <string name="edit">Edit</string>
 
+    <string name="search">Search</string>
+
 </resources>

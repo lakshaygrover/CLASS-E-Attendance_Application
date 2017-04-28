@@ -445,17 +445,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
      * Call this method with deleteStudent
      * @param student_id
      * @param classroom_id
-     * @return
      */
-    public boolean deleteClassroomStudentRowsForStudent(String student_id, String classroom_id) {
+    public void deleteClassroomStudentRowsForStudent(String student_id, String classroom_id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        boolean isSuccessful = db.delete("classroomstudent", "student_id = ?"
-               + " and classroom_id = ?", new String[]{student_id, classroom_id}) > 0;
+        db.delete("classroomstudent", "student_id = ?"
+               + " and classroom_id = ?", new String[]{student_id, classroom_id});
 
         db.close();
-
-        return isSuccessful;
     }
 
     /**

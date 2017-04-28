@@ -42,13 +42,14 @@ public class DirectoryUtility {
 
     /**
      * Create directory for the application's use
+     * @return success/fail
      */
-    public static void createDirectory() {
+    public static boolean createDirectory() {
         // Output stream
         // create a File object for the parent directory
         File directory = new File(PATH_FOLDER);
         // have the object build the directory structure, if needed.
-        directory.mkdirs();
+        return directory.mkdirs();
     }
 
     public static String getPathFolder() {

@@ -21,17 +21,22 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -60,7 +65,10 @@ public class StatisticalListActivity extends AppCompatActivity {
     private Context context;
 
     private RecyclerView list;
+    //attendance list which can be changed during search
     private ArrayList<AttendanceStatistics> attendanceList = new ArrayList<>();
+    //holds attendance list which is used for searching mechanism
+    private ArrayList<AttendanceStatistics> wholeAttendanceList = new ArrayList<>();
     private StatisticalAdapter adapter;
 
     private TextView emptyText; //empty list view text
@@ -153,6 +161,8 @@ public class StatisticalListActivity extends AppCompatActivity {
             @Override
             public void OnItemClick(int position) {
                 if (attendanceList != null && attendanceList.size() > position) {
+                    hideKeyboard();
+
                     attendance = attendanceList.get(position);
                     graphList.clear();
 
@@ -192,9 +202,11 @@ public class StatisticalListActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<AttendanceStatistics> tmpList) {
+            wholeAttendanceList.clear();
             attendanceList.clear();
 
             if (tmpList != null) {
+                wholeAttendanceList.addAll(tmpList);
                 attendanceList.addAll(tmpList);
                 adapter.notifyDataSetChanged();
 
@@ -377,6 +389,41 @@ public class StatisticalListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Run time searching
+     * @param searchText
+     */
+    private void searchEngine(final String searchText) {
+        Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<AttendanceStatistics> tmpList = new ArrayList<>();
+
+                for (AttendanceStatistics as : wholeAttendanceList) {
+                    if (as.getStudentName().toLowerCase().startsWith(searchText.toLowerCase())) {
+                        tmpList.add(as);
+                    }
+                }
+
+                attendanceList.clear();
+                attendanceList.addAll(tmpList);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    /**
+     * Hide keyboard
+     */
+    private void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         boolean isGraphVisible;
@@ -431,5 +478,33 @@ public class StatisticalListActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_statistics, menu);
+        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.length() >= 1) {
+                    searchEngine(newText);
+                } else {
+                    attendanceList.clear();
+                    attendanceList.addAll(wholeAttendanceList);
+                    adapter.notifyDataSetChanged();
+                }
+                return true;
+            }
+        });
+
+        return true;
     }
 }
